@@ -1,18 +1,23 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+// Import all your updated page views
+import HomePage from './pages/HomePage'; // The newly created layout view
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import ForgotPassword from './pages/ForgotPassword';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* If they just go to the main website, redirect them to login */}
-        <Route path="/" element={<Navigate to="/login" />} />
+        {/* Render the production-ready Placify Home page at root path */}
+        <Route path="/" element={<HomePage />} />
         
-        {/* The actual page routes */}
+        {/* Secondary user flow routing portals */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
     </BrowserRouter>
   );
