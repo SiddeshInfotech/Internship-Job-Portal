@@ -1,0 +1,353 @@
+/* ==========================================================================
+   1. GLOBAL & CONTAINER LAYOUT (Shared Split Screen Identity)
+   ========================================================================== */
+.login-container {
+  display: flex;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #f8faff;
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   2. LEFT PANEL - Blue Gradient Overlay with Corporate Building Image
+   ========================================================================== */
+.left-panel {
+  width: 35%;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  /* Dark navy blue gradient filter building image ke upar perfectly blend hai */
+  background: linear-gradient(180deg, rgba(12, 70, 203, 0.85) 0%, rgba(6, 26, 75, 0.95) 100%), 
+              url('/buil.jpg');
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: multiply;
+  color: white;
+  padding: 50px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+.left-top-content {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+}
+
+/* Brand Logo Section */
+.placify-brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-text-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-main-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+  line-height: 0.95;
+}
+
+.brand-main-title .purple-dot {
+  color: #6366f1;
+}
+
+.brand-slogan {
+  font-size: 9px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 1.2px;
+  margin: 5px 0 0 2px;
+  text-transform: uppercase;
+}
+
+.brand-slogan span {
+  color: #6366f1;
+  font-size: 11px;
+}
+
+/* Hero Heading Text */
+.hero-content h2 {
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+
+.hero-content p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+
+/* Features/Bullet Items Wrapper */
+.features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.feature-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+/* 🌟 premium Goldenish Orange Bullet Icon Box Style (Kal Jaisa Exact) */
+.feature-icon-box {
+  background: rgba(245, 158, 11, 0.15); /* Soft Golden Tint Container */
+  border: 1px solid rgba(245, 158, 11, 0.35); /* Clear Golden Border */
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f59e0b; /* Bright Goldenish Orange Color for Icons */
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.1);
+}
+
+.feature-icon-box svg {
+  width: 20px;
+  height: 20px;
+  stroke: #f59e0b; /* Pure Goldenish Orange SVG path line */
+}
+
+.feature-text-box h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  color: #ffffff;
+}
+
+.feature-text-box p {
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Footer Copyright Text */
+.footer-text {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   3. RIGHT PANEL - Corporate Registration Card Layout
+   ========================================================================== */
+.right-panel {
+  width: 65%;
+  margin-left: 35%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.login-box-wide {
+  background: white;
+  width: 100%;
+  max-width: 760px;
+  padding: 45px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+  border: 1px solid #e2e8f0;
+}
+
+.login-box-wide h2 {
+  color: #0f46cb; /* Elegant Blue Theme */
+  font-size: 30px;
+  margin: 0 0 6px 0;
+  font-weight: 700;
+}
+
+.sub-title {
+  color: #64748b;
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+
+/* Dual Column Horizontal Row Setup */
+.form-grid-row {
+  display: flex;
+  gap: 20px;
+}
+
+.form-grid-row .input-group {
+  flex: 1;
+}
+
+/* Individual Form Fields */
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.star-req {
+  color: #ef4444; /* Red color for compulsory asterisk */
+}
+
+.input-group input,
+.input-group select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 14px;
+  background-color: #ffffff;
+  color: #1e293b;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  border-color: #0f46cb;
+}
+
+/* Full Width Utility Class */
+.full-width-field {
+  width: 100%;
+}
+
+/* Checkbox Section with text wrapping adjustments */
+.checkbox-group.align-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 26px;
+  font-size: 13.5px;
+  color: #475569;
+}
+
+.checkbox-group input[type="checkbox"] {
+  margin-top: 3px;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+.checkbox-group label {
+  cursor: pointer;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.checkbox-subtext {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 400;
+}
+
+/* ==========================================================================
+   4. BUTTONS & ACTIONS FLOW
+   ========================================================================== */
+.action-flex-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+/* Orange/Amber Action Button */
+.login-btn {
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.register-btn {
+  background-color: #d97706 !important; /* Amber Orange color exactly matching the mockups */
+  width: 100%;
+  max-width: 200px;
+}
+
+.register-btn:hover {
+  background-color: #b45309 !important;
+}
+
+/* Soft Grey Secondary Return Button */
+.back-btn {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  padding: 14px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #475569;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.back-btn:hover {
+  background-color: #e2e8f0;
+}
+
+/* ==========================================================================
+   5. RESPONSIVE BREAKPOINTS (Mobile Adjustments)
+   ========================================================================== */
+@media (max-width: 992px) {
+  .login-container { 
+    flex-direction: column; 
+  }
+  .left-panel { 
+    width: 100%; 
+    height: auto; 
+    position: relative; 
+    padding: 35px 25px; 
+  }
+  .right-panel { 
+    width: 100%; 
+    margin-left: 0; 
+    padding: 25px 15px; 
+  }
+  .form-grid-row { 
+    flex-direction: column; 
+    gap: 0; 
+  }
+  .login-box-wide {
+    padding: 25px;
+  }
+  .action-flex-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .register-btn {
+    max-width: 100%;
+  }
+}
