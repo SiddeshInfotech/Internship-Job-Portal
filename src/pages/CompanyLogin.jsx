@@ -1,5 +1,6 @@
 import React from "react";
 import "./CompanyLogin.css";
+import {Link} from "react-router-dom";
 
 function CompanyLogin() {
   return (
@@ -98,7 +99,7 @@ function CompanyLogin() {
             <div className="input-group">
               <div className="password-label-row">
                 <label>Password</label>
-                <a href="#" className="forgot-link">Forgot password?</a>
+               <Link to="/forgot" className="forgot-link">Forgot Password?</Link>
               </div>
               <input type="password" placeholder="••••••••" required />
             </div>
@@ -118,7 +119,7 @@ function CompanyLogin() {
           </div>
 
           <div className="register-section">
-            <a href="#" className="register-link">Register your company profile &gt;</a>
+            <Link to="/register" classname="register-link">Register your company profile &gt;</Link>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import './CompanyRegister.css';
-
+import {Link} from "react-router-dom";
 function CompanyRegister() {
   return (
     <div className="login-container">
@@ -141,9 +141,11 @@ function CompanyRegister() {
               <button type="submit" className="login-btn register-btn">
                 Create account
               </button>
+             <Link to="/"> 
               <button type="button" className="back-btn">
                 ← Back to sign in
               </button>
+             </Link> 
             </div>
           </form>
         </div>
