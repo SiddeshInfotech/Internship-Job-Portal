@@ -3,6 +3,7 @@ from flask_cors import CORS
 
 from config.config import Config
 from config.database import init_db, is_db_available
+from routes.student_routes import student_bp
 from routes.client_routes import client_bp
 
 
@@ -27,18 +28,16 @@ def create_app():
     else:
         print("=" * 60)
         print("[MODE] DB not configured/reachable — using IN-MEMORY storage.")
-        print("[MODE] Data will reset when the server restarts.")
-        print("[MODE] Fill in DB_HOST/DB_USER/DB_PASSWORD/DB_NAME in .env")
-        print("[MODE] to switch to real MySQL — no code changes needed.")
         print("=" * 60)
 
+    app.register_blueprint(student_bp)
     app.register_blueprint(client_bp)
 
     @app.route("/")
     def health_check():
         return jsonify({
             "status": "ok",
-            "message": "Placify client (company) backend is running."
+            "message": "Placify backend is running."
         })
 
     return app
