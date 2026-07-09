@@ -107,14 +107,14 @@ export default function ForgotPassword() {
                     Forgot Password?
                   </h2>
                   <p className="text-slate-500 text-sm leading-relaxed">
-                    Enter your registered college email address below and we'll send you an activation link to reset your account.
+                    Enter your registered email address below and we'll send you an activation link to reset your account.
                   </p>
                 </div>
 
                 {/* Email input block */}
                 <div className="space-y-2 animate-fade-in-up delay-1">
                   <label className="text-xs font-semibold text-slate-700 tracking-wide block">
-                    College Email Address
+                   Email Address
                   </label>
                   <div className="relative group">
                     <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#1e3d8b] transition-colors">
@@ -125,7 +125,7 @@ export default function ForgotPassword() {
                     <input
                       type="email"
                       required
-                      placeholder="e.g. j.doe@university.edu"
+                      placeholder="e.g.abc@gmail.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       className="w-full pl-11 pr-4 py-3 bg-[#f8fafc] border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[#1e3d8b] focus:bg-white transition-all duration-200"

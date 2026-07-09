@@ -126,10 +126,10 @@
 .login-card {
     background: #ffffff;
     width: 100%;
-    max-width: 440px;
+    max-width: 500px;
     padding: 50px 40px;
     border-radius: 12px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 15px 35px rgba(1, 1, 0.5, 0.7);
     text-align: center;
     opacity: 0;
     animation: fadeUp 0.8s ease-out 0.1s forwards;
@@ -138,7 +138,7 @@
 .login-card h2 {
     font-family: "Georgia", "Times New Roman", serif;
     color: #1e4ed8;
-    font-size: 2.2rem;
+    font-size: 3.2rem;
     font-weight: 400;
     margin-bottom: 12px;
 }
@@ -156,8 +156,8 @@
 
 .form-group label {
     display: block;
-    font-size: 0.8rem;
-    font-weight: 600;
+    font-size: 1.8rem;
+    font-weight: 1500;
     color: #4b5563;
     margin-bottom: 8px;
 }
@@ -188,7 +188,7 @@
     border: 1px solid #e5e7eb;
     border-radius: 8px;
     background-color: #f9fafb;
-    font-size: 0.95rem;
+    font-size: 1.95rem;
     outline: none;
     color: #111827;
     transition: border-color 0.2s;
@@ -217,7 +217,7 @@
 
 .checkbox-container input {
     width: 16px;
-    height: 16px;
+    height: 20px;
     accent-color: #163362;
 }
 

@@ -1,6 +1,8 @@
 import React from 'react';
 import './LoginPage.css'; // We will import the CSS file here
 import { Link } from 'react-router-dom';
+
+
 function LoginPage() {
   return (
     <div className="login-wrapper">
@@ -46,14 +48,14 @@ function LoginPage() {
         <div className="right-panel">
           <div className="login-card">
             <h2>Welcome Back</h2>
-            <p>Enter your college credentials to continue your journey</p>
+            <p>Enter your credentials to continue your journey</p>
 
             <form action="#">
               <div className="form-group">
-                <label>College Email Address</label>
+                <label> Email Address</label>
                 <div className="input-icon-wrapper">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                  <input type="email" placeholder="e.g. j.doe@university.edu" required />
+                  <input type="email" placeholder="e.g. abc@gmail.com" required />
                 </div>
               </div>
 
@@ -62,7 +64,7 @@ function LoginPage() {
                 <div className="input-icon-wrapper">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                   <input type="password" placeholder="••••••••" required />
-                  <svg className="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+               
                 </div>
               </div>
 
@@ -71,7 +73,7 @@ function LoginPage() {
                   <input type="checkbox" /> Remember me
                 </label>
                <div className="remember-forgot">
-   <Link to="/forgot-password">Forgot password?</Link>
+   <Link to="/forgotpassword">Forgot password?</Link>
 </div>
               </div>
 
