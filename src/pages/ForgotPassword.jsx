@@ -101,9 +101,9 @@ export default function ForgotPassword() {
             
             {!isSubmitted ? (
               /* STATE 1: Enter Email Form */
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-15">
                 <div className="text-center lg:text-left">
-                  <h2 className="text-[28px] font-medium text-[#1e3d8b] tracking-tight mb-2">
+                  <h2 className="text-[28px] font-medium text-[#1e3d8b] tracking-tight mb-8">
                     Forgot Password?
                   </h2>
                   <p className="text-slate-500 text-sm leading-relaxed">
@@ -125,7 +125,7 @@ export default function ForgotPassword() {
                     <input
                       type="email"
                       required
-                      placeholder="e.g.abc@gmail.com"
+                      placeholder="e.g. user@gmail.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       className="w-full pl-11 pr-4 py-3 bg-[#f8fafc] border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[#1e3d8b] focus:bg-white transition-all duration-200"

@@ -12,4 +12,14 @@ export default defineConfig({
       'react-dom': path.resolve('./node_modules/react-dom'),
     },
   },
+  // ADD THIS SERVER BLOCK:
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://placify-backend-nvvw.onrender.com', // Your live Render backend
+        changeOrigin: true,
+        secure: false, // Useful if you have HTTPS certificate issues locally
+      }
+    }
+  }
 })

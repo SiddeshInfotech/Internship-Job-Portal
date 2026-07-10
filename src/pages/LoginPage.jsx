@@ -1,9 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import './LoginPage.css'; // We will import the CSS file here
 import { Link } from 'react-router-dom';
 
-
 function LoginPage() {
+  // State for form inputs
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  // Handle the login API request
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/stundent/login`,
+        {
+          email,
+          password,
+        }
+      );
+
+      console.log(response.data);
+      alert('Login Successful');
+      
+      // Future steps: Save token and redirect
+      // localStorage.setItem("token", response.data.token);
+
+    } catch (error) {
+      console.error(error.response?.data || error.message);
+      alert('Invalid Email or Password');
+    }
+  };
+
   return (
     <div className="login-wrapper">
       <div className="container">
@@ -50,21 +79,36 @@ function LoginPage() {
             <h2>Welcome Back</h2>
             <p>Enter your credentials to continue your journey</p>
 
-            <form action="#">
+            {/* Changed from action="#" to onSubmit={handleLogin} */}
+            <form onSubmit={handleLogin}>
               <div className="form-group">
                 <label> Email Address</label>
                 <div className="input-icon-wrapper">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                  <input type="email" placeholder="e.g. abc@gmail.com" required />
+                  {/* Updated email input */}
+                  <input 
+                    type="email" 
+                    placeholder="e.g. abc@gmail.com" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required 
+                  />
                 </div>
               </div>
 
-              <div class="form-group">
+              {/* Fixed class="form-group" to className="form-group" */}
+              <div className="form-group">
                 <label>Password</label>
                 <div className="input-icon-wrapper">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                  <input type="password" placeholder="••••••••" required />
-               
+                  {/* Updated password input */}
+                  <input 
+                    type="password" 
+                    placeholder="••••••••" 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required 
+                  />
                 </div>
               </div>
 
@@ -72,9 +116,9 @@ function LoginPage() {
                 <label className="checkbox-container">
                   <input type="checkbox" /> Remember me
                 </label>
-               <div className="remember-forgot">
-   <Link to="/forgotpassword">Forgot password?</Link>
-</div>
+                <div className="remember-forgot">
+                  <Link to="/forgotpassword">Forgot password?</Link>
+                </div>
               </div>
 
               <button type="submit" className="btn-submit">
@@ -84,9 +128,9 @@ function LoginPage() {
             </form>
 
             <div className="divider"></div>
-<div className="register-text">
-  New here? <Link to="/register">Register now</Link>
-</div>
+            <div className="register-text">
+              New here? <Link to="/register">Register now</Link>
+            </div>
           </div>
 
           <div className="footer-right">

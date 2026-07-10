@@ -1,7 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axiosClient from './api/axiosClient';
 import './RegisterPage.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 function RegisterPage() {
+  // 1. Set up state for all the form inputs
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [college, setCollege] = useState('');
+  const [branch, setBranch] = useState('');
+  const [year, setYear] = useState('');
+
+  // Use navigate to redirect the user to login after successful registration
+  const navigate = useNavigate();
+
+  // 2. Create the registration function
+  const handleRegister = async (e) => {
+    e.preventDefault();
+
+    // Check if passwords match before calling the API
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+   try {
+      // 1. Change 'axios' to 'axiosClient'
+      // 2. Remove the long URL and just use the route '/stundent/register'
+   // Vite will automatically take '/api' from your axios client and add '/stundent/register'
+// Test 1
+const response = await axiosClient.post('/student/register', { 
+  name: fullName,
+  email: email,
+  password: password,
+  college: college,
+  branch: branch,
+  year: year
+});
+      console.log(response.data);
+      alert('Registration Successful! Please log in.');
+      
+      // Redirect to login page
+      navigate('/login');
+
+    } catch (error) {
+      console.error(error.response?.data || error.message);
+      alert(error.response?.data?.message || 'Registration Failed. Please try again.');
+    }
+  };
+
   return (
     <div className="register-wrapper">
       <div className="container">
@@ -69,20 +118,33 @@ function RegisterPage() {
             <h2>Create Student Account</h2>
             <p>Please provide your institutional details to get started.</p>
 
-            <form action="#">
+            {/* 3. Replaced action="#" with onSubmit */}
+            <form onSubmit={handleRegister}>
               <div className="form-grid">
                 <div className="form-group">
                   <label>Full Name</label>
                   <div className="input-icon-wrapper">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                    <input type="text" placeholder="John Doe" required />
+                    <input 
+                      type="text" 
+                      placeholder="John Doe" 
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                      required 
+                    />
                   </div>
                 </div>
                 <div className="form-group">
-                  <label>College Email</label>
+                  <label> Email</label>
                   <div className="input-icon-wrapper">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                    <input type="email" placeholder="john@university.edu" required />
+                    <input 
+                      type="email" 
+                      placeholder="john@university.edu" 
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required 
+                    />
                   </div>
                 </div>
               </div>
@@ -91,17 +153,25 @@ function RegisterPage() {
                 <div className="form-group">
                   <label>Password</label>
                   <div className="input-icon-wrapper">
-                   
-                    <input type="password" placeholder="••••••••" required />
-                   
+                    <input 
+                      type="password" 
+                      placeholder="••••••••" 
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required 
+                    />
                   </div>
                 </div>
                 <div className="form-group">
                   <label>Confirm Password</label>
                   <div className="input-icon-wrapper">
-                
-                    <input type="password" placeholder="••••••••" required />
-                   
+                    <input 
+                      type="password" 
+                      placeholder="••••••••" 
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      required 
+                    />
                   </div>
                 </div>
               </div>
@@ -112,15 +182,16 @@ function RegisterPage() {
                 <div className="form-group">
                   <label>College / Institution</label>
                   <div className="select-wrapper">
-                    <select required defaultValue="">
+                    {/* Changed defaultValue to value */}
+                    <select required value={college} onChange={(e) => setCollege(e.target.value)}>
                       <option value="" disabled>Select your university</option>
-                      <option value="1">Stanford University</option>
-                      <option value="2">MIT</option>
-                      <option value="3">ssvps</option>
-                      <option value="4">coep</option>
-                      <option value="5">rcpit</option>
-                      <option value="6">svkm</option>
-                      <option value="7"></option>
+                      <option value="Stanford University">Stanford University</option>
+                      <option value="MIT">MIT</option>
+                      <option value="ssvps">ssvps</option>
+                      <option value="coep">coep</option>
+                      <option value="rcpit">rcpit</option>
+                      <option value="svkm">svkm</option>
+                      <option value="other">other</option>
                     </select>
                     <svg className="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                   </div>
@@ -131,10 +202,12 @@ function RegisterPage() {
                 <div className="form-group">
                   <label>Branch / Discipline</label>
                   <div className="select-wrapper">
-                    <select required defaultValue="">
+                    <select required value={branch} onChange={(e) => setBranch(e.target.value)}>
                       <option value="" disabled>Select branch</option>
-                      <option value="cs">Computer Science</option>
-                      <option value="mech">Mechanical Engineering</option>
+                      <option value="Computer Science">Computer Science</option>
+                      <option value="entc">entc</option>
+                      <option value="aiml">aiml</option>
+                      <option value="Mechanical Engineering">Mechanical Engineering</option>
                     </select>
                     <svg className="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                   </div>
@@ -142,12 +215,12 @@ function RegisterPage() {
                 <div className="form-group">
                   <label>Year of Study</label>
                   <div className="select-wrapper">
-                    <select required defaultValue="">
+                    <select required value={year} onChange={(e) => setYear(e.target.value)}>
                       <option value="" disabled>Select year</option>
-                      <option value="1">First Year</option>
-                      <option value="2">Second Year</option>
-                      <option value="3">Third Year</option>
-                      <option value="4">Final Year</option>
+                      <option value="First Year">First Year</option>
+                      <option value="Second Year">Second Year</option>
+                      <option value="Third Year">Third Year</option>
+                      <option value="Final Year">Final Year</option>
                     </select>
                     <svg className="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                   </div>
@@ -166,9 +239,9 @@ function RegisterPage() {
                 Create Account
               </button>
 
-             <div className="login-link">
-  Already have an account? <Link to="/login">Log in</Link>
-</div>
+              <div className="login-link">
+                Already have an account? <Link to="/login">Log in</Link>
+              </div>
             </form>
           </div>
 
