@@ -4,7 +4,6 @@ import './RegisterPage.css';
 import { Link, useNavigate } from 'react-router-dom';
 
 function RegisterPage() {
-  // 1. Set up state for all the form inputs
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -13,37 +12,34 @@ function RegisterPage() {
   const [branch, setBranch] = useState('');
   const [year, setYear] = useState('');
 
-  // Use navigate to redirect the user to login after successful registration
   const navigate = useNavigate();
 
-  // 2. Create the registration function
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    // Check if passwords match before calling the API
     if (password !== confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
 
-   try {
-      // 1. Change 'axios' to 'axiosClient'
-      // 2. Remove the long URL and just use the route '/stundent/register'
-   // Vite will automatically take '/api' from your axios client and add '/stundent/register'
-// Test 1
-const response = await axiosClient.post('/student/register', { 
-  name: fullName,
-  email: email,
-  password: password,
-  college: college,
-  branch: branch,
-  year: year
-});
-      console.log(response.data);
-      alert('Registration Successful! Please log in.');
+    try {
+      const response = await axiosClient.post('/student/register', { 
+        name: fullName,
+        email: email,
+        password: password,
+        college: college,
+        branch: branch,
+        year: year
+      });
       
-      // Redirect to login page
-      navigate('/login');
+      console.log(response.data);
+      alert('Registration Successful! Please check your email for the OTP.');
+      
+      // Save email to local storage to prevent data loss on refresh
+      localStorage.setItem('registeredEmail', email);
+
+      // Redirect to verify email page
+      navigate('/verifyemail', { state: { email: email } });
 
     } catch (error) {
       console.error(error.response?.data || error.message);
@@ -118,7 +114,6 @@ const response = await axiosClient.post('/student/register', {
             <h2>Create Student Account</h2>
             <p>Please provide your institutional details to get started.</p>
 
-            {/* 3. Replaced action="#" with onSubmit */}
             <form onSubmit={handleRegister}>
               <div className="form-grid">
                 <div className="form-group">
@@ -182,16 +177,23 @@ const response = await axiosClient.post('/student/register', {
                 <div className="form-group">
                   <label>College / Institution</label>
                   <div className="select-wrapper">
-                    {/* Changed defaultValue to value */}
                     <select required value={college} onChange={(e) => setCollege(e.target.value)}>
-                      <option value="" disabled>Select your university</option>
-                      <option value="Stanford University">Stanford University</option>
-                      <option value="MIT">MIT</option>
-                      <option value="ssvps">ssvps</option>
-                      <option value="coep">coep</option>
-                      <option value="rcpit">rcpit</option>
-                      <option value="svkm">svkm</option>
-                      <option value="other">other</option>
+                     <option value="" disabled selected>Select Your University / College</option>
+                          <option value="IIT Bombay">IIT Bombay</option>
+                          <option value="IIT Delhi">IIT Delhi</option>
+                          <option value="NIT Trichy">NIT Trichy</option>
+                          <option value="COEP Technological University">COEP Technological University</option>
+                          <option value="VJTI Mumbai">VJTI Mumbai</option>
+                          <option value="MIT World Peace University">MIT World Peace University</option>
+                          <option value="Savitribai Phule Pune University">Savitribai Phule Pune University</option>
+                          <option value="Dr. Babasaheb Ambedkar Technological University">Dr. Babasaheb Ambedkar Technological University</option>
+                          <option value="SSVPS Polytechnic, Dhule">SSVPS Polytechnic, Dhule</option>
+                          <option value="RCPIT Shirpur">RCPIT Shirpur</option>
+                          <option value="SVKM">SVKM</option>
+                          <option value="Sandip University">Sandip University</option>
+                          <option value="DY Patil University">DY Patil University</option>
+                          <option value="JSPM University">JSPM University</option>
+                          <option value="Other">Other</option>
                     </select>
                     <svg className="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                   </div>
@@ -203,11 +205,22 @@ const response = await axiosClient.post('/student/register', {
                   <label>Branch / Discipline</label>
                   <div className="select-wrapper">
                     <select required value={branch} onChange={(e) => setBranch(e.target.value)}>
-                      <option value="" disabled>Select branch</option>
-                      <option value="Computer Science">Computer Science</option>
-                      <option value="entc">entc</option>
-                      <option value="aiml">aiml</option>
-                      <option value="Mechanical Engineering">Mechanical Engineering</option>
+                     <option value="" disabled selected>Select Branch / Specialization</option>
+                          <option value="Computer Science">Computer Science</option>
+                          <option value="Information Technology">Information Technology</option>
+                          <option value="Artificial Intelligence & Machine Learning">Artificial Intelligence & Machine Learning</option>
+                          <option value="Data Science">Data Science</option>
+                          <option value="Cyber Security">Cyber Security</option>
+                          <option value="Electronics & Telecommunication">Electronics & Telecommunication</option>
+                          <option value="Mechanical Engineering">Mechanical Engineering</option>
+                          <option value="Civil Engineering">Civil Engineering</option>
+                          <option value="Electrical Engineering">Electrical Engineering</option>
+                          <option value="Agriculture">Agriculture</option>
+                          <option value="Business Administration">Business Administration</option>
+                          <option value="Commerce">Commerce</option>
+                          <option value="BCA">Bachelor of Computer Applications (BCA)</option>
+                          <option value="Pharmacy">Pharmacy</option>
+                          <option value="Other">Other</option>
                     </select>
                     <svg className="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                   </div>
@@ -221,6 +234,9 @@ const response = await axiosClient.post('/student/register', {
                       <option value="Second Year">Second Year</option>
                       <option value="Third Year">Third Year</option>
                       <option value="Final Year">Final Year</option>
+                      <option value="Graduate">Graduate</option>
+                      <option value="Postgraduate">Postgraduate</option>
+                      <option value="PhD">PhD</option>
                     </select>
                     <svg className="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                   </div>

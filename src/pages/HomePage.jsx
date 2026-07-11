@@ -32,127 +32,120 @@ export default function HomePage() {
     document.getElementsByTagName('head')[0].appendChild(link);
   }, []);
 
+  // Safe injection string for keyframes and custom animations
+  const customStyles = `
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes scaleSlow {
+      from { transform: scale(1); }
+      to { transform: scale(1.08); }
+    }
+    @keyframes smoothPulse {
+      0%, 100% { transform: scale(1); opacity: 0.25; }
+      50% { transform: scale(1.05); opacity: 0.35; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+    @keyframes floatRotate {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-25px) rotate(5deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(29, 78, 216, 0.4), 0 0 40px rgba(59, 130, 246, 0.2); }
+      50% { box-shadow: 0 0 30px rgba(29, 78, 216, 0.6), 0 0 60px rgba(59, 130, 246, 0.3); }
+    }
+    @keyframes shimmer {
+      0% { background-position: -1000px 0; }
+      100% { background-position: 1000px 0; }
+    }
+    @keyframes flowGradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes bounceInUp {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes rotateSlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes pulse-ring {
+      0% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.7); }
+      70% { box-shadow: 0 0 0 20px rgba(29, 78, 216, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0); }
+    }
+    
+    .animate-fade-up { animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .animate-fade-in { animation: fadeIn 1s ease-out forwards; }
+    .animate-slide-left { animation: slideInLeft 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .animate-slide-right { animation: slideInRight 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .animate-bg-zoom { animation: scaleSlow 20s linear infinite alternate; }
+    .animate-pulse-glow { animation: smoothPulse 4s ease-in-out infinite; }
+    .animate-float { animation: float 6s ease-in-out infinite; }
+    .animate-float-rotate { animation: floatRotate 8s ease-in-out infinite; }
+    .animate-glow { animation: glow 3s ease-in-out infinite; }
+    .animate-shimmer { animation: shimmer 3s infinite; }
+    .animate-flow-gradient { animation: flowGradient 6s ease infinite; }
+    .animate-bounce-in-up { animation: bounceInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+    .animate-rotate-slow { animation: rotateSlow 20s linear infinite; }
+    .animate-pulse-ring { animation: pulse-ring 2s infinite; }
+    
+    .delay-100 { animation-delay: 100ms; opacity: 0; }
+    .delay-200 { animation-delay: 200ms; opacity: 0; }
+    .delay-300 { animation-delay: 300ms; opacity: 0; }
+    .delay-400 { animation-delay: 400ms; opacity: 0; }
+    .delay-500 { animation-delay: 500ms; opacity: 0; }
+    .delay-600 { animation-delay: 600ms; opacity: 0; }
+    .delay-700 { animation-delay: 700ms; opacity: 0; }
+
+    .gradient-flow {
+      background: linear-gradient(-45deg, #1d4ed8, #0d52ff, #3b82f6, #1d4ed8);
+      background-size: 400% 400%;
+      animation: flowGradient 8s ease infinite;
+    }
+
+    .shimmer-effect {
+      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+      background-size: 1000px 100%;
+      animation: shimmer 3s infinite;
+    }
+  `;
+
   return (
     <div className="min-h-screen text-slate-900 font-sans antialiased selection:bg-blue-500 selection:text-white overflow-x-hidden relative bg-white">
       
-      {/* Dynamic Keyframe Animations */}
-      <style>{`
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(30px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        @keyframes slideInLeft {
-          from { opacity: 0; transform: translateX(-40px); }
-          to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes slideInRight {
-          from { opacity: 0; transform: translateX(40px); }
-          to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes scaleSlow {
-          from { transform: scale(1); }
-          to { transform: scale(1.08); }
-        }
-        @keyframes smoothPulse {
-          0%, 100% { transform: scale(1); opacity: 0.25; }
-          50% { transform: scale(1.05); opacity: 0.35; }
-        }
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
-        }
-        @keyframes floatRotate {
-          0% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-25px) rotate(5deg); }
-          100% { transform: translateY(0px) rotate(0deg); }
-        }
-        @keyframes glow {
-          0%, 100% { box-shadow: 0 0 20px rgba(29, 78, 216, 0.4), 0 0 40px rgba(59, 130, 246, 0.2); }
-          50% { box-shadow: 0 0 30px rgba(29, 78, 216, 0.6), 0 0 60px rgba(59, 130, 246, 0.3); }
-        }
-        @keyframes shimmer {
-          0% { background-position: -1000px 0; }
-          100% { background-position: 1000px 0; }
-        }
-        @keyframes flowGradient {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-        @keyframes bounceInUp {
-          0% { opacity: 0; transform: translateY(40px); }
-          100% { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes rotateSlow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        @keyframes pulse-ring {
-          0% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.7); }
-          70% { box-shadow: 0 0 0 20px rgba(29, 78, 216, 0); }
-          100% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0); }
-        }
-        
-        .animate-fade-up { animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .animate-fade-in { animation: fadeIn 1s ease-out forwards; }
-        .animate-slide-left { animation: slideInLeft 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .animate-slide-right { animation: slideInRight 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .animate-bg-zoom { animation: scaleSlow 20s linear infinite alternate; }
-        .animate-pulse-glow { animation: smoothPulse 4s ease-in-out infinite; }
-        .animate-float { animation: float 6s ease-in-out infinite; }
-        .animate-float-rotate { animation: floatRotate 8s ease-in-out infinite; }
-        .animate-glow { animation: glow 3s ease-in-out infinite; }
-        .animate-shimmer { animation: shimmer 3s infinite; }
-        .animate-flow-gradient { animation: flowGradient 6s ease infinite; }
-        .animate-bounce-in-up { animation: bounceInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
-        .animate-rotate-slow { animation: rotateSlow 20s linear infinite; }
-        .animate-pulse-ring { animation: pulse-ring 2s infinite; }
-        
-        /* Staggered Delays */
-        .delay-100 { animation-delay: 100ms; opacity: 0; }
-        .delay-200 { animation-delay: 200ms; opacity: 0; }
-        .delay-300 { animation-delay: 300ms; opacity: 0; }
-        .delay-400 { animation-delay: 400ms; opacity: 0; }
-        .delay-500 { animation-delay: 500ms; opacity: 0; }
-        .delay-600 { animation-delay: 600ms; opacity: 0; }
-        .delay-700 { animation-delay: 700ms; opacity: 0; }
-
-        /* Gradient Animation */
-        .gradient-flow {
-          background: linear-gradient(-45deg, #1d4ed8, #0d52ff, #3b82f6, #1d4ed8);
-          background-size: 400% 400%;
-          animation: flowGradient 8s ease infinite;
-        }
-
-        /* Shimmer Effect */
-        .shimmer-effect {
-          background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
-          background-size: 1000px 100%;
-          animation: shimmer 3s infinite;
-        }
-      `}</style>
+      {/* Secure injection of custom keyframe classes */}
+      <style dangerouslySetInnerHTML={{ __html: customStyles }} />
 
       {/* --- ANIMATED BACKGROUND WITH MULTIPLE LAYERS --- */}
       <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none h-[100vh]">
-        {/* Premium Background Image */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-[.6] animate-bg-zoom"
           style={{ backgroundImage: `url('https://tse3.mm.bing.net/th/id/OIP.vW4OZFaBXrS-2p1PybwaCgHaEK?pid=Api&h=220&P=0')` }}
         />
-        
-        {/* Enhanced Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-white/60 to-blue-50/40" />
-        
-        {/* Animated Gradient Blobs */}
         <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-gradient-to-br from-blue-400/20 to-blue-200/10 rounded-full blur-[100px] animate-float" />
         <div className="absolute bottom-[-10%] right-[-5%] w-[600px] h-[600px] bg-gradient-to-tl from-indigo-400/15 to-blue-200/5 rounded-full blur-[120px] animate-float-rotate" style={{animationDelay: '2s'}} />
         <div className="absolute top-[20%] right-[10%] w-[300px] h-[300px] bg-blue-300/10 rounded-full blur-[80px] animate-pulse-glow" />
-        
-        {/* Decorative Grid Pattern */}
         <div className="absolute inset-0 opacity-[0.02]" style={{
           backgroundImage: 'linear-gradient(0deg, transparent 24%, rgba(29, 78, 216, 0.05) 25%, rgba(29, 78, 216, 0.05) 26%, transparent 27%, transparent 74%, rgba(29, 78, 216, 0.05) 75%, rgba(29, 78, 216, 0.05) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(29, 78, 216, 0.05) 25%, rgba(29, 78, 216, 0.05) 26%, transparent 27%, transparent 74%, rgba(29, 78, 216, 0.05) 75%, rgba(29, 78, 216, 0.05) 76%, transparent 77%, transparent)',
           backgroundSize: '50px 50px'
@@ -168,13 +161,12 @@ export default function HomePage() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-          
-          {/* LOGO WITH ANIMATION */}
           <Link to="/" className="flex items-center group">
+            {/* Fixed non-standard height configuration with arbitrary brackets */}
             <img 
               src="/placify-icon.png" 
               alt="Placify Logo" 
-              className="h-30 md:h-25 w-auto object-contain transition-all duration-500 group-hover:scale-110 group-hover:drop-shadow-lg"
+              className="h-[120px] md:h-[100px] w-auto object-contain transition-all duration-500 group-hover:scale-110 group-hover:drop-shadow-lg"
             />
           </Link>
 
@@ -196,19 +188,15 @@ export default function HomePage() {
       </header>
 
       <main className="relative z-10 flex flex-col">
-        
-        {/* --- HERO SECTION WITH ENHANCED ANIMATIONS --- */}
+        {/* --- HERO SECTION --- */}
         <section className="pt-44 pb-16 max-w-7xl mx-auto px-6 text-center w-full min-h-[65vh] flex flex-col justify-center">
           <div className="max-w-3xl mx-auto space-y-8">
-            
-            {/* Animated Badge */}
             <div className="inline-flex items-center justify-center animate-bounce-in-up">
               <span className="px-4 py-1.5 rounded-full text-xs font-semibold text-blue-700 bg-gradient-to-r from-blue-100 to-blue-50 border border-blue-200/80 backdrop-blur-md shadow-lg shadow-blue-500/10 tracking-wide hover:scale-105 hover:shadow-xl transition-all duration-300 cursor-default animate-pulse-ring">
                 ✨ The #1 Career Platform for Higher Ed
               </span>
             </div>
 
-            {/* Main Heading with Gradient */}
             <h1 className="text-5xl lg:text-7xl font-serif tracking-tight text-slate-900 font-normal leading-[1.15] animate-fade-up delay-100 relative">
               <span className="inline-block">Your next</span>{' '}
               <span className="inline-block relative">
@@ -218,12 +206,10 @@ export default function HomePage() {
               {' '}<span className="inline-block">starts here.</span>
             </h1>
 
-            {/* Subheading */}
             <p className="text-lg text-slate-600 font-normal leading-relaxed max-w-2xl mx-auto animate-fade-up delay-200">
               Discover vetted opportunities, apply with one profile, and track progress — all on a professional platform built for students and elite employers.
             </p>
 
-            {/* CTA Buttons with Glow Effect */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 animate-fade-up delay-300">
               <Link 
                 to="/login"
@@ -256,7 +242,6 @@ export default function HomePage() {
                 </p>
               </div>
 
-              {/* Animated Stats Grid */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-6 max-w-4xl mx-auto pt-4">
                 {[
                   { number: '5,400+', label: 'Internships Posted', color: 'from-blue-500 to-blue-600', delay: 200 },
@@ -275,12 +260,10 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Divider */}
             <div className="px-12">
               <div className="border-t border-dashed border-slate-200/60 w-full" />
             </div>
 
-            {/* Bottom CTA Section */}
             <div className="bg-gradient-to-br from-slate-50/80 to-blue-50/40 backdrop-blur-sm p-6 md:p-8 px-8 md:px-12 flex flex-col md:flex-row items-center justify-between gap-6 transition-all duration-300 group-hover/card:from-slate-50 group-hover/card:to-blue-50/60">
               <div className="flex items-center gap-4 text-center md:text-left flex-col md:flex-row">
                 <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-50 text-blue-600 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg group-hover/card:scale-110 group-hover/card:shadow-xl transition-all duration-500 animate-float">
@@ -302,16 +285,13 @@ export default function HomePage() {
                 </svg>
               </Link>
             </div>
-
           </div>
         </section>
 
-        {/* --- UNIFIED PROFILE SECTION WITH ANIMATIONS --- */}
+        {/* --- UNIFIED PROFILE SECTION --- */}
         <section className="py-20 bg-white/50 backdrop-blur-sm relative z-20">
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex flex-col lg:flex-row items-center gap-16">
-              
-              {/* Left Content */}
               <div className="lg:w-[45%] space-y-8 animate-slide-left delay-200">
                 <h2 className="text-4xl lg:text-[48px] font-serif text-slate-900 tracking-tight leading-[1.2]">
                   A unified profile for <br className="hidden lg:block"/> your academic career.
@@ -348,13 +328,9 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Right Image with Advanced Effects */}
               <div className="lg:w-[55%] w-full animate-slide-right delay-300">
                 <div className="relative group/img">
-                  {/* Glowing Background */}
                   <div className="absolute -inset-2 bg-gradient-to-r from-blue-600/20 via-blue-400/20 to-blue-600/20 rounded-[2.5rem] blur-2xl opacity-75 group-hover/img:opacity-100 transition-opacity duration-500 animate-pulse"></div>
-                  
-                  {/* Image Container */}
                   <div className="relative p-3 bg-white/80 backdrop-blur-lg rounded-[2.2rem] shadow-2xl border border-slate-200/60 overflow-hidden">
                     <div className="overflow-hidden rounded-[1.8rem] bg-slate-200 shadow-inner">
                       <img 
@@ -366,28 +342,24 @@ export default function HomePage() {
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </section>
-
       </main>
 
-      {/* --- ANIMATED FOOTER --- */}
+      {/* --- FOOTER --- */}
       <footer className="bg-gradient-to-b from-slate-50/80 to-white/80 backdrop-blur-sm border-t border-slate-200/80 py-16 relative z-20">
         <div className="max-w-7xl mx-auto px-6 space-y-12">
           <div className="flex flex-col lg:flex-row items-start justify-between gap-8">
             <div className="max-w-xs space-y-4">
-              
-              {/* FOOTER LOGO */}
               <Link to="/" className="inline-block group">
+                {/* Fixed non-standard footer height/width config */}
                 <img 
                   src="/placify-icon.png" 
                   alt="Placify Logo" 
-                  className="h-30 w-50 object-contain transition-all duration-300 group-hover:scale-110 group-hover:drop-shadow-lg"
+                  className="h-[120px] w-[200px] object-contain transition-all duration-300 group-hover:scale-110 group-hover:drop-shadow-lg"
                 />
               </Link>
-
               <p className="text-slate-500 text-sm leading-relaxed font-normal">
                 Empowering the next generation of professionals through streamlined internship access and institutional-grade career tools.
               </p>
@@ -423,7 +395,6 @@ export default function HomePage() {
           </div>
         </div>
       </footer>
-
     </div>
   );
 }

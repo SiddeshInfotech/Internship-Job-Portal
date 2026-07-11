@@ -55,12 +55,24 @@ export default function ForgotPassword() {
         {/* Top Header/Logo - FIXED WITH EXPLICIT WIDTH & HEIGHT */}
         <div className="z-10 flex items-center gap-3 animate-fade-in">
           <div className="bg-white/10 p-1.5 rounded-lg backdrop-blur-sm hover:bg-white/20 transition-colors duration-300">
-            <img 
-              src="/placify-icon.png" 
-              alt="Placify Logo" 
-              /* Added explicit w-10 (40px), h-10 (40px), and shrink-0 */
-              className="w-100 h-30 object-contain shrink-0 brightness-0 invert"
-            />
+            <div className="brand">
+            <div className="brand-icon">
+              <svg width="100%" height="100%" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="placifyGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#2563eb" />
+                    <stop offset="100%" stopColor="#8b5cf6" />
+                  </linearGradient>
+                </defs>
+                <path d="M 20 85 Q 28 65 30 50 L 30 20 L 60 20 C 85 20 95 40 85 60 C 75 75 60 75 45 75 L 35 75 Q 25 80 15 95 Z" fill="url(#placifyGrad)" />
+                <circle cx="45" cy="38" r="8" fill="#163362" />
+                <path d="M 38 60 L 40 48 C 40 48 45 46 50 48 L 52 60 Z" fill="#163362" />
+                <path d="M 38 63 L 65 48 L 60 43 L 75 45 L 70 58 L 65 53 Z" fill="#163362" />
+              </svg>
+            </div>
+            Placify
+          </div>
+
           </div>
           <span className="text-2xl font-bold tracking-wide"></span>
         </div>
