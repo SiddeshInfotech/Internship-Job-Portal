@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import BrandLogo from '../components/BrandLogo';
+import ErrorBoundary from '../components/ErrorBoundary';
 import './AdminDashboard.css';
 
 function AdminDashboard() {
@@ -57,7 +58,9 @@ function AdminDashboard() {
         
         {/* 🔥 YAHAN OUTLET LAGAYA HAI: Ab jab bhi tum kisi link par click karoge, 
             toh right-side ka content crash hue bina smoothly change ho jayega! */}
-        <Outlet />
+        <ErrorBoundary>
+          <Outlet />
+        </ErrorBoundary>
 
       </div>
 

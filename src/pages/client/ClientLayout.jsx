@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import BrandLogo from '../../components/BrandLogo';
+import ErrorBoundary from '../../components/ErrorBoundary';
 
 // Company portal shell. Reuses the premium sidebar/header design language
 // from src/styles/admin.css so admin + company portals feel like one product.
@@ -57,7 +58,9 @@ function ClientLayout() {
       </aside>
 
       <div className="db-main-body client-shell-body">
-        <Outlet context={{ client }} />
+        <ErrorBoundary>
+          <Outlet context={{ client }} />
+        </ErrorBoundary>
       </div>
     </div>
   );

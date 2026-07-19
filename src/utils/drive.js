@@ -39,7 +39,9 @@ export function normalizeApplicant(raw, pick) {
   data.profile_photo = pick(data, 'profile_photo', 'profile_photo_url', 'photo_url', 'avatar_url', 'image_url', 'profile_pic');
   data.cover_letter = pick(data, 'cover_letter', 'coverletter', 'cover_note');
   if (typeof data.skills === 'string') data.skills = data.skills.split(',').map((s) => s.trim()).filter(Boolean);
+  if (!Array.isArray(data.skills)) data.skills = data.skills ? [data.skills] : [];
   data.certificates = pick(data, 'certificates', 'certifications', 'certs') || [];
   if (typeof data.certificates === 'string') data.certificates = data.certificates.split(',').map((s) => s.trim()).filter(Boolean);
+  if (!Array.isArray(data.certificates)) data.certificates = [];
   return data;
 }
