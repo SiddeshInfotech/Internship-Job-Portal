@@ -97,7 +97,15 @@ function ApplicationDetail() {
           <div className="pf-card" style={{ padding: '24px' }}>
             <h4 style={{ margin: '0 0 16px 0', fontSize: '11px', fontWeight: 700, color: 'var(--pf-text-3)', letterSpacing: '0.08em' }}>APPLICANT DOSSIER</h4>
             <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-              <div style={{ width: '72px', height: '72px', borderRadius: '50%', background: 'linear-gradient(140deg, #2563eb, #0b1526)', margin: '0 auto 10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '26px', fontWeight: 700, color: '#fff', fontFamily: 'var(--pf-display)', boxShadow: 'var(--pf-shadow-md)' }}>
+              {app.profile_photo ? (
+                <img
+                  src={app.profile_photo}
+                  alt={app.name}
+                  style={{ width: '72px', height: '72px', borderRadius: '50%', objectFit: 'cover', margin: '0 auto 10px', display: 'block', boxShadow: 'var(--pf-shadow-md)', border: '2px solid var(--pf-card)' }}
+                  onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextSibling.style.display = 'flex'; }}
+                />
+              ) : null}
+              <div style={{ width: '72px', height: '72px', borderRadius: '50%', background: 'linear-gradient(140deg, #2563eb, #0b1526)', margin: '0 auto 10px', display: app.profile_photo ? 'none' : 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '26px', fontWeight: 700, color: '#fff', fontFamily: 'var(--pf-display)', boxShadow: 'var(--pf-shadow-md)' }}>
                 {(app.name || '?').charAt(0)}
               </div>
               <h3 className="pf-display" style={{ margin: '0 0 6px 0', fontSize: '17px', fontWeight: 700, color: 'var(--pf-text)' }}>{app.name}</h3>
