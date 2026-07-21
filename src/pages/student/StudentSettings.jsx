@@ -36,7 +36,7 @@ function StudentSettings() {
           gpa_cgpa: p.gpa_cgpa || p.gpa || p.cgpa || '',
         });
         setEmail(p.email || '');
-        setPhotoUrl(p.photo_url || '');
+        setPhotoUrl(p.profile_photo || p.profile_photo_url || p.photo_url || '');
       } catch (err) {
         setError('Could not load your profile. ' + (err.response?.data?.message || err.message));
       } finally {
@@ -157,7 +157,7 @@ function StudentSettings() {
             </div>
             <div className="bg-white rounded-2xl border border-slate-200 p-5">
               <p className="font-bold text-[#0F172A] mb-3">Quick Links</p>
-              <Link to="/student/profile-wizard/1" className="block w-full text-center px-4 py-2.5 rounded-xl bg-sky-100 text-sky-700 font-semibold text-sm mb-2">Update your Profile</Link>
+              <Link to="/student/profile-overview" className="block w-full text-center px-4 py-2.5 rounded-xl bg-sky-100 text-sky-700 font-semibold text-sm mb-2">Update your Profile</Link>
               <Link to="/student/profile-wizard/3" className="block w-full text-center px-4 py-2.5 rounded-xl bg-sky-100 text-sky-700 font-semibold text-sm mb-2">Update Certificates & Skills</Link>
               <Link to="/student/applications" className="block w-full text-center px-4 py-2.5 rounded-xl bg-sky-100 text-sky-700 font-semibold text-sm">My Applications</Link>
             </div>

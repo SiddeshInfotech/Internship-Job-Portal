@@ -68,6 +68,7 @@ const Resumes = lazy(() => import('./pages/student/Resumes'));
 const StudentSettings = lazy(() => import('./pages/student/StudentSettings'));
 const StudentNotifications = lazy(() => import('./pages/student/StudentNotifications'));
 const ProfileWizard = lazy(() => import('./pages/student/ProfileWizard'));
+const StudentProfileOverview = lazy(() => import('./pages/student/StudentProfileOverview'));
 
 function PageFallback() {
   return (
@@ -126,6 +127,7 @@ function App() {
               <Route path="/student/jobs/:jobId/apply" element={<ApplyJob />} />
               <Route path="/student/applications" element={<AppliedStatus />} />
               <Route path="/student/profile" element={<MyProfile />} />
+              <Route path="/student/profile-overview" element={<StudentProfileOverview />} />
               <Route path="/student/resumes" element={<Resumes />} />
               <Route path="/student/settings" element={<StudentSettings />} />
               <Route path="/student/notifications" element={<StudentNotifications />} />
