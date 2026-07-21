@@ -32,7 +32,7 @@ function ProfileWizard() {
           current_year: p.current_year || '', mobile_no: p.mobile_no || '', city: p.city || '',
           pincode: p.pincode || '', state: p.state || '', linkedin_url: p.linkedin_url || '',
           profile_summary: p.profile_summary || '', enrollment_no: p.enrollment_no || '',
-          college_address: p.college_address || '', course: p.course || '', gpa: p.gpa || p.cgpa || '',
+          college_address: p.college_address || '', course: p.course || '', gpa: p.gpa_cgpa || p.gpa || p.cgpa || '',
         });
         setEmail(p.email || '');
         setCertifications(p.certifications || []);
@@ -63,6 +63,9 @@ function ProfileWizard() {
     try {
       const payload = {};
       fieldsForStep().forEach((f) => { payload[f] = form[f]; });
+      // The DB column is `gpa_cgpa`; send that (plus a legacy `gpa` alias)
+      // so the value survives the save→reload round-trip on any backend.
+      if ('gpa' in payload) payload.gpa_cgpa = payload.gpa;
       if (isFinal) payload.mark_completed = true;
       await studentAxios.put('/student/profile', payload);
 

@@ -32,6 +32,8 @@ function StudentSettings() {
         setForm({
           name: p.name || '', department: p.department || '', college: p.college || '',
           current_year: p.current_year || '', mobile_no: p.mobile_no || '', profile_summary: p.profile_summary || '',
+          enrollment_no: p.enrollment_no || '', course: p.course || '', college_address: p.college_address || '',
+          gpa_cgpa: p.gpa_cgpa || p.gpa || p.cgpa || '',
         });
         setEmail(p.email || '');
         setPhotoUrl(p.photo_url || '');
@@ -63,7 +65,34 @@ function StudentSettings() {
     }
   };
 
+  const savePartial = async (fields, okMsg) => {
+    setError(''); setSuccess('');
+    setSaving(true);
+    try {
+      const payload = {};
+      fields.forEach((f) => { payload[f] = form[f]; });
+      // DB column is gpa_cgpa; send a gpa alias too for safety
+      if ('gpa_cgpa' in payload) payload.gpa = payload.gpa_cgpa;
+      await studentAxios.put('/student/profile', payload);
+      setSuccess(okMsg);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Could not save changes.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const handleSaveProfile = async (e) => {
+    e.preventDefault();
+    await savePartial(['name', 'department', 'college', 'current_year', 'mobile_no', 'profile_summary'], 'Personal information updated.');
+  };
+
+  const handleSaveAcademic = async (e) => {
+    e.preventDefault();
+    await savePartial(['enrollment_no', 'course', 'gpa_cgpa', 'college_address'], 'Academic information updated.');
+  };
+
+  const _unusedSaveProfile = async (e) => {
     e.preventDefault();
     setError(''); setSuccess('');
     setSaving(true);
@@ -150,6 +179,19 @@ function StudentSettings() {
               <Field label="Profile Summary"><textarea rows={3} value={form.profile_summary} onChange={update('profile_summary')} className={inputCls} /></Field>
               <button type="submit" disabled={saving} className="mt-5 px-6 py-2.5 rounded-xl bg-[#0F172A] text-white font-bold text-sm disabled:opacity-60">
                 {saving ? 'Saving...' : 'Save Profile'}
+              </button>
+            </form>
+
+            <form id="academic-info" onSubmit={handleSaveAcademic} className="bg-white rounded-2xl border border-slate-200 p-6">
+              <h3 className="font-bold text-[#0F172A] mb-4">Academic Information</h3>
+              <div className="grid sm:grid-cols-2 gap-4 mb-2">
+                <Field label="Enrollment No"><input value={form.enrollment_no} onChange={update('enrollment_no')} className={inputCls} /></Field>
+                <Field label="Course"><input value={form.course} onChange={update('course')} className={inputCls} placeholder="e.g. B.Tech Computer Science" /></Field>
+                <Field label="GPA / CGPA"><input value={form.gpa_cgpa} onChange={update('gpa_cgpa')} className={inputCls} placeholder="e.g. 8.5" /></Field>
+                <Field label="College Address"><input value={form.college_address} onChange={update('college_address')} className={inputCls} /></Field>
+              </div>
+              <button type="submit" disabled={saving} className="mt-5 px-6 py-2.5 rounded-xl bg-[#0F172A] text-white font-bold text-sm disabled:opacity-60">
+                {saving ? 'Saving...' : 'Save Academic Info'}
               </button>
             </form>
 

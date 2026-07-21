@@ -78,7 +78,7 @@ function MyProfile() {
                 <div className="grid sm:grid-cols-2 gap-4">
                   <ReadField label="Enrollment No" value={profile.enrollment_no} />
                   <ReadField label="Course" value={profile.course} />
-                  <ReadField label="GPA / CGPA" value={profile.gpa || profile.cgpa} />
+                  <ReadField label="GPA / CGPA" value={profile.gpa_cgpa || profile.gpa || profile.cgpa} />
                   <ReadField label="College Address" value={profile.college_address} />
                 </div>
               </SectionCard>
