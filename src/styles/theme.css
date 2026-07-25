@@ -365,3 +365,21 @@ button:focus-visible {
 [data-theme='dark'] .student-scope .text-red-600 { color: var(--pf-red) !important; }
 [data-theme='dark'] .student-scope .shadow-soft,
 [data-theme='dark'] .student-scope .shadow-lift { box-shadow: var(--pf-shadow-sm) !important; }
+
+/* ---- Success celebration badge (ConfettiBurst) ---- */
+@keyframes cb-check-draw { from { stroke-dashoffset: 90; } to { stroke-dashoffset: 0; } }
+@keyframes cb-ring-expand {
+  0% { transform: scale(0.4); opacity: 0.55; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+.cb-check {
+  stroke-dasharray: 90;
+  stroke-dashoffset: 90;
+  animation: cb-check-draw 500ms cubic-bezier(0.65, 0, 0.35, 1) 180ms forwards;
+}
+.cb-ring, .cb-ring-2 {
+  position: absolute; inset: 0; border-radius: 50%;
+  border: 3px solid #f59e0b;
+  animation: cb-ring-expand 900ms ease-out forwards;
+}
+.cb-ring-2 { border-color: #2563eb; animation-delay: 180ms; }

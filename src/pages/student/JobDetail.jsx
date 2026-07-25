@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import studentAxios from '../../api/studentAxios';
 import { FiArrowLeft, FiCalendar, FiClock } from 'react-icons/fi';
+import { fmtJobDate } from '../../utils/fields';
+import JobBody from '../../components/JobSections';
 
 function JobDetail() {
   const { id } = useParams();
@@ -48,7 +50,7 @@ function JobDetail() {
                 <div className="flex flex-wrap gap-2 mt-3">
                   <span className="px-3 py-1 rounded-full bg-white/10 text-xs font-semibold">{job.job_type}</span>
                   <span className="px-3 py-1 rounded-full bg-white/10 text-xs font-semibold">{job.salary_stipend}</span>
-                  {job.last_date_to_apply && <span className="px-3 py-1 rounded-full bg-[#F59E0B]/20 text-[#F59E0B] text-xs font-semibold">Ends: {job.last_date_to_apply}</span>}
+                  {job.last_date_to_apply && <span className="px-3 py-1 rounded-full bg-[#F59E0B]/20 text-[#F59E0B] text-xs font-semibold">Ends: {fmtJobDate(job.last_date_to_apply)}</span>}
                 </div>
               </div>
             </div>
@@ -58,32 +60,13 @@ function JobDetail() {
 
         <div className="grid md:grid-cols-3 gap-6">
           <div className="md:col-span-2 bg-white rounded-2xl border border-slate-200 p-8">
-            <h3 className="font-bold text-[#0F172A] mb-3 border-l-4 border-[#F59E0B] pl-3">The Opportunity</h3>
-            <p className="text-slate-600 leading-relaxed whitespace-pre-wrap mb-6">{job.description}</p>
-
-            {job.eligibility_criteria && (
-              <>
-                <h3 className="font-bold text-[#0F172A] mb-3 border-l-4 border-[#F59E0B] pl-3">Eligibility</h3>
-                <p className="text-slate-600 leading-relaxed mb-6">{job.eligibility_criteria}</p>
-              </>
-            )}
-
-            {job.required_skills && (
-              <>
-                <h3 className="font-bold text-[#0F172A] mb-3 border-l-4 border-[#F59E0B] pl-3">Required Skills</h3>
-                <div className="flex flex-wrap gap-2">
-                  {(Array.isArray(job.required_skills) ? job.required_skills : job.required_skills.split(',')).map((s, i) => (
-                    <span key={i} className="px-3 py-1.5 rounded-lg bg-slate-100 text-sm text-slate-700">{s.trim()}</span>
-                  ))}
-                </div>
-              </>
-            )}
+            <JobBody job={job} />
           </div>
 
           <div className="bg-white rounded-2xl border border-slate-200 p-6 h-fit">
             <h4 className="font-bold text-[#0F172A] mb-4">Application Summary</h4>
             <div className="space-y-4">
-              <SummaryRow icon={<FiCalendar />} label="Deadline" value={job.last_date_to_apply} />
+              <SummaryRow icon={<FiCalendar />} label="Deadline" value={fmtJobDate(job.last_date_to_apply)} />
               <SummaryRow icon={<FiClock />} label="Job Type" value={job.job_type} />
             </div>
             <button onClick={() => navigate(`/student/jobs/${id}/apply`)} className="w-full mt-6 py-3 rounded-xl bg-[#F59E0B] text-white font-bold">Apply Now</button>

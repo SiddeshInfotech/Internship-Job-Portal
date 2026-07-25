@@ -5,12 +5,14 @@ import { asArray } from '../api/asArray';
 import { pick } from '../utils/fields';
 import TopNavbar from '../components/TopNavbar';
 import ConfirmModal from '../components/ConfirmModal';
+import { useToast } from '../context/ToastContext';
 import './ManageCompanies.css';
 
 const PER_PAGE = 10;
 
 function ManageCompanies() {
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const [companies, setCompanies] = useState([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
@@ -80,6 +82,8 @@ function ManageCompanies() {
       if (type === 'reject') await axiosClient.patch(`/admin/companies/${companyId}/reject`);
       if (type === 'block') await axiosClient.patch(`/admin/companies/${companyId}/block`);
       if (type === 'delete') await axiosClient.delete(`/admin/companies/${companyId}`);
+      const msg = { approve: 'Company approved! 🎉', reject: 'Company rejected.', block: 'Company blocked.', delete: 'Company deleted.' }[type];
+      showToast(msg, (type === 'approve') ? 'success' : 'info');
       setConfirmAction(null);
       loadCompanies();
       loadStats();

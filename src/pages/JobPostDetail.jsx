@@ -5,10 +5,12 @@ import TopNavbar from '../components/TopNavbar';
 import StatusPill from '../components/StatusPill';
 import ConfirmModal from '../components/ConfirmModal';
 import { pick, fmtDate } from '../utils/fields';
+import { useToast } from '../context/ToastContext';
 
 function JobPostDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -31,15 +33,19 @@ function JobPostDetail() {
   useEffect(() => { load(); }, [id]);
 
   const status = (job?.status || '').toLowerCase();
+  const [rejectReason, setRejectReason] = React.useState('');
 
   const runAction = async () => {
     setActionLoading(true);
     try {
       const { type } = confirmAction;
       if (type === 'approve') await axiosClient.patch(`/admin/jobs/${id}/approve`);
-      if (type === 'reject') await axiosClient.patch(`/admin/jobs/${id}/reject`);
+      if (type === 'reject') await axiosClient.patch(`/admin/jobs/${id}/reject`, { rejection_reason: rejectReason || undefined });
       if (type === 'close') await axiosClient.patch(`/admin/jobs/${id}/close`);
+      const msg = { approve: 'Job post approved! 🎉', reject: 'Job post rejected.', close: 'Job post closed.' }[type];
+      showToast(msg, type === 'approve' ? 'success' : 'info');
       setConfirmAction(null);
+      setRejectReason('');
       load();
     } catch (err) {
       setError('Action failed. ' + (err.response?.data?.message || err.message));
@@ -87,6 +93,13 @@ function JobPostDetail() {
               <StatusPill status={job.status} />
             </div>
 
+            {status === 'rejected' && job.rejection_reason && (
+              <div style={{ marginTop: '14px', padding: '12px 15px', borderRadius: '11px', background: 'var(--pf-red-bg)', border: '1px solid var(--pf-red-ln)' }}>
+                <p style={{ margin: 0, fontSize: '11px', fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', color: 'var(--pf-red)' }}>Rejection Reason</p>
+                <p style={{ margin: '4px 0 0', fontSize: '13.5px', color: 'var(--pf-text)' }}>{job.rejection_reason}</p>
+              </div>
+            )}
+
             <div style={{ display: 'flex', gap: '20px', fontSize: '13px', color: '#64748b', margin: '16px 0', flexWrap: 'wrap' }}>
               <span>📅 Posted {fmtDate(pick(job, 'posted_date', 'created_at', 'posted_on'))}</span>
               {job.location && <span>📍 {job.location}</span>}
@@ -111,6 +124,29 @@ function JobPostDetail() {
                 </ul>
               </div>
             )}
+
+            {job.eligibility_criteria && (
+              <div style={{ marginTop: '20px' }}>
+                <h4 className="pf-display" style={{ fontSize: '14px', fontWeight: 700, color: 'var(--pf-text)', margin: '0 0 8px 0' }}>Eligibility Criteria</h4>
+                <p style={{ fontSize: '14px', color: '#475569', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>{job.eligibility_criteria}</p>
+              </div>
+            )}
+
+            {(() => {
+              const skills = job.required_skills || job.skills;
+              const list = !skills ? [] : (Array.isArray(skills) ? skills : String(skills).split(',')).map((x) => (typeof x === 'string' ? x : x?.name || x?.skill_name || '')).map((x) => String(x).trim()).filter(Boolean);
+              if (!list.length) return null;
+              return (
+                <div style={{ marginTop: '20px' }}>
+                  <h4 className="pf-display" style={{ fontSize: '14px', fontWeight: 700, color: 'var(--pf-text)', margin: '0 0 10px 0' }}>Required Skills</h4>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                    {list.map((sk, i) => (
+                      <span key={i} style={{ padding: '5px 12px', borderRadius: '99px', background: 'var(--pf-primary-soft)', border: '1px solid var(--pf-blue-ln)', fontSize: '13px', fontWeight: 600, color: 'var(--pf-primary-deep)' }}>{sk}</span>
+                    ))}
+                  </div>
+                </div>
+              );
+            })()}
 
             <div style={{ display: 'flex', gap: '12px', marginTop: '28px', borderTop: '1px solid #f1f5f9', paddingTop: '20px' }}>
               {status !== 'approved' && (
@@ -162,9 +198,20 @@ function JobPostDetail() {
           confirmLabel={modalCopy.confirmLabel}
           confirmColor={modalCopy.color}
           onConfirm={runAction}
-          onCancel={() => setConfirmAction(null)}
+          onCancel={() => { setConfirmAction(null); setRejectReason(''); }}
           loading={actionLoading}
-        />
+        >
+          {confirmAction?.type === 'reject' && (
+            <textarea
+              value={rejectReason}
+              onChange={(e) => setRejectReason(e.target.value)}
+              rows={3}
+              placeholder="Reason for rejection (optional — shared with the company)"
+              className="pf-input"
+              style={{ marginTop: 12, resize: 'vertical', width: '100%' }}
+            />
+          )}
+        </ConfirmModal>
       )}
     </main>
   );

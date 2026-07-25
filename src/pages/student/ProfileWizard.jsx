@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import studentAxios from '../../api/studentAxios';
+import SkillPicker from '../../components/SkillPicker';
+import { useToast } from '../../context/ToastContext';
+import { SKILL_LEVELS } from '../../utils/skillsData';
 import { FiTrash2 } from 'react-icons/fi';
 
 function ProfileWizard() {
   const { step: stepParam } = useParams();
   const step = Number(stepParam) || 1;
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const [form, setForm] = useState({});
   const [email, setEmail] = useState('');
@@ -17,6 +21,8 @@ function ProfileWizard() {
   const [certFileUrl, setCertFileUrl] = useState('');
   const [skillName, setSkillName] = useState('');
   const [skillLevel, setSkillLevel] = useState('');
+  const [experiences, setExperiences] = useState([]);
+  const updateExp = (i, key, val) => setExperiences((prev) => prev.map((e, idx) => (idx === i ? { ...e, [key]: val } : e)));
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
@@ -33,7 +39,24 @@ function ProfileWizard() {
           pincode: p.pincode || '', state: p.state || '', linkedin_url: p.linkedin_url || '',
           profile_summary: p.profile_summary || '', enrollment_no: p.enrollment_no || '',
           college_address: p.college_address || '', course: p.course || '', gpa: p.gpa_cgpa || p.gpa || p.cgpa || '',
+          experience_level: p.experience_level || 'Fresher',
+          years_of_experience: p.years_of_experience || '',
+          job_designation: p.job_designation || '',
+          experience_company: p.experience_company || '',
+          experience_duration: p.experience_duration || '',
         });
+        // Multiple experiences: accept an array, or fall back to the legacy
+        // single-experience fields if that's all the backend has.
+        if (Array.isArray(p.experiences) && p.experiences.length) {
+          setExperiences(p.experiences.map((e) => ({
+            job_designation: e.job_designation || e.designation || e.title || '',
+            company: e.company || e.experience_company || '',
+            duration: e.duration || e.experience_duration || '',
+            years: e.years || e.years_of_experience || '',
+          })));
+        } else if (p.job_designation || p.experience_company) {
+          setExperiences([{ job_designation: p.job_designation || '', company: p.experience_company || '', duration: p.experience_duration || '', years: p.years_of_experience || '' }]);
+        }
         setEmail(p.email || '');
         setCertifications(p.certifications || []);
         setSkills(p.skills || []);
@@ -54,7 +77,7 @@ function ProfileWizard() {
 
   const fieldsForStep = () => {
     if (step === 1) return ['name', 'department', 'college', 'current_year', 'mobile_no', 'city', 'pincode', 'state', 'linkedin_url', 'profile_summary'];
-    return ['enrollment_no', 'college_address', 'course', 'gpa'];
+    return ['enrollment_no', 'college_address', 'course', 'gpa', 'experience_level', 'years_of_experience', 'job_designation', 'experience_company', 'experience_duration'];
   };
 
   const handleSaveNext = async (isFinal) => {
@@ -66,11 +89,27 @@ function ProfileWizard() {
       // The DB column is `gpa_cgpa`; send that (plus a legacy `gpa` alias)
       // so the value survives the save→reload round-trip on any backend.
       if ('gpa' in payload) payload.gpa_cgpa = payload.gpa;
+      // Send the full experiences list (plus keep the first one in the legacy
+      // flat fields for any backend that hasn't adopted the array yet).
+      if (step === 2 && form.experience_level === 'Experienced') {
+        payload.experiences = experiences;
+        payload.years_of_experience = experiences.reduce((sum, e) => sum + (parseFloat(e.years) || 0), 0);
+        if (experiences[0]) {
+          payload.job_designation = experiences[0].job_designation;
+          payload.experience_company = experiences[0].company;
+          payload.experience_duration = experiences[0].duration;
+        }
+      }
       if (isFinal) payload.mark_completed = true;
       await studentAxios.put('/student/profile', payload);
 
-      if (step < 3) navigate(`/student/profile-wizard/${step + 1}`);
-      else navigate('/student/profile');
+      if (step < 3) {
+        showToast('Section saved.', 'success');
+        navigate(`/student/profile-wizard/${step + 1}`);
+      } else {
+        showToast('Profile updated successfully! 🎉', 'success');
+        setTimeout(() => navigate('/student/profile'), 1200);
+      }
     } catch (err) {
       setError(err.response?.data?.message || 'Could not save this section.');
     } finally {
@@ -177,7 +216,66 @@ function ProfileWizard() {
                 <Field label="Course"><input value={form.course} onChange={update('course')} className={inputCls} /></Field>
                 <Field label="Current Year"><input value={form.current_year} onChange={update('current_year')} className={inputCls} /></Field>
                 <Field label="GPA / CGPA"><input value={form.gpa} onChange={update('gpa')} className={inputCls} /></Field>
+                <Field label="Experience Level">
+                  <select value={form.experience_level || 'Fresher'} onChange={update('experience_level')} className={inputCls}>
+                    <option value="Fresher">Fresher</option>
+                    <option value="Experienced">Experienced</option>
+                  </select>
+                </Field>
               </div>
+
+              {form.experience_level === 'Experienced' && (
+                <div className="mt-2 mb-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <p className="text-xs font-bold text-slate-500 uppercase tracking-wide">Work Experience</p>
+                    <button
+                      type="button"
+                      onClick={() => setExperiences((prev) => [...prev, { job_designation: '', company: '', duration: '', years: '' }])}
+                      className="text-xs font-bold text-[#1D4ED8] hover:text-[#0F172A] transition-colors"
+                    >
+                      ＋ Add experience
+                    </button>
+                  </div>
+
+                  {experiences.length === 0 && (
+                    <div className="p-4 rounded-2xl border border-dashed border-slate-300 text-center text-sm text-slate-400 mb-2">
+                      No experience added yet. Click "Add experience" to add one or more roles.
+                    </div>
+                  )}
+
+                  <div className="space-y-3">
+                    {experiences.map((exp, i) => (
+                      <div key={i} className="p-4 rounded-2xl bg-[#F8FAFC] border border-slate-200 relative">
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wide">Experience {i + 1}</span>
+                          <button
+                            type="button"
+                            onClick={() => setExperiences((prev) => prev.filter((_, idx) => idx !== i))}
+                            className="text-xs font-semibold text-red-500 hover:text-red-700 transition-colors"
+                            aria-label={`Remove experience ${i + 1}`}
+                          >
+                            ✕ Remove
+                          </button>
+                        </div>
+                        <div className="grid sm:grid-cols-2 gap-4">
+                          <Field label="Job Designation">
+                            <input value={exp.job_designation} onChange={(e) => updateExp(i, 'job_designation', e.target.value)} className={inputCls} placeholder="e.g. Software Engineer Intern" />
+                          </Field>
+                          <Field label="Company">
+                            <input value={exp.company} onChange={(e) => updateExp(i, 'company', e.target.value)} className={inputCls} placeholder="e.g. Infosys" />
+                          </Field>
+                          <Field label="Duration">
+                            <input value={exp.duration} onChange={(e) => updateExp(i, 'duration', e.target.value)} className={inputCls} placeholder="e.g. Jun 2024 – Dec 2024" />
+                          </Field>
+                          <Field label="Years">
+                            <input type="number" min="0" step="0.5" value={exp.years} onChange={(e) => updateExp(i, 'years', e.target.value)} className={inputCls} placeholder="e.g. 1.5" />
+                          </Field>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </>
           )}
 
@@ -216,8 +314,23 @@ function ProfileWizard() {
 
               <h3 className="font-bold text-[#0F172A] mb-4">Skill</h3>
               <div className="flex gap-3 items-end mb-4">
-                <Field label="Skill Name" className="flex-1"><input value={skillName} onChange={(e) => setSkillName(e.target.value)} className={inputCls} /></Field>
-                <Field label="Level (Master, Pro, Medium, Beginner)" className="flex-1"><input value={skillLevel} onChange={(e) => setSkillLevel(e.target.value)} className={inputCls} /></Field>
+                <Field label="Skill Name" className="flex-1">
+                  <SkillPicker
+                    value={skillName}
+                    onChange={setSkillName}
+                    onAdd={setSkillName}
+                    fillMode
+                    inputClassName={inputCls}
+                    exclude={skills.map((s) => s.skill_name || s.name)}
+                    placeholder="Start typing, e.g. React"
+                  />
+                </Field>
+                <Field label="Proficiency Level" className="flex-1">
+                  <select value={skillLevel} onChange={(e) => setSkillLevel(e.target.value)} className={inputCls}>
+                    <option value="">Select level</option>
+                    {SKILL_LEVELS.map((lv) => <option key={lv} value={lv}>{lv}</option>)}
+                  </select>
+                </Field>
                 <button type="button" onClick={handleAddSkill} className="px-6 py-2.5 rounded-xl bg-[#F59E0B] text-white font-bold text-sm whitespace-nowrap">Add</button>
               </div>
               <div className="space-y-2">

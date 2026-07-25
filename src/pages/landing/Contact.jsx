@@ -2,6 +2,17 @@ import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { FiMapPin, FiMail, FiPhone, FiClock, FiChevronDown } from 'react-icons/fi';
+
+const FIELD_CLS = 'w-full px-4 py-3 rounded-xl border border-slate-200 bg-white outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent transition-shadow text-[15px]';
+
+function FormField({ label, children }) {
+  return (
+    <label className="block">
+      <span className="block text-[13px] font-bold text-slate-600 mb-1.5">{label}</span>
+      {children}
+    </label>
+  );
+}
 import AnimatedSection from '../../components/landing/AnimatedSection';
 import { useToast } from '../../context/ToastContext';
 import publicAxios from '../../api/publicAxios';
@@ -16,6 +27,7 @@ function Contact() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [openFaq, setOpenFaq] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [sent, setSent] = useState(false);
   const [error, setError] = useState('');
 
   const update = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
@@ -27,7 +39,8 @@ function Contact() {
     try {
       await publicAxios.post('/contact', form);
       showToast("Thanks for reaching out! We'll get back to you soon.", 'success');
-      setForm({ name: '', email: '', message: '' });
+      setForm({ name: '', email: '', subject: '', message: '' });
+      setSent(true);
     } catch (err) {
       setError(err.response?.data?.message || 'Something went wrong. Please try again.');
     } finally {
@@ -51,16 +64,38 @@ function Contact() {
       <section className="py-20 bg-white">
         <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-5 gap-10">
           <AnimatedSection className="lg:col-span-3 lp-tile p-8">
-            <h2 className="text-xl font-bold text-[#0F172A] mb-6" style={{ fontFamily: 'Sora, Inter, sans-serif' }}>Send us a message</h2>
+            <div className="mb-6">
+              <p className="text-xs font-bold text-[#F59E0B] tracking-[0.2em] uppercase mb-2">Send a message</p>
+              <h2 className="text-2xl font-extrabold text-[#0F172A] tracking-tight" style={{ fontFamily: 'Sora, Inter, sans-serif' }}>We usually reply within a day.</h2>
+            </div>
             {error && <div className="pf-alert-error">{error}</div>}
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <input value={form.name} onChange={update('name')} required placeholder="Your name" className="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent transition-shadow" />
-              <input type="email" value={form.email} onChange={update('email')} required placeholder="Your email" className="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent transition-shadow" />
-              <textarea value={form.message} onChange={update('message')} required rows={5} placeholder="How can we help?" className="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent transition-shadow resize-none" />
-              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} disabled={submitting} type="submit" className="px-8 py-3.5 rounded-xl bg-gradient-to-b from-[#f6a41c] to-[#d97706] text-white font-bold shadow-lift disabled:opacity-60">
-                {submitting ? 'Sending...' : 'Send message'}
+            {sent ? (
+              <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-8 text-center">
+                <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl mx-auto mb-3">✓</div>
+                <h3 className="font-bold text-[#0F172A] mb-1" style={{ fontFamily: 'Sora, Inter, sans-serif' }}>Message sent!</h3>
+                <p className="text-sm text-slate-500">Thanks for reaching out — we'll get back to you at the email you provided.</p>
+              </div>
+            ) : (
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="grid sm:grid-cols-2 gap-5">
+                <FormField label="Your name">
+                  <input value={form.name} onChange={update('name')} required placeholder="e.g. Suher Shaikh" className={FIELD_CLS} />
+                </FormField>
+                <FormField label="Your email">
+                  <input type="email" value={form.email} onChange={update('email')} required placeholder="you@example.com" className={FIELD_CLS} />
+                </FormField>
+              </div>
+              <FormField label="Subject (optional)">
+                <input value={form.subject || ''} onChange={update('subject')} placeholder="What's this about?" className={FIELD_CLS} />
+              </FormField>
+              <FormField label="Message">
+                <textarea value={form.message} onChange={update('message')} required rows={5} placeholder="How can we help?" className={FIELD_CLS + ' resize-none'} />
+              </FormField>
+              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} disabled={submitting} type="submit" className="w-full px-8 py-4 rounded-xl bg-gradient-to-b from-[#f6a41c] to-[#d97706] text-white font-bold shadow-lift disabled:opacity-60 inline-flex items-center justify-center gap-2">
+                {submitting ? 'Sending...' : 'Send message'} <FiMail />
               </motion.button>
             </form>
+            )}
           </AnimatedSection>
 
           <AnimatedSection delay={0.15} className="lg:col-span-2 space-y-4">
@@ -75,8 +110,8 @@ function Contact() {
               />
             </div>
             <ContactInfoRow icon={<FiMapPin />} label="Office" value="4th Floor, Placify HQ, Dhule, Maharashtra, India" />
-            <ContactInfoRow icon={<FiPhone />} label="Phone" value="+91 98765 43210" />
-            <ContactInfoRow icon={<FiMail />} label="Email" value="hello@placify.com" />
+            <ContactInfoRow icon={<FiPhone />} label="Phone" value="9168533107" href="tel:+919168533107" />
+            <ContactInfoRow icon={<FiMail />} label="Email" value="suherssvps@gmail.com" href="mailto:suherssvps@gmail.com" />
             <ContactInfoRow icon={<FiClock />} label="Working Hours" value="Mon – Sat, 9:00 AM – 6:00 PM IST" />
           </AnimatedSection>
         </div>
@@ -104,16 +139,19 @@ function Contact() {
   );
 }
 
-function ContactInfoRow({ icon, label, value }) {
-  return (
-    <div className="lp-tile p-5 flex items-start gap-4">
-      <div className="w-10 h-10 rounded-xl bg-[#EEF4FF] border border-[#cdddfb] text-[#1D4ED8] flex items-center justify-center flex-shrink-0">{icon}</div>
-      <div>
-        <p className="text-xs font-bold text-slate-400 uppercase tracking-wide">{label}</p>
-        <p className="text-sm text-slate-700 font-medium">{value}</p>
+function ContactInfoRow({ icon, label, value, href }) {
+  const content = (
+    <div className="flex items-center gap-4 p-4 lp-tile">
+      <div className="w-11 h-11 rounded-xl bg-[#EEF4FF] border border-[#cdddfb] text-[#1D4ED8] flex items-center justify-center text-lg flex-shrink-0">
+        {icon}
+      </div>
+      <div className="min-w-0">
+        <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wide">{label}</p>
+        <p className="text-[15px] font-semibold text-[#0F172A] truncate">{value}</p>
       </div>
     </div>
   );
+  return href ? <a href={href} className="block hover:opacity-90 transition-opacity">{content}</a> : content;
 }
 
 export default Contact;

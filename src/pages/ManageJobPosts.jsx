@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axiosClient from '../api/axiosClient';
 import { asArray } from '../api/asArray';
 import { pick, fmtDate } from '../utils/fields';
+import { useToast } from '../context/ToastContext';
 import TopNavbar from '../components/TopNavbar';
 import ConfirmModal from '../components/ConfirmModal';
 import './ManageJobPosts.css';
@@ -11,6 +12,7 @@ const PER_PAGE = 10;
 
 function ManageJobPosts() {
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const [jobs, setJobs] = useState([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
@@ -84,6 +86,8 @@ function ManageJobPosts() {
       if (type === 'approve') await axiosClient.patch(`/admin/jobs/${jobId}/approve`);
       if (type === 'reject') await axiosClient.patch(`/admin/jobs/${jobId}/reject`);
       if (type === 'close') await axiosClient.patch(`/admin/jobs/${jobId}/close`);
+      const msg = { approve: 'Job post approved! 🎉', reject: 'Job post rejected.', close: 'Job post closed.' }[type];
+      showToast(msg, type === 'approve' ? 'success' : 'info');
       setConfirmAction(null);
       loadJobs();
       loadStats();

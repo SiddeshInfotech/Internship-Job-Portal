@@ -8,6 +8,7 @@ function StudentRegister() {
   const navigate = useNavigate();
   const [form, setForm] = useState({
     name: '', email: '', password: '', confirmPassword: '', college: '', branch: '', year: '',
+    experience_level: 'Fresher', years_of_experience: '',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -18,6 +19,10 @@ function StudentRegister() {
     e.preventDefault();
     setError('');
 
+    if (form.experience_level === 'Experienced' && !String(form.years_of_experience).trim()) {
+      setError('Please enter your years of experience.');
+      return;
+    }
     if (form.password !== form.confirmPassword) {
       setError('Passwords do not match.');
       return;
@@ -27,6 +32,8 @@ function StudentRegister() {
     try {
       await studentAxios.post('/student/register', {
         name: form.name, email: form.email, password: form.password, college: form.college, branch: form.branch,
+        experience_level: form.experience_level,
+        years_of_experience: form.experience_level === 'Experienced' ? form.years_of_experience : 0,
       });
       navigate('/student/verify-otp', { state: { email: form.email } });
     } catch (err) {
@@ -141,6 +148,28 @@ function StudentRegister() {
                   <option value="4">Fourth Year (Senior)</option>
                 </select>
               </div>
+            </div>
+
+            <div className="form-grid-row">
+              <div className="input-group">
+                <label>Experience Level <span className="star-req">*</span></label>
+                <select value={form.experience_level} onChange={update('experience_level')} required>
+                  <option value="Fresher">Fresher</option>
+                  <option value="Experienced">Experienced</option>
+                </select>
+              </div>
+              {form.experience_level === 'Experienced' && (
+                <div className="input-group">
+                  <label>Years of Experience <span className="star-req">*</span></label>
+                  <input
+                    type="number" min="0" max="50" step="0.5"
+                    value={form.years_of_experience}
+                    onChange={update('years_of_experience')}
+                    placeholder="e.g. 2"
+                    required
+                  />
+                </div>
+              )}
             </div>
 
             <div className="checkbox-group align-top">

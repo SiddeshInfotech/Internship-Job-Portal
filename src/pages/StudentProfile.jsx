@@ -85,13 +85,19 @@ function StudentProfile() {
         <div className="cp-dash-grid" style={{ gridTemplateColumns: undefined }}>
           {/* LEFT PROFILE CARD */}
           <div className="pf-card" style={{ overflow: 'hidden' }}>
-            <div style={{ position: 'relative', height: '90px', background: 'radial-gradient(240px 120px at 85% -20%, rgba(245,158,11,0.25), transparent 60%), linear-gradient(165deg, var(--pf-ink-2) 0%, var(--pf-ink) 100%)' }}>
+            <div style={{ position: 'relative', height: '76px', background: 'radial-gradient(240px 120px at 85% -20%, rgba(245,158,11,0.25), transparent 60%), linear-gradient(165deg, var(--pf-ink-2) 0%, var(--pf-ink) 100%)' }}>
               <div className="pf-ember-line" style={{ position: 'absolute', top: 0, left: 0, right: 0, borderRadius: 0 }} />
-            </div>
-            <div style={{ textAlign: 'center', padding: '0 20px 20px', marginTop: '-45px' }}>
-              <div style={{ width: '90px', height: '90px', borderRadius: '50%', background: 'linear-gradient(140deg, #2563eb, #0b1526)', border: '4px solid #fff', margin: '0 auto 10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '30px', fontWeight: 700, color: '#fff', fontFamily: 'var(--pf-display)', boxShadow: 'var(--pf-shadow-md)' }}>
-                {(student.name || '?').charAt(0)}
+              {/* Avatar centered on the cover's bottom edge (half over, half below) */}
+              <div style={{ position: 'absolute', left: '50%', bottom: '-45px', transform: 'translateX(-50%)' }}>
+                {student.profile_photo ? (
+                  <img src={student.profile_photo} alt={student.name} style={{ width: '90px', height: '90px', borderRadius: '50%', objectFit: 'cover', border: '4px solid var(--pf-card)', display: 'block', boxShadow: 'var(--pf-shadow-md)' }} onError={(e) => { e.currentTarget.style.display='none'; e.currentTarget.nextSibling.style.display='flex'; }} />
+                ) : null}
+                <div style={{ width: '90px', height: '90px', borderRadius: '50%', background: 'linear-gradient(140deg, #2563eb, #0b1526)', border: '4px solid var(--pf-card)', display: student.profile_photo ? 'none' : 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '30px', fontWeight: 700, color: '#fff', fontFamily: 'var(--pf-display)', boxShadow: 'var(--pf-shadow-md)' }}>
+                  {(student.name || '?').charAt(0)}
+                </div>
               </div>
+            </div>
+            <div style={{ textAlign: 'center', padding: '55px 20px 20px' }}>
               <h3 className="pf-display" style={{ margin: '0 0 4px 0', fontSize: '18px', fontWeight: 700, color: 'var(--pf-text)' }}>{student.name}</h3>
               <p style={{ margin: '0 0 10px 0', fontSize: '12px', color: '#94a3b8' }}>{student.roll_number || student.student_id}</p>
               <StatusPill status={student.status || 'Active'} />
@@ -136,23 +142,98 @@ function StudentProfile() {
             </div>
           </div>
 
-          {/* RIGHT: APPLICATIONS */}
-          <div className="pf-card" style={{ padding: '22px 24px' }}>
-            <h3 className="pf-display" style={{ margin: '0 0 16px 0', fontSize: '15.5px', fontWeight: 700, color: 'var(--pf-text)' }}>Applications</h3>
-            {(!student.applications || student.applications.length === 0) && (
-              <div className="cp-empty"><div className="cp-empty-icon" aria-hidden="true">📄</div>No applications submitted by this student yet.</div>
-            )}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
-              {(student.applications || []).map((app, idx) => (
-                <div key={app.id || idx} className="pf-card pf-card-hover" style={{ padding: '14px 16px', boxShadow: 'none' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                    <span style={{ fontSize: '12px', color: 'var(--pf-text-3)', fontWeight: 600 }}>{app.company_name || app.company}</span>
-                    <StatusPill status={app.status} />
-                  </div>
-                  <p style={{ margin: '0 0 4px 0', fontWeight: 700, color: 'var(--pf-text)', fontSize: '14px' }}>{app.job_title || app.role}</p>
-                  <p style={{ margin: 0, fontSize: '12px', color: 'var(--pf-text-3)', fontVariantNumeric: 'tabular-nums' }}>Applied: {fmtDate(pick(app, 'applied_date', 'date', 'created_at'))}</p>
+          {/* RIGHT: FULL PROFILE + APPLICATIONS */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <div className="pf-card" style={{ padding: '22px 24px' }}>
+              <h3 className="pf-display" style={{ margin: '0 0 16px 0', fontSize: '15.5px', fontWeight: 700, color: 'var(--pf-text)' }}>Student Profile</h3>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '20px', paddingBottom: '18px', borderBottom: '1px solid var(--pf-line)' }}>
+                <DetailStat label="CGPA" value={student.gpa_cgpa ?? '—'} />
+                <DetailStat label="Course" value={student.course || '—'} />
+                <DetailStat label="Current Year" value={student.current_year || '—'} />
+                <DetailStat label="Enrollment" value={student.enrollment_no || '—'} />
+                <DetailStat label="City" value={student.city || '—'} />
+                <DetailStat label="Experience" value={student.experience_level || 'Fresher'} />
+              </div>
+
+              {student.profile_summary && (
+                <div style={{ marginBottom: '18px' }}>
+                  <p className="ap-sec-label">Profile Summary</p>
+                  <p style={{ margin: 0, fontSize: '13.5px', color: 'var(--pf-text-2)', lineHeight: 1.6 }}>{student.profile_summary}</p>
                 </div>
-              ))}
+              )}
+
+              {student.skills && student.skills.length > 0 && (
+                <div style={{ marginBottom: '18px' }}>
+                  <p className="ap-sec-label">Skills</p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '7px' }}>
+                    {student.skills.map((sk, i) => {
+                      const name = typeof sk === 'string' ? sk : `${sk?.skill_name || sk?.name || 'Skill'}${sk?.level ? ` · ${sk.level}` : ''}`;
+                      return <span key={i} style={{ padding: '5px 12px', borderRadius: '99px', background: 'var(--pf-primary-soft)', border: '1px solid var(--pf-blue-ln)', fontSize: '12px', fontWeight: 600, color: 'var(--pf-primary-deep)' }}>{name}</span>;
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {(student.experiences?.length > 0 || student.job_designation) && (
+                <div style={{ marginBottom: '18px' }}>
+                  <p className="ap-sec-label">Work Experience</p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    {(student.experiences?.length > 0 ? student.experiences : [{ job_designation: student.job_designation, company: student.experience_company, duration: student.experience_duration }]).map((exp, i) => (
+                      <div key={i} style={{ padding: '11px 14px', background: 'var(--pf-page)', border: '1px solid var(--pf-line)', borderRadius: '11px' }}>
+                        <p style={{ margin: 0, fontSize: '13.5px', fontWeight: 700, color: 'var(--pf-text)' }}>{exp.job_designation || 'Role'}{exp.company ? ` · ${exp.company}` : ''}</p>
+                        {exp.duration && <p style={{ margin: '2px 0 0', fontSize: '12px', color: 'var(--pf-text-3)' }}>{exp.duration}{exp.years ? ` · ${exp.years} yr` : ''}</p>}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {student.certificates && student.certificates.length > 0 && (
+                <div style={{ marginBottom: '18px' }}>
+                  <p className="ap-sec-label">Certificates</p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
+                    {student.certificates.map((c, i) => {
+                      const cn = typeof c === 'string' ? c : (c.name || c.title || 'Certificate');
+                      const cu = typeof c === 'object' ? (c.url || c.link) : null;
+                      return (
+                        <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', background: 'var(--pf-page)', border: '1px solid var(--pf-line)', borderRadius: '10px', padding: '9px 13px' }}>
+                          <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--pf-text)' }}>🏅 {cn}</span>
+                          {cu && <a href={cu} target="_blank" rel="noreferrer" style={{ fontSize: '12px', fontWeight: 700, color: 'var(--pf-primary)' }}>View ↗</a>}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              <div>
+                <p className="ap-sec-label">Resume</p>
+                {student.resume_url ? (
+                  <a href={student.resume_url} target="_blank" rel="noreferrer" className="pf-btn pf-btn-primary pf-btn-sm" style={{ textDecoration: 'none' }}>View Resume ↗</a>
+                ) : (
+                  <p style={{ margin: 0, fontSize: '13px', color: 'var(--pf-text-3)' }}>No resume link on file.</p>
+                )}
+              </div>
+            </div>
+
+            <div className="pf-card" style={{ padding: '22px 24px' }}>
+              <h3 className="pf-display" style={{ margin: '0 0 16px 0', fontSize: '15.5px', fontWeight: 700, color: 'var(--pf-text)' }}>Applications</h3>
+              {(!student.applications || student.applications.length === 0) && (
+                <div className="cp-empty"><div className="cp-empty-icon" aria-hidden="true">📄</div>No applications submitted by this student yet.</div>
+              )}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+                {(student.applications || []).map((app, idx) => (
+                  <div key={app.id || idx} className="pf-card pf-card-hover" style={{ padding: '14px 16px', boxShadow: 'none' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                      <span style={{ fontSize: '12px', color: 'var(--pf-text-3)', fontWeight: 600 }}>{app.company_name || app.company}</span>
+                      <StatusPill status={app.status} />
+                    </div>
+                    <p style={{ margin: '0 0 4px 0', fontWeight: 700, color: 'var(--pf-text)', fontSize: '14px' }}>{app.job_title || app.role}</p>
+                    <p style={{ margin: 0, fontSize: '12px', color: 'var(--pf-text-3)', fontVariantNumeric: 'tabular-nums' }}>Applied: {fmtDate(pick(app, 'applied_date', 'date', 'created_at'))}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -175,6 +256,15 @@ function StudentProfile() {
         loading={actionLoading}
       />
     </main>
+  );
+}
+
+function DetailStat({ label, value }) {
+  return (
+    <div>
+      <p style={{ margin: 0, fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--pf-text-3)' }}>{label}</p>
+      <p style={{ margin: '2px 0 0', fontSize: '14px', fontWeight: 600, color: 'var(--pf-text)' }}>{value}</p>
+    </div>
   );
 }
 

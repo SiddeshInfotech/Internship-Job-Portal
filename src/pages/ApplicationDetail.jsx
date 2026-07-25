@@ -5,11 +5,13 @@ import TopNavbar from '../components/TopNavbar';
 import StatusPill from '../components/StatusPill';
 import { pick, fmtDate } from '../utils/fields';
 import { normalizeApplicant } from '../utils/drive';
+import { useToast } from '../context/ToastContext';
 import ConfirmModal from '../components/ConfirmModal';
 
 function ApplicationDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const [app, setApp] = useState(null);
   const [notes, setNotes] = useState('');
   const [loading, setLoading] = useState(true);
@@ -43,6 +45,7 @@ function ApplicationDetail() {
       const { type } = confirmAction;
       if (type === 'shortlist') await axiosClient.patch(`/admin/applications/${id}/shortlist`, { admin_notes: notes || undefined });
       if (type === 'reject') await axiosClient.patch(`/admin/applications/${id}/reject`, { admin_notes: notes || undefined });
+      showToast(type === 'shortlist' ? 'Candidate shortlisted! 🎉' : 'Application rejected.', type === 'shortlist' ? 'success' : 'info');
       setConfirmAction(null);
       load();
     } catch (err) {

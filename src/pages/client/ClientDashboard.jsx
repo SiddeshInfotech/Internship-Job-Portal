@@ -4,6 +4,7 @@ import clientAxios from '../../api/clientAxios';
 import { asArray } from '../../api/asArray';
 import ClientTopNavbar from '../../components/ClientTopNavbar';
 import StatusPill from '../../components/StatusPill';
+import ProfileCompletionBanner from '../../components/ProfileCompletionBanner';
 
 function ClientDashboard() {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ function ClientDashboard() {
   const [activeJobs, setActiveJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [profilePct, setProfilePct] = useState(100); // assume complete until known
 
   useEffect(() => {
     let cancelled = false;
@@ -28,6 +30,26 @@ function ClientDashboard() {
         setStats(statsRes.data.stats || statsRes.data);
         setApplications(asArray(recentRes.data.applications, recentRes.data));
         setActiveJobs(asArray(activeRes.data.jobs, activeRes.data));
+
+        // Profile completeness for the reminder banner (same fields the
+        // Company Profile overview checks).
+        try {
+          const profRes = await clientAxios.get('/client/profile');
+          const p = profRes.data.profile || profRes.data;
+          // Prefer the backend's own completion number if it sends one.
+          if (typeof p.profile_completion === 'number') {
+            if (!cancelled) setProfilePct(p.profile_completion);
+          } else {
+            const fields = ['company_name', 'industry', 'contact', 'address', 'company_size', 'year_established',
+              'city', 'pincode', 'state', 'hr_name', 'hr_contact_email', 'about_company', 'company_summary',
+              'hiring_locations', 'preferred_job_types', 'company_registration_number', 'terms_accepted'];
+            const done = fields.filter((f) => {
+              const v = p[f];
+              return Array.isArray(v) ? v.length > 0 : v !== undefined && v !== null && String(v).trim() !== '';
+            }).length;
+            if (!cancelled) setProfilePct(Math.round((done / fields.length) * 100));
+          }
+        } catch { /* banner simply won't show */ }
       } catch (err) {
         if (!cancelled) setError('Could not load dashboard data. ' + (err.response?.data?.message || err.message));
       } finally {
@@ -56,6 +78,8 @@ function ClientDashboard() {
       <ClientTopNavbar title="Dashboard" />
 
       {error && <div className="pf-alert-error" role="alert"><span aria-hidden="true">⚠</span>{error}</div>}
+
+      <ProfileCompletionBanner percent={profilePct} to="/company-profile" />
 
       <div className="cp-page-head">
         <div>

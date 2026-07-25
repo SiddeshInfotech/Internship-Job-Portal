@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axiosClient from '../api/axiosClient';
 import { asArray } from '../api/asArray';
 import TopNavbar from '../components/TopNavbar';
+import { pick, fmtDate } from '../utils/fields';
 
 function DashboardOverview() {
   const navigate = useNavigate();
@@ -123,7 +124,7 @@ function DashboardOverview() {
                 const college = item.college || item.institution || '';
                 const role = item.job_title || item.role || '—';
                 const company = item.company_name || item.company || '';
-                const date = item.applied_date || item.date || '';
+                const date = fmtDate(pick(item, 'applied_date', 'date', 'created_at'));
                 const status = item.status || 'PENDING';
                 return (
                 <tr key={item.id || idx}>

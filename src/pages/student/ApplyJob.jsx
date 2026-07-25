@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import studentAxios from '../../api/studentAxios';
+import { useToast } from '../../context/ToastContext';
 import { asArray } from '../../api/asArray';
 import { FiArrowLeft, FiFileText, FiCheckCircle } from 'react-icons/fi';
 
 function ApplyJob() {
   const { jobId } = useParams();
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const [job, setJob] = useState(null);
   const [profile, setProfile] = useState(null);
@@ -52,7 +54,8 @@ function ApplyJob() {
         portfolio_link: portfolioLink || undefined,
         resume_id: selectedResumeId || undefined,
       });
-      navigate('/student/applications');
+      showToast('Application submitted successfully! 🎉', 'success');
+      setTimeout(() => navigate('/student/applications'), 1400);
     } catch (err) {
       if (err.response?.status === 409) {
         setError("You've already applied to this job.");

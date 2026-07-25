@@ -711,3 +711,24 @@
   position: relative;
   z-index: 50;
 }
+
+/* Recent Applications table — tighten so columns don't wrap awkwardly
+   inside the narrow dashboard grid column */
+.db-recent-applications-card .visily-data-table,
+.recent-applications-card .visily-data-table { table-layout: auto; }
+.visily-data-table .date-cell-txt { white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--pf-text-2); font-size: 13px; }
+.visily-data-table .table-action-link-btn { white-space: nowrap; }
+.visily-data-table .job-role-title { font-weight: 600; color: var(--pf-text); font-size: 13.5px; line-height: 1.35; }
+.visily-data-table .job-company-title { font-size: 12px; color: var(--pf-text-3); margin-top: 2px; }
+.visily-data-table .student-name-txt { white-space: nowrap; }
+.visily-data-table th { white-space: nowrap; }
+.visily-data-table td { vertical-align: middle; }
+/* let the table scroll horizontally instead of squashing on narrow screens */
+.db-main-content-grid .table-data-card,
+.recent-applications-card { overflow-x: auto; }
+
+/* Section label used in the admin student/applicant detail panels */
+.ap-sec-label {
+  margin: 0 0 9px; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--pf-text-3);
+}

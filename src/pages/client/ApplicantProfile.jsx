@@ -6,10 +6,12 @@ import ConfirmModal from '../../components/ConfirmModal';
 import StatusPill from '../../components/StatusPill';
 import { pick, fmtDate } from '../../utils/fields';
 import { normalizeApplicant } from '../../utils/drive';
+import { useToast } from '../../context/ToastContext';
 
 function ApplicantProfile() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const [app, setApp] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -43,6 +45,8 @@ function ApplicantProfile() {
       if (type === 'interview') await clientAxios.patch(`/client/applicants/${id}/schedule-interview`);
       if (type === 'offer') await clientAxios.patch(`/client/applicants/${id}/extend-offer`);
       setConfirmAction(null);
+      const done = { shortlist: 'Candidate shortlisted! 🎉', reject: 'Application rejected.', interview: 'Interview scheduled! 🎉', offer: 'Offer extended! 🎉' }[type];
+      showToast(done, type === 'reject' ? 'info' : 'success');
       load();
     } catch (err) {
       setError('Action failed. ' + (err.response?.data?.message || err.message));
@@ -118,6 +122,32 @@ function ApplicantProfile() {
               <MiniStat label="Branch" value={app.department || app.branch || '—'} />
               <MiniStat label="Current Year" value={app.current_year || '—'} />
             </div>
+
+            {(app.experiences?.length > 0 || app.job_designation) && (
+              <div style={{ marginBottom: '22px' }}>
+                <h4 className="cp-form-section-title" style={{ fontSize: '14px' }}>
+                  Work Experience
+                  {app.experience_level && (
+                    <span style={{ marginLeft: 8, fontSize: '11px', fontWeight: 700, padding: '2px 8px', borderRadius: 99, background: 'var(--pf-primary-soft)', color: 'var(--pf-primary-deep)', verticalAlign: 'middle' }}>
+                      {app.experience_level}{app.years_of_experience ? ` · ${app.years_of_experience} yr` : ''}
+                    </span>
+                  )}
+                </h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {(app.experiences?.length > 0
+                    ? app.experiences
+                    : [{ job_designation: app.job_designation, company: app.experience_company, duration: app.experience_duration }]
+                  ).map((exp, i) => (
+                    <div key={i} style={{ padding: '11px 14px', background: 'var(--pf-page)', border: '1px solid var(--pf-line)', borderRadius: '11px' }}>
+                      <p style={{ margin: 0, fontSize: '13.5px', fontWeight: 700, color: 'var(--pf-text)' }}>
+                        {exp.job_designation || 'Role'}{exp.company ? ` · ${exp.company}` : ''}
+                      </p>
+                      {exp.duration && <p style={{ margin: '2px 0 0', fontSize: '12px', color: 'var(--pf-text-3)' }}>{exp.duration}{exp.years ? ` · ${exp.years} yr` : ''}</p>}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {app.skills && app.skills.length > 0 && (
               <div style={{ marginBottom: '22px' }}>

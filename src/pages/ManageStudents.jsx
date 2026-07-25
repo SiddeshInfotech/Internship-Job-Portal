@@ -5,11 +5,13 @@ import { asArray } from '../api/asArray';
 import TopNavbar from '../components/TopNavbar';
 import StatusPill from '../components/StatusPill';
 import ConfirmModal from '../components/ConfirmModal';
+import { useToast } from '../context/ToastContext';
 
 const PER_PAGE = 10;
 
 function ManageStudents() {
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const [students, setStudents] = useState([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
@@ -57,6 +59,8 @@ function ManageStudents() {
       } else if (confirmAction.type === 'delete') {
         await axiosClient.delete(`/admin/students/${confirmAction.studentId}`);
       }
+      const msg = { block: 'Student blocked.', unblock: 'Student unblocked! 🎉', delete: 'Student deleted.' }[confirmAction.type];
+      showToast(msg, confirmAction.type === 'unblock' ? 'success' : 'info');
       setConfirmAction(null);
       loadStudents();
     } catch (err) {

@@ -262,3 +262,11 @@
   .cp-settings-grid { grid-template-columns: 1fr; }
   .cp-dash-grid { grid-template-columns: 1fr; }
 }
+
+/* Inline skill input inside the chips box (job post form) */
+.pf-skill-inline-input {
+  border: none; outline: none; width: 100%;
+  font-size: 13px; font-family: var(--pf-font);
+  background: transparent; color: var(--pf-text);
+}
+.pf-skill-inline-input::placeholder { color: var(--pf-text-3); }

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiMapPin, FiBriefcase, FiClock, FiArrowUpRight } from 'react-icons/fi';
+import { fmtJobDate } from '../../utils/fields';
 
 function CompanyLogo({ company }) {
   const [failed, setFailed] = useState(false);
@@ -75,7 +76,7 @@ function JobCard({ job }) {
         )}
         {job.last_date_to_apply && (
           <span className="inline-flex items-center gap-1.5 text-[11.5px] font-semibold text-amber-700 bg-amber-50 border border-amber-200 rounded-full px-2.5 py-1">
-            <FiClock size={12} /> Apply by {job.last_date_to_apply}
+            <FiClock size={12} /> Apply by {fmtJobDate(job.last_date_to_apply)}
           </span>
         )}
       </div>

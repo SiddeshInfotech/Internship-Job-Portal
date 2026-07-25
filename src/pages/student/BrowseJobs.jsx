@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import studentAxios from '../../api/studentAxios';
 import { asArray } from '../../api/asArray';
 import { FiSearch, FiMapPin, FiClock } from 'react-icons/fi';
+import ProfileCompletionBanner from '../../components/ProfileCompletionBanner';
 
 const PER_PAGE = 9;
 
 function BrowseJobs() {
   const navigate = useNavigate();
   const [jobs, setJobs] = useState([]);
+  const [profilePct, setProfilePct] = useState(0);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
@@ -36,6 +38,26 @@ function BrowseJobs() {
   };
 
   useEffect(() => {
+    (async () => {
+      try {
+        const res = await studentAxios.get('/student/profile');
+        const p = res.data.profile || res.data;
+        if (typeof p.profile_completion === 'number') {
+          setProfilePct(p.profile_completion);
+        } else {
+          const fields = ['name', 'department', 'college', 'current_year', 'mobile_no', 'city', 'pincode', 'state',
+            'linkedin_url', 'profile_summary', 'enrollment_no', 'college_address', 'course'];
+          let done = fields.filter((f) => p[f] !== undefined && p[f] !== null && String(p[f]).trim() !== '').length;
+          if (p.gpa_cgpa || p.gpa || p.cgpa) done += 1;
+          if ((p.skills?.length || 0) > 0) done += 1;
+          if ((p.certifications?.length || 0) > 0) done += 1;
+          setProfilePct(Math.round((done / (fields.length + 3)) * 100));
+        }
+      } catch { /* banner simply won't show */ }
+    })();
+  }, []);
+
+  useEffect(() => {
     const timer = setTimeout(loadJobs, search ? 350 : 0);
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -45,6 +67,7 @@ function BrowseJobs() {
 
   return (
     <main className="max-w-7xl mx-auto px-6 py-6">
+      <ProfileCompletionBanner percent={profilePct} to="/student/profile-overview" />
       <div className="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col sm:flex-row gap-3 mb-6">
         <div className="relative flex-1">
           <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />

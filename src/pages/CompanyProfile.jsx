@@ -126,6 +126,33 @@ function CompanyProfile() {
             <ContactRow icon="📞" value={company.phone} />
             <ContactRow icon="📍" value={company.location || company.address} />
             {company.website && <ContactRow icon="🌐" value={company.website} />}
+            {(company.city || company.state) && <ContactRow icon="🏙️" value={[company.city, company.state, company.pincode].filter(Boolean).join(', ')} />}
+          </div>
+
+          <div className="pf-card" style={{ padding: '20px' }}>
+            <h4 className="pf-display" style={{ margin: '0 0 14px 0', fontSize: '14px', fontWeight: 700, color: 'var(--pf-text)' }}>Company Details</h4>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+              <DetailField label="Industry" value={company.industry} />
+              <DetailField label="Company Size" value={company.company_size} />
+              <DetailField label="Year Established" value={company.year_established} />
+              <DetailField label="HR Contact" value={company.hr_name} />
+              <DetailField label="HR Email" value={company.hr_contact_email} />
+              <DetailField label="Reg. Number" value={company.company_registration_number} />
+              <DetailField label="Hiring Locations" value={company.hiring_locations} />
+              <DetailField label="Job Types" value={Array.isArray(company.preferred_job_types) ? company.preferred_job_types.join(', ') : company.preferred_job_types} />
+            </div>
+            {company.about_company && (
+              <div style={{ marginTop: '16px', paddingTop: '14px', borderTop: '1px solid var(--pf-line)' }}>
+                <p className="ap-sec-label">About Company</p>
+                <p style={{ margin: 0, fontSize: '13.5px', color: 'var(--pf-text-2)', lineHeight: 1.6 }}>{company.about_company}</p>
+              </div>
+            )}
+            {company.company_summary && (
+              <div style={{ marginTop: '14px' }}>
+                <p className="ap-sec-label">Company Summary</p>
+                <p style={{ margin: 0, fontSize: '13.5px', color: 'var(--pf-text-2)', lineHeight: 1.6 }}>{company.company_summary}</p>
+              </div>
+            )}
           </div>
 
           <div className="pf-card" style={{ padding: '20px' }}>
@@ -178,6 +205,16 @@ function ContactRow({ icon, value }) {
     <p style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'var(--pf-text-2)', margin: '0 0 12px 0' }}>
       <span>{icon}</span> {value}
     </p>
+  );
+}
+
+function DetailField({ label, value }) {
+  if (!value) return null;
+  return (
+    <div>
+      <p style={{ margin: 0, fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--pf-text-3)' }}>{label}</p>
+      <p style={{ margin: '2px 0 0', fontSize: '13.5px', fontWeight: 500, color: 'var(--pf-text)' }}>{value}</p>
+    </div>
   );
 }
 

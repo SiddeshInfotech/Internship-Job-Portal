@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import clientAxios from '../../api/clientAxios';
 import ClientTopNavbar from '../../components/ClientTopNavbar';
+import SkillPicker from '../../components/SkillPicker';
+import { useToast } from '../../context/ToastContext';
 
 function PostJob() {
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const { id } = useParams(); // present when editing an existing job
   const isEdit = !!id;
 
@@ -28,7 +31,13 @@ function PostJob() {
           title: job.title || '', department: job.department || '', job_type: job.job_type || 'Full-Time',
           description: job.description || '', eligibility_criteria: job.eligibility_criteria || '',
           location: job.location || '', salary_stipend: job.salary_stipend || '',
-          last_date_to_apply: job.last_date_to_apply ? job.last_date_to_apply.slice(0, 10) : '',
+          last_date_to_apply: (() => {
+            // <input type="date"> needs YYYY-MM-DD; API may send a full timestamp
+            const raw = job.last_date_to_apply;
+            if (!raw) return '';
+            const d = new Date(raw);
+            return Number.isNaN(d.getTime()) ? String(raw).slice(0, 10) : d.toISOString().slice(0, 10);
+          })(),
         });
         setSkills(Array.isArray(job.required_skills) ? job.required_skills : (job.required_skills || '').split(',').map((s) => s.trim()).filter(Boolean));
       } catch (err) {
@@ -72,7 +81,8 @@ function PostJob() {
       } else {
         await clientAxios.post('/client/jobs', { ...buildPayload(), submit_now: submitNow || undefined });
       }
-      navigate('/jobs');
+      showToast(isEdit ? 'Job updated successfully!' : 'Job posted successfully! 🎉', 'success');
+      setTimeout(() => navigate('/jobs'), 900);
     } catch (err) {
       setError(err.response?.data?.message || 'Could not save this job. Please check the form and try again.');
     } finally {
@@ -176,14 +186,16 @@ function PostJob() {
                   </button>
                 </span>
               ))}
-              <input
-                value={skillInput}
-                onChange={(e) => setSkillInput(e.target.value)}
-                onKeyDown={addSkill}
-                placeholder="Add a skill..."
-                aria-label="Add a skill"
-                style={{ border: 'none', outline: 'none', flex: 1, minWidth: '100px', fontSize: '13px', fontFamily: 'var(--pf-font)', background: 'transparent', color: 'var(--pf-text)' }}
-              />
+              <div style={{ flex: 1, minWidth: '140px' }}>
+                <SkillPicker
+                  value={skillInput}
+                  onChange={setSkillInput}
+                  onAdd={(picked) => setSkills((prev) => [...new Set([...prev, picked])])}
+                  exclude={skills}
+                  placeholder="Type or pick a skill..."
+                  inputClassName="pf-skill-inline-input"
+                />
+              </div>
             </div>
             <p style={{ margin: '5px 0 0', fontSize: '11.5px', color: 'var(--pf-text-3)' }}>Press enter or comma to add a new skill.</p>
           </Field>

@@ -83,6 +83,26 @@ function MyProfile() {
                 </div>
               </SectionCard>
 
+              {(profile.experiences?.length > 0 || profile.job_designation || profile.experience_level === 'Experienced') && (
+                <SectionCard title="Work Experience — View Only">
+                  {(profile.experiences?.length > 0 || profile.job_designation) ? (
+                    <div className="space-y-3">
+                      {(profile.experiences?.length > 0
+                        ? profile.experiences
+                        : [{ job_designation: profile.job_designation, company: profile.experience_company, duration: profile.experience_duration, years: profile.years_of_experience }]
+                      ).map((exp, i) => (
+                        <div key={i} className="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                          <p className="font-bold text-[#0F172A] text-sm">{exp.job_designation || 'Role'}{exp.company ? ` · ${exp.company}` : ''}</p>
+                          {exp.duration && <p className="text-xs text-slate-500 mt-1">{exp.duration}{exp.years ? ` · ${exp.years} yr` : ''}</p>}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-slate-400">Marked as experienced — add role details in the profile wizard.</p>
+                  )}
+                </SectionCard>
+              )}
+
               <SectionCard title="Skills & Certificates — View Only">
                 {(!profile.skills || profile.skills.length === 0) && (!profile.certifications || profile.certifications.length === 0) ? (
                   <p className="text-sm text-slate-400">

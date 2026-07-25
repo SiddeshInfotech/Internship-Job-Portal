@@ -5,6 +5,8 @@ import { asArray } from '../../api/asArray';
 import ClientTopNavbar from '../../components/ClientTopNavbar';
 import ConfirmModal from '../../components/ConfirmModal';
 import StatusPill from '../../components/StatusPill';
+import { pick, fmtDate } from '../../utils/fields';
+import { normalizeApplicant } from '../../utils/drive';
 
 const PER_PAGE = 10;
 
@@ -45,7 +47,11 @@ function JobApplicants() {
         params: { search: search || undefined, status: statusFilter || undefined, page, per_page: PER_PAGE },
       });
       const data = res.data;
-      const list = asArray(data.applicants, data.results, data);
+      const list = asArray(data.applicants, data.results, data).map((a) => {
+        const n = normalizeApplicant(a, pick);
+        n.applied_date = fmtDate(pick(a, 'applied_date', 'applied_at', 'created_at', 'date'));
+        return n;
+      });
       setApplicants(list);
       setTotal(data.total ?? list.length);
       if (data.job_title) setJobTitle(data.job_title);
@@ -197,7 +203,10 @@ function JobApplicants() {
         {applicants.map((a) => (
           <div key={a.id} className="pf-card pf-card-hover" style={{ padding: '18px 20px', display: 'flex', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', gap: '14px', flex: 1, minWidth: '280px' }}>
-              <div className="cp-list-avatar" style={{ width: 44, height: 44, borderRadius: '13px', fontSize: '15px' }}>
+              {a.profile_photo ? (
+                <img src={a.profile_photo} alt={a.name} style={{ width: 44, height: 44, borderRadius: '13px', objectFit: 'cover', flexShrink: 0 }} onError={(e) => { e.currentTarget.style.display='none'; e.currentTarget.nextSibling.style.display='flex'; }} />
+              ) : null}
+              <div className="cp-list-avatar" style={{ width: 44, height: 44, borderRadius: '13px', fontSize: '15px', display: a.profile_photo ? 'none' : 'flex' }}>
                 {(a.name || '?').charAt(0)}
               </div>
               <div style={{ minWidth: 0 }}>
@@ -209,15 +218,15 @@ function JobApplicants() {
                   >
                     {a.name}
                   </p>
-                  {!a.is_seen && !a.seen && <span className="pf-pill pf-pill-amber">New</span>}
+                  {!a.viewed_by_company && !a.is_seen && !a.seen && <span className="pf-pill pf-pill-amber">New</span>}
                   {a.status && <StatusPill status={a.status} />}
                 </div>
                 <p className="cp-list-sub" style={{ margin: '3px 0 8px', whiteSpace: 'normal' }}>
                   {a.institution || a.college}{a.current_year ? `, ${a.current_year}` : ''}
                 </p>
                 <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: a.profile_summary ? '8px' : 0 }}>
-                  {(a.skills || []).slice(0, 5).map((s, i) => (
-                    <span key={i} className="pf-pill pf-pill-grey">{s}</span>
+                  {(a.skills || []).slice(0, 5).map((sk, i) => (
+                    <span key={i} className="pf-pill pf-pill-grey">{typeof sk === 'string' ? sk : (sk?.skill_name || sk?.name || 'Skill')}</span>
                   ))}
                 </div>
                 {a.profile_summary && (

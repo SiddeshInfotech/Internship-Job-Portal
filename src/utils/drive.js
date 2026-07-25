@@ -35,6 +35,29 @@ export function normalizeApplicant(raw, pick) {
   data.institution = pick(data, 'institution', 'college', 'college_name', 'institute');
   data.department = pick(data, 'department', 'branch');
   data.gpa_cgpa = pick(data, 'gpa_cgpa', 'cgpa', 'gpa');
+  data.course = pick(data, 'course', 'degree', 'program');
+  data.current_year = pick(data, 'current_year', 'year', 'study_year');
+  data.enrollment_no = pick(data, 'enrollment_no', 'enrollment_number', 'roll_number', 'student_id');
+  data.city = pick(data, 'city', 'town');
+  data.college_address = pick(data, 'college_address', 'address');
+  data.profile_summary = pick(data, 'profile_summary', 'summary', 'bio');
+  data.college = pick(data, 'college', 'institution', 'college_name', 'institute');
+  data.experience_level = pick(data, 'experience_level');
+  data.years_of_experience = pick(data, 'years_of_experience');
+  data.job_designation = pick(data, 'job_designation', 'designation');
+  data.experience_company = pick(data, 'experience_company');
+  data.experience_duration = pick(data, 'experience_duration');
+  // Multiple experiences (v3): normalize each entry's keys
+  if (Array.isArray(data.experiences)) {
+    data.experiences = data.experiences.map((e) => ({
+      job_designation: e.job_designation || e.designation || e.title || '',
+      company: e.company || e.experience_company || '',
+      duration: e.duration || e.experience_duration || '',
+      years: e.years || e.years_of_experience || '',
+    }));
+  } else {
+    data.experiences = [];
+  }
   data.resume_url = pick(data, 'resume_url', 'resume_link', 'resume_drive_link', 'resume', 'drive_link', 'cv_url', 'cv_link');
   data.profile_photo = pick(data, 'profile_photo', 'profile_photo_url', 'photo_url', 'avatar_url', 'image_url', 'profile_pic');
   data.cover_letter = pick(data, 'cover_letter', 'coverletter', 'cover_note');

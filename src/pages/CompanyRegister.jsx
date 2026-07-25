@@ -9,6 +9,7 @@ function CompanyRegister() {
   const [form, setForm] = useState({
     company_name: '', email: '', password: '', confirmPassword: '',
     industry: '', website: '',
+    address: '', city: '', state: '', pincode: '',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -32,6 +33,10 @@ function CompanyRegister() {
         password: form.password,
         industry: form.industry,
         website: form.website || undefined,
+        address: form.address,
+        city: form.city,
+        state: form.state,
+        pincode: form.pincode || undefined,
       });
       navigate('/verify-otp', { state: { email: form.email } });
     } catch (err) {
@@ -148,6 +153,31 @@ function CompanyRegister() {
               <div className="input-group">
                 <label>Website URL</label>
                 <input type="url" placeholder="https://www.yourcompany.com" value={form.website} onChange={update('website')} />
+              </div>
+            </div>
+
+            <div className="input-group full-width-field">
+              <label>Company Address <span className="star-req">*</span></label>
+              <input
+                required
+                placeholder="Street, area, landmark"
+                value={form.address}
+                onChange={update('address')}
+              />
+            </div>
+
+            <div className="form-grid-row">
+              <div className="input-group">
+                <label>City <span className="star-req">*</span></label>
+                <input required placeholder="e.g. Dhule" value={form.city} onChange={update('city')} />
+              </div>
+              <div className="input-group">
+                <label>State <span className="star-req">*</span></label>
+                <input required placeholder="e.g. Maharashtra" value={form.state} onChange={update('state')} />
+              </div>
+              <div className="input-group">
+                <label>Pin Code</label>
+                <input placeholder="e.g. 424001" value={form.pincode} onChange={update('pincode')} />
               </div>
             </div>
 

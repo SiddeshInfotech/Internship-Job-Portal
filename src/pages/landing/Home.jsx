@@ -212,7 +212,7 @@ function Home() {
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
             className="flex justify-center mb-9"
           >
-            <div className="inline-flex items-center p-1 rounded-full bg-white/[0.07] border border-white/15 backdrop-blur-md" role="tablist" aria-label="I am a">
+            <div className="inline-flex items-center p-1 rounded-full bg-white border border-slate-200 shadow-xl" role="tablist" aria-label="I am a">
               {[
                 { key: 'student', label: "I'm a student" },
                 { key: 'company', label: "I'm hiring" },
@@ -222,12 +222,13 @@ function Home() {
                   role="tab"
                   aria-selected={persona === opt.key}
                   onClick={() => setPersona(opt.key)}
-                  className={`relative px-5 py-2 rounded-full text-sm font-semibold transition-colors ${persona === opt.key ? 'text-[#0B1526]' : 'text-white/65 hover:text-white'}`}
+                  className={`relative px-6 py-2.5 rounded-full text-sm font-bold transition-colors ${persona === opt.key ? 'text-[#d97706]' : 'text-[#0B1526] hover:text-[#334155]'}`}
                 >
                   {persona === opt.key && (
                     <motion.span
                       layoutId="persona-pill"
-                      className="absolute inset-0 rounded-full bg-white shadow-lg"
+                      className="absolute inset-0 rounded-full shadow-sm"
+                      style={{ background: 'linear-gradient(180deg, #fff5e6 0%, #ffe8c7 100%)', border: '1px solid #f7c66b' }}
                       transition={{ type: 'spring', stiffness: 400, damping: 32 }}
                     />
                   )}
@@ -418,9 +419,9 @@ function Home() {
                     {isHero && (
                       <div className="mt-8 space-y-2.5" aria-hidden="true">
                         {[
-                          { name: 'Aarav S.', status: 'Shortlisted', tone: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
-                          { name: 'Priya K.', status: 'Interview', tone: 'bg-blue-50 text-blue-700 border-blue-200' },
-                          { name: 'Rohan M.', status: 'In review', tone: 'bg-amber-50 text-amber-700 border-amber-200' },
+                          { name: 'Person 1', status: 'Shortlisted', tone: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
+                          { name: 'Person 2', status: 'Interview', tone: 'bg-blue-50 text-blue-700 border-blue-200' },
+                          { name: 'Person 3', status: 'In review', tone: 'bg-amber-50 text-amber-700 border-amber-200' },
                         ].map((row, j) => (
                           <motion.div
                             key={row.name}

@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import studentAxios from '../../api/studentAxios';
 import { uploadToCloudinary } from '../../utils/uploadToCloudinary';
+import { useToast } from '../../context/ToastContext';
 import StudentSubTabs from '../../components/student/StudentSubTabs';
 
 function StudentSettings() {
+  const { showToast } = useToast();
   const [form, setForm] = useState({});
   const [email, setEmail] = useState('');
   const [photoUrl, setPhotoUrl] = useState('');
@@ -75,6 +77,7 @@ function StudentSettings() {
       if ('gpa_cgpa' in payload) payload.gpa = payload.gpa_cgpa;
       await studentAxios.put('/student/profile', payload);
       setSuccess(okMsg);
+      showToast(okMsg, 'success');
     } catch (err) {
       setError(err.response?.data?.message || 'Could not save changes.');
     } finally {

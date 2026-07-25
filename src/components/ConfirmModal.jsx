@@ -3,7 +3,7 @@ import React from 'react';
 // Generic confirmation dialog used for Block/Delete/Approve/Reject/
 // Shortlist actions across all admin pages. Same API as before —
 // only the presentation changed (design-system modal + animations).
-function ConfirmModal({ open, title, message, confirmLabel, confirmColor = '#dc2626', onConfirm, onCancel, loading }) {
+function ConfirmModal({ open, title, message, confirmLabel, confirmColor = '#dc2626', onConfirm, onCancel, loading, children }) {
   if (!open) return null;
 
   // Map the legacy confirmColor prop onto design-system button styles so
@@ -21,6 +21,7 @@ function ConfirmModal({ open, title, message, confirmLabel, confirmColor = '#dc2
         </div>
         <h3>{title}</h3>
         <p>{message}</p>
+        {children}
         <div className="pf-modal-actions">
           <button onClick={onCancel} disabled={loading} className="pf-btn pf-btn-ghost">
             Cancel

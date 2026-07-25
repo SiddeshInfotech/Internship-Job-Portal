@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ConfettiBurst from '../components/ConfettiBurst';
 
 const ToastContext = createContext(null);
 
@@ -12,17 +13,24 @@ export function useToast() {
     if (import.meta.env?.DEV) {
       console.warn('useToast() called outside <ToastProvider> — toasts will be silently ignored.');
     }
-    return { showToast: () => {} };
+    return { showToast: () => {}, celebrate: () => {} };
   }
   return ctx;
 }
 
 export function ToastProvider({ children }) {
   const [toasts, setToasts] = useState([]);
+  const [celebrating, setCelebrating] = useState(false);
+
+  // Fire the confetti burst on demand (used for milestone actions).
+  const celebrate = useCallback(() => setCelebrating(true), []);
 
   const showToast = useCallback((message, type = 'info') => {
     const id = Date.now() + Math.random();
     setToasts((t) => [...t, { id, message, type }]);
+    // Every success toast celebrates — one wiring point covers applying,
+    // posting a job, updating a profile, shortlisting, and so on.
+    if (type === 'success') setCelebrating(true);
     setTimeout(() => setToasts((t) => t.filter((x) => x.id !== id)), 3500);
   }, []);
 
@@ -33,8 +41,9 @@ export function ToastProvider({ children }) {
   };
 
   return (
-    <ToastContext.Provider value={{ showToast }}>
+    <ToastContext.Provider value={{ showToast, celebrate }}>
       {children}
+      <ConfettiBurst fire={celebrating} onDone={() => setCelebrating(false)} />
       <div className="fixed bottom-5 right-5 z-[999] flex flex-col gap-2">
         <AnimatePresence>
           {toasts.map((t) => (
