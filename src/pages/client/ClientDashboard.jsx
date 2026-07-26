@@ -52,23 +52,8 @@ function ClientDashboard() {
   } catch { /* ignore */ }
 
   return (
-    <main
-      style={{
-        padding: '24px',
-        fontFamily: 'var(--pf-font)',
-        position: 'relative',
-        zIndex: 1,
-        overflow: 'visible',
-        minHeight: '100vh',
-      }}
-    >
-      {/* 
-        FIX: Wrapped ClientTopNavbar in a relatively positioned div with a high z-index.
-        This forces the notification dropdown to render on top of the sibling metric cards below it. 
-      */}
-      <div style={{ position: 'relative', zIndex: 50 }}>
-        <ClientTopNavbar title="Dashboard" />
-      </div>
+    <main style={{ padding: '24px', fontFamily: 'var(--pf-font)' }}>
+      <ClientTopNavbar title="Dashboard" />
 
       {error && <div className="pf-alert-error" role="alert"><span aria-hidden="true">⚠</span>{error}</div>}
 
@@ -84,13 +69,7 @@ function ClientDashboard() {
 
       {loading ? (
         <>
-          <section
-            className="cp-metrics-row"
-            style={{
-              position: 'relative',
-              zIndex: 0,
-            }}
-          >
+          <section className="cp-metrics-row" aria-hidden="true">
             {[0, 1, 2, 3].map((i) => (
               <div key={i} className="cp-metric-card">
                 <div className="pf-skeleton" style={{ width: 38, height: 38, borderRadius: 11, marginBottom: 12 }} />
@@ -99,14 +78,7 @@ function ClientDashboard() {
               </div>
             ))}
           </section>
-          <div
-            className="cp-panel"
-            style={{
-              position: 'relative',
-              zIndex: 0,
-              overflow: 'hidden',
-            }}
-          >
+          <div className="cp-panel" aria-label="Loading dashboard">
             {[0, 1, 2].map((i) => (
               <div key={i} className="cp-skel-row">
                 <div className="pf-skeleton" style={{ width: 36, height: 36, borderRadius: 11 }} />
@@ -128,14 +100,7 @@ function ClientDashboard() {
         <MetricCard icon="📄" label="Offers Made" value={stats?.offers_made} />
       </section>
 
-      <div
-        className="cp-dash-grid"
-        style={{
-          position: 'relative',
-          zIndex: 0,
-          alignItems: 'start',
-        }}
-      >
+      <div className="cp-dash-grid">
         <div className="cp-panel">
           <div className="cp-panel-head">
             <h3>Recent Applications</h3>

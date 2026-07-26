@@ -48,12 +48,22 @@ function Resumes() {
     setSaving(true);
     try {
       await studentAxios.post('/student/resumes', { filename, file_url: fileUrl });
-      setFilename(''); setFileUrl(''); setShowAddForm(false);
+      setFilename(''); 
+      setFileUrl(''); 
+      setShowAddForm(false);
       load();
     } catch (err) {
-      setError(err.response?.status === 400
-        ? "You've reached the 5-resume limit — delete one before adding another."
-        : 'Could not add this resume. ' + (err.response?.data?.message || err.message));
+      // Get the actual backend error message if it exists
+      const backendMessage = err.response?.data?.message || err.response?.data?.error;
+      
+      // Only show the 5-limit error if we actually have 5 resumes, otherwise show the real error
+      if (err.response?.status === 400 && resumes.length >= MAX_RESUMES) {
+        setError("You've reached the 5-resume limit — delete one before adding another.");
+      } else if (backendMessage) {
+        setError(`Could not add this resume: ${backendMessage}`);
+      } else {
+        setError(`Could not add this resume. ${err.message}`);
+      }
     } finally {
       setSaving(false);
     }
@@ -295,4 +305,4 @@ function Resumes() {
   );
 }
 
-export default Resumes;
+export default Resumes;r
