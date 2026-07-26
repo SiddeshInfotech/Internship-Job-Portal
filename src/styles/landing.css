@@ -1,0 +1,124 @@
+/* ============================================================
+   PLACIFY LANDING — "The Runway"
+   ------------------------------------------------------------
+   Marketing-site styles. The signature is the runway: an
+   ascending blue→amber flight path from campus to career.
+   Tokens come from theme.css; Tailwind handles layout.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+
+.font-serif-accent {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* ---------- Hero sky ---------- */
+.lp-sky {
+  background:
+    radial-gradient(1100px 520px at 78% -12%, rgba(245, 158, 11, 0.14), transparent 55%),
+    radial-gradient(900px 620px at 8% 108%, rgba(37, 99, 235, 0.22), transparent 60%),
+    linear-gradient(168deg, #101e33 0%, #0b1526 58%, #0a1322 100%);
+}
+.lp-dotgrid {
+  background-image: radial-gradient(rgba(157, 178, 201, 0.16) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 75% 65% at 50% 42%, #000 30%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 42%, #000 30%, transparent 78%);
+}
+
+/* ---------- Now-hiring ticker ---------- */
+@keyframes lp-ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.lp-ticker-track {
+  display: flex;
+  width: max-content;
+  animation: lp-ticker 36s linear infinite;
+}
+.lp-ticker-track:hover { animation-play-state: paused; }
+.lp-ticker-mask {
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+
+/* ---------- Logo marquee ---------- */
+.lp-marquee-mask {
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+/* ---------- Runway glow dot ---------- */
+@keyframes lp-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.55; }
+  50% { transform: scale(1.9); opacity: 0; }
+}
+.lp-pulse-ring {
+  animation: lp-pulse 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+/* ---------- Bento tiles ---------- */
+.lp-tile {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1px solid var(--pf-line);
+  box-shadow: var(--pf-shadow-sm);
+  transition: transform 220ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 220ms, border-color 220ms;
+}
+.lp-tile:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--pf-shadow-md);
+  border-color: var(--pf-line-strong);
+}
+.lp-tile::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2.5px;
+  background: var(--pf-ember-line);
+  opacity: 0;
+  transition: opacity 220ms;
+}
+.lp-tile:hover::after { opacity: 1; }
+
+/* ---------- Swiper pagination on brand ---------- */
+.lp-testimonials .swiper-pagination-bullet { background: #c3cddd; opacity: 1; }
+.lp-testimonials .swiper-pagination-bullet-active {
+  background: var(--pf-ember);
+  width: 22px;
+  border-radius: 99px;
+  transition: width 200ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-ticker-track { animation: none; }
+}
+
+/* ---------- Cursor spotlight on About-page tiles ---------- */
+.lp-spot-scope .lp-tile { position: relative; }
+.lp-spot-scope .lp-tile::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 250ms ease;
+  background: radial-gradient(
+    240px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(37, 99, 235, 0.10),
+    rgba(245, 158, 11, 0.05) 45%,
+    transparent 70%
+  );
+  z-index: 0;
+}
+.lp-spot-scope .lp-tile:hover::before { opacity: 1; }
+.lp-spot-scope .lp-tile > * { position: relative; z-index: 1; }
+
+/* Team avatars: playful hover */
+.lp-spot-scope .lp-tile img,
+.lp-spot-scope .lp-tile .lp-avatar-spin {
+  transition: transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.lp-spot-scope .lp-tile:hover .lp-avatar-spin { transform: scale(1.1) rotate(-6deg); }

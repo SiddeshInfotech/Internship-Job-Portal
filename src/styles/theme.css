@@ -1,0 +1,385 @@
+/* ============================================================
+   PLACIFY DESIGN SYSTEM — "Ink & Ember"
+   ------------------------------------------------------------
+   One token system for all three portals + marketing site.
+   Signature element: the "ember line" — a 2px blue→amber
+   gradient hairline used on brand marks, active nav items,
+   KPI cards and auth cards. If you see the ember line, you
+   know you're inside Placify.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap');
+
+:root {
+  /* Ink (dark surfaces + text) */
+  --pf-ink: #0b1526;
+  --pf-ink-2: #101e33;
+  --pf-ink-3: #16263f;
+  --pf-ink-line: rgba(148, 178, 214, 0.14);
+  --pf-ink-text: #9db2c9;
+
+  /* Brand */
+  --pf-primary: #2563eb;
+  --pf-primary-deep: #1d4fd7;
+  --pf-primary-soft: #eef4ff;
+  --pf-ember: #f59e0b;
+  --pf-ember-deep: #d97706;
+  --pf-ember-soft: #fff8eb;
+  --pf-ember-line: linear-gradient(90deg, #2563eb 0%, #7c8cf8 55%, #f59e0b 100%);
+
+  /* Neutral surfaces */
+  --pf-page: #f5f7fb;
+  --pf-card: #ffffff;
+  --pf-line: #e7ecf4;
+  --pf-line-strong: #d9e1ee;
+
+  /* Text */
+  --pf-text: #0f172a;
+  --pf-text-2: #46556c;
+  --pf-text-3: #8494ab;
+
+  /* Semantic */
+  --pf-green: #159957; --pf-green-bg: #ebfaf1; --pf-green-ln: #c4eed6;
+  --pf-amber: #b45309; --pf-amber-bg: #fff6e6; --pf-amber-ln: #fbe3b5;
+  --pf-red:   #d92d20; --pf-red-bg:   #fef1f0; --pf-red-ln:   #fad2cf;
+  --pf-blue:  #175cd3; --pf-blue-bg:  #eef4ff; --pf-blue-ln:  #cdddfb;
+  --pf-grey:  #5b6b82; --pf-grey-bg:  #f1f4f9; --pf-grey-ln:  #dfe5ee;
+
+  /* Depth */
+  --pf-shadow-xs: 0 1px 2px rgba(16, 24, 40, 0.05);
+  --pf-shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.04), 0 6px 18px -8px rgba(16, 24, 40, 0.10);
+  --pf-shadow-md: 0 2px 4px rgba(16, 24, 40, 0.04), 0 14px 34px -14px rgba(16, 24, 40, 0.16);
+  --pf-shadow-lg: 0 8px 10px -6px rgba(16, 24, 40, 0.08), 0 28px 60px -18px rgba(16, 24, 40, 0.22);
+  --pf-ring: 0 0 0 4px rgba(37, 99, 235, 0.14);
+
+  /* Shape + type */
+  --pf-r-sm: 8px;
+  --pf-r-md: 12px;
+  --pf-r-lg: 16px;
+  --pf-r-xl: 20px;
+  --pf-font: 'Inter', system-ui, -apple-system, sans-serif;
+  --pf-display: 'Sora', 'Inter', system-ui, sans-serif;
+
+  /* Motion */
+  --pf-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --pf-med: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---------- Global polish ---------- */
+html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+::selection { background: rgba(37, 99, 235, 0.16); color: var(--pf-text); }
+
+/* Slim, quiet scrollbars everywhere */
+* { scrollbar-width: thin; scrollbar-color: #c3cddd transparent; }
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb { background: #c3cddd; border-radius: 99px; }
+*::-webkit-scrollbar-thumb:hover { background: #a9b7cd; }
+*::-webkit-scrollbar-track { background: transparent; }
+
+/* Visible, consistent keyboard focus */
+.pf-focusable:focus-visible,
+.pf-btn:focus-visible,
+.pf-input:focus-visible,
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--pf-primary);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- Signature: the ember line ---------- */
+.pf-ember-line {
+  height: 2px;
+  border-radius: 99px;
+  background: var(--pf-ember-line);
+}
+
+/* ---------- Keyframe library ---------- */
+@keyframes pf-fade-up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes pf-pop-in { from { opacity: 0; transform: scale(0.96) translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes pf-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pf-shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+@keyframes pf-spin { to { transform: rotate(360deg); } }
+
+.pf-fade-up { animation: pf-fade-up 360ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* ---------- Buttons ---------- */
+.pf-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font-family: var(--pf-font); font-size: 14px; font-weight: 600; line-height: 1;
+  padding: 11px 18px; border-radius: 10px; border: 1px solid transparent;
+  cursor: pointer; white-space: nowrap; text-decoration: none; user-select: none;
+  transition: background var(--pf-fast), border-color var(--pf-fast),
+              box-shadow var(--pf-fast), transform var(--pf-fast), color var(--pf-fast);
+}
+.pf-btn:active { transform: translateY(1px) scale(0.99); }
+.pf-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+.pf-btn-primary {
+  background: linear-gradient(180deg, #2e6bf2 0%, var(--pf-primary-deep) 100%);
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 1px 2px rgba(16, 24, 40, 0.2), 0 8px 18px -8px rgba(37, 99, 235, 0.55);
+}
+.pf-btn-primary:hover { filter: brightness(1.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 2px 4px rgba(16,24,40,0.2), 0 12px 24px -8px rgba(37, 99, 235, 0.6); }
+
+.pf-btn-ember {
+  background: linear-gradient(180deg, #f6a41c 0%, var(--pf-ember-deep) 100%);
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 1px 2px rgba(16, 24, 40, 0.2), 0 8px 18px -8px rgba(217, 119, 6, 0.55);
+}
+.pf-btn-ember:hover { filter: brightness(1.05); }
+
+.pf-btn-ghost {
+  background: var(--pf-card); color: var(--pf-text-2); border-color: var(--pf-line-strong);
+  box-shadow: var(--pf-shadow-xs);
+}
+.pf-btn-ghost:hover { background: #f8fafd; border-color: #c6d2e3; color: var(--pf-text); }
+
+.pf-btn-danger {
+  background: linear-gradient(180deg, #e5453a 0%, #d92d20 100%); color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 8px 18px -8px rgba(217, 45, 32, 0.5);
+}
+.pf-btn-danger:hover { filter: brightness(1.06); }
+
+.pf-btn-sm { padding: 8px 13px; font-size: 13px; border-radius: 8px; }
+.pf-btn-lg { padding: 14px 22px; font-size: 15px; border-radius: 12px; }
+
+/* ---------- Inputs ---------- */
+.pf-label {
+  display: block; font-size: 12px; font-weight: 600; letter-spacing: 0.02em;
+  color: var(--pf-text-2); margin-bottom: 7px;
+}
+.pf-input, .pf-select, .pf-textarea {
+  width: 100%; box-sizing: border-box; font-family: var(--pf-font);
+  font-size: 14px; color: var(--pf-text);
+  background: var(--pf-card); border: 1px solid var(--pf-line-strong);
+  border-radius: 10px; padding: 11px 14px;
+  transition: border-color var(--pf-fast), box-shadow var(--pf-fast), background var(--pf-fast);
+  box-shadow: var(--pf-shadow-xs);
+}
+.pf-input::placeholder, .pf-textarea::placeholder { color: var(--pf-text-3); }
+.pf-input:hover, .pf-select:hover, .pf-textarea:hover { border-color: #c1cde0; }
+.pf-input:focus, .pf-select:focus, .pf-textarea:focus {
+  outline: none; border-color: var(--pf-primary); box-shadow: var(--pf-ring);
+}
+
+/* ---------- Cards ---------- */
+.pf-card {
+  background: var(--pf-card);
+  border: 1px solid var(--pf-line);
+  border-radius: var(--pf-r-lg);
+  box-shadow: var(--pf-shadow-sm);
+}
+.pf-card-hover { transition: box-shadow var(--pf-med), transform var(--pf-med), border-color var(--pf-med); }
+.pf-card-hover:hover { transform: translateY(-2px); box-shadow: var(--pf-shadow-md); border-color: var(--pf-line-strong); }
+
+/* ---------- Status pills ---------- */
+.pf-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 0.02em;
+  padding: 4px 10px; border-radius: 99px; white-space: nowrap;
+  border: 1px solid transparent;
+}
+.pf-pill::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: 0.85; }
+.pf-pill-green { background: var(--pf-green-bg); color: var(--pf-green); border-color: var(--pf-green-ln); }
+.pf-pill-amber { background: var(--pf-amber-bg); color: var(--pf-amber); border-color: var(--pf-amber-ln); }
+.pf-pill-red   { background: var(--pf-red-bg);   color: var(--pf-red);   border-color: var(--pf-red-ln); }
+.pf-pill-blue  { background: var(--pf-blue-bg);  color: var(--pf-blue);  border-color: var(--pf-blue-ln); }
+.pf-pill-grey  { background: var(--pf-grey-bg);  color: var(--pf-grey);  border-color: var(--pf-grey-ln); }
+
+/* ---------- Modal ---------- */
+.pf-modal-backdrop {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(11, 21, 38, 0.5);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+  animation: pf-fade 180ms ease both;
+}
+.pf-modal {
+  background: var(--pf-card); width: 100%; max-width: 400px;
+  border-radius: var(--pf-r-lg); border: 1px solid var(--pf-line);
+  box-shadow: var(--pf-shadow-lg); padding: 28px; text-align: center;
+  animation: pf-pop-in 240ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.pf-modal-icon {
+  width: 48px; height: 48px; border-radius: 14px; margin: 0 auto 16px;
+  display: flex; align-items: center; justify-content: center; font-size: 20px;
+}
+.pf-modal h3 { margin: 0 0 10px; font-family: var(--pf-display); font-size: 18px; font-weight: 700; color: var(--pf-text); }
+.pf-modal p { margin: 0 0 22px; font-size: 14px; line-height: 1.55; color: var(--pf-text-2); }
+.pf-modal-actions { display: flex; gap: 10px; }
+.pf-modal-actions .pf-btn { flex: 1; }
+
+/* ---------- Skeleton shimmer ---------- */
+.pf-skeleton {
+  border-radius: 8px;
+  background: linear-gradient(90deg, #eef1f7 25%, #f7f9fc 50%, #eef1f7 75%);
+  background-size: 200% 100%;
+  animation: pf-shimmer 1.4s linear infinite;
+}
+
+/* ---------- Spinner ---------- */
+.pf-spinner {
+  border-radius: 50%;
+  border: 3px solid rgba(37, 99, 235, 0.15);
+  border-top-color: var(--pf-primary);
+  animation: pf-spin 700ms linear infinite;
+}
+
+/* ---------- Utility ---------- */
+.pf-display { font-family: var(--pf-display); letter-spacing: -0.02em; }
+.pf-tnum { font-variant-numeric: tabular-nums; }
+
+/* ============================================================
+   DARK THEME — applied via <html data-theme="dark">.
+   The admin + company portals and all auth pages run on these
+   tokens, so remapping them here re-skins those surfaces
+   wholesale. Targeted overrides below catch the few hardcoded
+   colors. The public marketing site stays light by design.
+   ============================================================ */
+[data-theme='dark'] {
+  --pf-page: #0a111f;
+  --pf-card: #101a2c;
+  --pf-line: #1c2940;
+  --pf-line-strong: #27364f;
+
+  --pf-text: #e8eef7;
+  --pf-text-2: #a8b7cc;
+  --pf-text-3: #6d7f99;
+
+  --pf-primary-soft: rgba(37, 99, 235, 0.16);
+  --pf-ember-soft: rgba(245, 158, 11, 0.12);
+
+  --pf-green-bg: rgba(21, 153, 87, 0.14);  --pf-green-ln: rgba(21, 153, 87, 0.35);  --pf-green: #4ade80;
+  --pf-amber-bg: rgba(245, 158, 11, 0.13); --pf-amber-ln: rgba(245, 158, 11, 0.35); --pf-amber: #fbbf24;
+  --pf-red-bg: rgba(217, 45, 32, 0.14);    --pf-red-ln: rgba(217, 45, 32, 0.38);    --pf-red: #f87171;
+  --pf-blue-bg: rgba(37, 99, 235, 0.15);   --pf-blue-ln: rgba(37, 99, 235, 0.4);    --pf-blue: #7ca6f8;
+  --pf-grey-bg: rgba(120, 140, 170, 0.12); --pf-grey-ln: rgba(120, 140, 170, 0.3);  --pf-grey: #9aacc4;
+
+  --pf-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --pf-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35), 0 6px 18px -8px rgba(0, 0, 0, 0.5);
+  --pf-shadow-md: 0 2px 4px rgba(0, 0, 0, 0.4), 0 14px 34px -14px rgba(0, 0, 0, 0.6);
+  --pf-shadow-lg: 0 8px 10px -6px rgba(0, 0, 0, 0.45), 0 28px 60px -18px rgba(0, 0, 0, 0.7);
+
+  color-scheme: dark;
+}
+
+/* --- Hardcoded-color catches: admin/client chrome --- */
+[data-theme='dark'] .db-layout-container, [data-theme='dark'] .ma-layout-container,
+[data-theme='dark'] .mc-layout-container, [data-theme='dark'] .mjp-layout-container,
+[data-theme='dark'] .ra-layout-container {
+  background: radial-gradient(900px 420px at 85% -10%, rgba(37, 99, 235, 0.07), transparent 60%), var(--pf-page);
+}
+[data-theme='dark'] .db-top-navbar, [data-theme='dark'] .ma-top-navbar,
+[data-theme='dark'] .mc-top-navbar, [data-theme='dark'] .mjp-top-navbar,
+[data-theme='dark'] .ra-top-navbar {
+  background: rgba(16, 26, 44, 0.85);
+}
+[data-theme='dark'] .visily-data-table th, [data-theme='dark'] .ma-data-table th,
+[data-theme='dark'] .mc-data-table th, [data-theme='dark'] .mjp-data-table th,
+[data-theme='dark'] .ma-table-footer, [data-theme='dark'] .table-footer-pagination {
+  background: #0d1626;
+}
+[data-theme='dark'] .visily-data-table td, [data-theme='dark'] .ma-data-table td,
+[data-theme='dark'] .mc-data-table td, [data-theme='dark'] .mjp-data-table td,
+[data-theme='dark'] .cp-list-row, [data-theme='dark'] .cp-job-row {
+  border-bottom-color: var(--pf-line);
+}
+[data-theme='dark'] .visily-data-table tbody tr:hover, [data-theme='dark'] .ma-data-table tbody tr:hover,
+[data-theme='dark'] .mc-data-table tbody tr:hover, [data-theme='dark'] .mjp-data-table tbody tr:hover,
+[data-theme='dark'] .cp-list-row:hover, [data-theme='dark'] .cp-job-row:hover {
+  background: rgba(37, 99, 235, 0.07);
+}
+[data-theme='dark'] .pf-btn-ghost:hover,
+[data-theme='dark'] .secondary-outline-action-btn:hover, [data-theme='dark'] .export-csv-btn:hover,
+[data-theme='dark'] .export-btn:hover, [data-theme='dark'] .view-analytics-btn:hover,
+[data-theme='dark'] .ra-btn-secondary:hover, [data-theme='dark'] .guide-view-doc-btn:hover,
+[data-theme='dark'] .back-btn:hover {
+  background: #16233a; border-color: #33445f; color: var(--pf-text);
+}
+[data-theme='dark'] .ma-pro-tip-box, [data-theme='dark'] .mc-guide-info-box,
+[data-theme='dark'] .cp-tip-box {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(245, 158, 11, 0.08) 100%);
+  border-color: rgba(37, 99, 235, 0.25);
+}
+[data-theme='dark'] .pf-skeleton {
+  background: linear-gradient(90deg, #16233a 25%, #1d2c46 50%, #16233a 75%);
+  background-size: 200% 100%;
+}
+[data-theme='dark'] .search-bar-wrapper input, [data-theme='dark'] .search-input-box,
+[data-theme='dark'] .filter-dropdown-box {
+  background: #0d1626; color: var(--pf-text);
+}
+[data-theme='dark'] .search-bar-wrapper input:focus, [data-theme='dark'] .search-input-box:focus {
+  background: var(--pf-card);
+}
+[data-theme='dark'] .pf-modal-backdrop { background: rgba(2, 6, 14, 0.66); }
+[data-theme='dark'] .donut-inner-circle { background: var(--pf-card); }
+
+/* --- Auth pages (right panel + card run on tokens; left panel is ink already) --- */
+[data-theme='dark'] .right-panel {
+  background: radial-gradient(760px 380px at 90% 0%, rgba(37, 99, 235, 0.07), transparent 60%), var(--pf-page);
+}
+[data-theme='dark'] .divider span, [data-theme='dark'] .divider-line span { background: var(--pf-card); }
+
+/* ============================================================
+   Student portal dark pass — scoped to .student-scope so the
+   marketing site (same Tailwind utilities) stays light.
+   Overrides the recurring utility classes used across the
+   student pages. Broad strokes, but coherent with the tokens.
+   ============================================================ */
+[data-theme='dark'] .student-scope { background: var(--pf-page); }
+[data-theme='dark'] .student-scope .bg-white { background-color: var(--pf-card) !important; }
+[data-theme='dark'] .student-scope .bg-white\/85 { background-color: rgba(16, 26, 44, 0.85) !important; }
+[data-theme='dark'] .student-scope .bg-\[\#F8FAFC\],
+[data-theme='dark'] .student-scope .bg-slate-50,
+[data-theme='dark'] .student-scope .bg-slate-100 { background-color: #0d1626 !important; }
+[data-theme='dark'] .student-scope .bg-sky-100 { background-color: rgba(37, 99, 235, 0.16) !important; }
+[data-theme='dark'] .student-scope .text-sky-700 { color: #7ca6f8 !important; }
+[data-theme='dark'] .student-scope .text-\[\#0F172A\],
+[data-theme='dark'] .student-scope .text-slate-700,
+[data-theme='dark'] .student-scope .text-slate-800,
+[data-theme='dark'] .student-scope .text-slate-900 { color: var(--pf-text) !important; }
+[data-theme='dark'] .student-scope .text-slate-500,
+[data-theme='dark'] .student-scope .text-slate-600 { color: var(--pf-text-2) !important; }
+[data-theme='dark'] .student-scope .text-slate-400 { color: var(--pf-text-3) !important; }
+[data-theme='dark'] .student-scope .border-slate-100,
+[data-theme='dark'] .student-scope .border-slate-200,
+[data-theme='dark'] .student-scope .border-slate-200\/80 { border-color: var(--pf-line) !important; }
+[data-theme='dark'] .student-scope input,
+[data-theme='dark'] .student-scope select,
+[data-theme='dark'] .student-scope textarea {
+  background-color: #0d1626; color: var(--pf-text); border-color: var(--pf-line-strong);
+}
+[data-theme='dark'] .student-scope input::placeholder,
+[data-theme='dark'] .student-scope textarea::placeholder { color: var(--pf-text-3); }
+[data-theme='dark'] .student-scope .bg-red-50 { background-color: var(--pf-red-bg) !important; }
+[data-theme='dark'] .student-scope .text-red-600 { color: var(--pf-red) !important; }
+[data-theme='dark'] .student-scope .shadow-soft,
+[data-theme='dark'] .student-scope .shadow-lift { box-shadow: var(--pf-shadow-sm) !important; }
+
+/* ---- Success celebration badge (ConfettiBurst) ---- */
+@keyframes cb-check-draw { from { stroke-dashoffset: 90; } to { stroke-dashoffset: 0; } }
+@keyframes cb-ring-expand {
+  0% { transform: scale(0.4); opacity: 0.55; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+.cb-check {
+  stroke-dasharray: 90;
+  stroke-dashoffset: 90;
+  animation: cb-check-draw 500ms cubic-bezier(0.65, 0, 0.35, 1) 180ms forwards;
+}
+.cb-ring, .cb-ring-2 {
+  position: absolute; inset: 0; border-radius: 50%;
+  border: 3px solid #f59e0b;
+  animation: cb-ring-expand 900ms ease-out forwards;
+}
+.cb-ring-2 { border-color: #2563eb; animation-delay: 180ms; }

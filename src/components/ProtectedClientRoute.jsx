@@ -1,0 +1,12 @@
+import React from 'react';
+import { Navigate } from 'react-router-dom';
+
+function ProtectedClientRoute({ children }) {
+  const token = sessionStorage.getItem('client_token');
+  if (!token) {
+    return <Navigate to="/company/login" replace />;
+  }
+  return children;
+}
+
+export default ProtectedClientRoute;
