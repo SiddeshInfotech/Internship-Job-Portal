@@ -224,11 +224,8 @@ function CompanyLogin() {
                     id="remember" 
                     checked={remember} 
                     onChange={(e) => setRemember(e.target.checked)} 
-                    className="peer appearance-none w-5 h-5 border-2 border-slate-300 rounded-md checked:bg-blue-600 checked:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/20 transition-all cursor-pointer"
+                    className="pf-check sm"
                   />
-                  <svg className="absolute w-3 h-3 text-white pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity" viewBox="0 0 14 10" fill="none">
-                    <path d="M1 5L4.5 8.5L13 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
                 </div>
                 <label htmlFor="remember" className="text-sm font-medium text-slate-600 cursor-pointer select-none">
                   Remember my session for 30 days

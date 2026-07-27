@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PasswordStrength from '../../components/PasswordStrength';
 import { useNavigate } from 'react-router-dom';
 import clientAxios from '../../api/clientAxios';
 import ClientTopNavbar from '../../components/ClientTopNavbar';
@@ -10,7 +11,7 @@ function ClientSettings() {
   const [tab, setTab] = useState('password');
 
   return (
-    <main className="modern-settings-page">
+    <main className="modern-settings-page client-scope">
       {/* 
         INJECTED STYLES FOR ENHANCED UI & ANIMATIONS
         This ensures the page looks beautiful and animated without altering your external CSS.
@@ -391,6 +392,7 @@ function ChangePasswordPanel() {
       <div className="st-field">
         <label className="st-label">New Password</label>
         <PwInput value={next} onChange={setNext} placeholder="Enter your new password" />
+        <PasswordStrength password={next} />
         <p style={{ margin: '8px 0 0', fontSize: '0.8rem', color: 'var(--st-text-muted)' }}>
           Use at least 8 characters with a mix of letters, numbers and symbols.
         </p>

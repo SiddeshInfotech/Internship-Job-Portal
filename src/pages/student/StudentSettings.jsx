@@ -4,6 +4,7 @@ import studentAxios from '../../api/studentAxios';
 import { uploadToCloudinary } from '../../utils/uploadToCloudinary';
 import { useToast } from '../../context/ToastContext';
 import StudentSubTabs from '../../components/student/StudentSubTabs';
+import PasswordStrength from '../../components/PasswordStrength';
 import { 
   FiCamera, FiAlertCircle, FiCheckCircle, FiUser, 
   FiAward, FiBriefcase, FiLock, FiBookOpen, FiShield 
@@ -150,7 +151,7 @@ function StudentSettings() {
         .delay-300 { animation-delay: 300ms; }
       `}</style>
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 bg-[#FAFAFA] min-h-screen">
+      <main className="student-scope max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 bg-[#FAFAFA] min-h-screen">
         {loading ? (
           <div className="flex flex-col items-center justify-center py-32 space-y-4">
             <div className="w-10 h-10 border-4 border-blue-100 border-t-blue-600 rounded-full animate-spin"></div>
@@ -289,6 +290,7 @@ function StudentSettings() {
                     <div className="relative">
                       <FiLock className="absolute left-4 top-3.5 text-slate-400" />
                       <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className={`${inputCls} pl-10`} required placeholder="••••••••" />
+                      <PasswordStrength password={newPassword} />
                     </div>
                   </Field>
                   <Field label="Confirm Password">

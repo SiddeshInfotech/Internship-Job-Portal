@@ -90,7 +90,7 @@ function AdminDashboard() {
         }
       `}</style>
 
-      <div className="flex h-screen bg-[#F8FAFC] font-sans overflow-hidden">
+      <div className="admin-scope flex h-screen bg-[#F8FAFC] font-sans overflow-hidden">
         
         {/* Mobile Menu Overlay */}
         {isMobileMenuOpen && (
@@ -172,7 +172,7 @@ function AdminDashboard() {
           </header>
 
           {/* Main Dynamic Content Area */}
-          <main className="flex-1 overflow-y-auto bg-[#F8FAFC] relative">
+          <main className="admin-main flex-1 overflow-y-auto bg-[#F8FAFC] relative">
             {/* Subtle Gradient Background Effect for the Main View */}
             <div className="absolute top-0 left-0 right-0 h-64 bg-gradient-to-b from-blue-50/50 to-transparent pointer-events-none -z-10" />
             

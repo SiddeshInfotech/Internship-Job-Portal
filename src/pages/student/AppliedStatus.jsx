@@ -79,7 +79,7 @@ function AppliedStatus() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] pb-24 font-sans selection:bg-blue-100 selection:text-blue-900">
+    <div className="student-scope min-h-screen bg-[#FAFAFA] pb-24 font-sans selection:bg-blue-100 selection:text-blue-900">
       <StudentSubTabs />
       
       {/* Decorative Top Gradient */}

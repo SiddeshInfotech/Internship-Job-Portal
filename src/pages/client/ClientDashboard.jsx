@@ -98,7 +98,7 @@ function ClientDashboard() {
         .delay-300 { animation-delay: 300ms; }
       `}</style>
 
-      <div className="min-h-screen bg-slate-50/50 pb-16 font-sans">
+      <div className="min-h-screen bg-slate-50/50 pt-4 pb-16 font-sans">
         <ClientTopNavbar title="Dashboard" />
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">

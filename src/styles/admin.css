@@ -160,18 +160,25 @@
 .db-top-navbar, .ma-top-navbar, .mc-top-navbar, .mjp-top-navbar, .ra-top-navbar {
   display: flex; justify-content: space-between; align-items: center;
   gap: 18px;
-  margin: 0 0 24px;
-  padding: 13px 18px;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  padding: 14px 20px;
+  background: var(--pf-card);
   border: 1px solid var(--pf-line);
   border-radius: var(--pf-r-lg);
   box-shadow: var(--pf-shadow-sm);
+  /* Pin to the top of the scrolling content area with a small gap. Solid
+     background (not translucent) so scrolling content is fully hidden
+     behind it. Works in both the admin and company portals. */
   position: sticky; top: 12px; z-index: 50;
+  margin: 0 0 24px;
+}
+@media (max-width: 640px) {
+  .db-top-navbar, .ma-top-navbar, .mc-top-navbar, .mjp-top-navbar, .ra-top-navbar {
+    top: 8px; padding: 12px 14px;
+  }
 }
 [data-theme='dark'] .db-top-navbar, [data-theme='dark'] .ma-top-navbar,
 [data-theme='dark'] .mc-top-navbar, [data-theme='dark'] .mjp-top-navbar,
-[data-theme='dark'] .ra-top-navbar { background: rgba(16, 26, 44, 0.92); }
+[data-theme='dark'] .ra-top-navbar { background: rgba(16, 26, 44, 0.96); }
 .nav-left-title {
   margin: 0;
   font-family: var(--pf-display);
@@ -711,11 +718,6 @@
 /* .btn-view relies on the base .action-icon-btn hover (blue) — intentional */
 
 /* Keep the toolbar (and its bell dropdown) above page cards */
-.db-top-navbar, .ma-top-navbar, .mc-top-navbar, .mjp-top-navbar, .ra-top-navbar {
-  position: relative;
-  z-index: 50;
-}
-
 /* Recent Applications table — tighten so columns don't wrap awkwardly
    inside the narrow dashboard grid column */
 .db-recent-applications-card .visily-data-table,

@@ -150,7 +150,7 @@ function JobsPosted() {
         .delay-200 { animation-delay: 200ms; }
       `}</style>
 
-      <div className="min-h-screen bg-slate-50/80 pb-16 font-sans text-slate-900 relative overflow-hidden">
+      <div className="min-h-screen bg-slate-50/80 pt-4 pb-16 font-sans text-slate-900 relative overflow-hidden">
         <ClientTopNavbar title="Jobs Posted" />
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">

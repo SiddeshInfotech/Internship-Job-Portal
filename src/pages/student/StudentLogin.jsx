@@ -225,7 +225,7 @@ function StudentLogin() {
                     <button 
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-slate-400 hover:text-blue-600 transition-colors rounded-lg hover:bg-blue-50 focus:outline-none"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none bg-transparent"
                       aria-label={showPassword ? "Hide password" : "Show password"}
                     >
                       {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
@@ -241,9 +241,8 @@ function StudentLogin() {
                       id="remember" 
                       checked={remember} 
                       onChange={(e) => setRemember(e.target.checked)}
-                      className="peer w-[18px] h-[18px] cursor-pointer appearance-none rounded-[5px] border-2 border-slate-400 bg-white checked:bg-blue-600 checked:border-blue-600 transition-all"
+                      className="pf-check sm"
                     />
-                    <FiCheckCircle size={12} className="absolute left-[3px] top-[3px] text-white pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity" />
                   </div>
                   <label htmlFor="remember" className="text-sm font-semibold text-slate-600 cursor-pointer select-none">
                     Remember me

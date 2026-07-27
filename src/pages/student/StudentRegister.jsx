@@ -3,6 +3,7 @@ import '../CompanyRegister.css'; // Kept for safety, though UI uses modern utili
 import { Link, useNavigate } from "react-router-dom";
 import studentAxios from "../../api/studentAxios";
 import BackToWebsite from "../../components/BackToWebsite";
+import PasswordStrength from "../../components/PasswordStrength";
 import { 
   FiUser, 
   FiMail, 
@@ -306,7 +307,7 @@ function StudentRegister() {
                         type={showPassword ? "text" : "password"} value={form.password} onChange={update('password')} placeholder="Min. 8 characters" minLength={8} required
                         className="w-full pl-12 pr-12 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
                       />
-                      <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors rounded-xl focus:outline-none">
+                      <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none bg-transparent">
                         {showPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
                       </button>
                     </div>
@@ -323,7 +324,7 @@ function StudentRegister() {
                         type={showConfirmPassword ? "text" : "password"} value={form.confirmPassword} onChange={update('confirmPassword')} placeholder="Repeat password" required
                         className="w-full pl-12 pr-12 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
                       />
-                      <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors rounded-xl focus:outline-none">
+                      <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none bg-transparent">
                         {showConfirmPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
                       </button>
                     </div>
@@ -417,12 +418,7 @@ function StudentRegister() {
                       type="checkbox"
                       id="terms"
                       required
-                      className="peer w-[22px] h-[22px] cursor-pointer appearance-none rounded-[6px] border-2 border-slate-400 bg-white hover:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-600/20 checked:bg-blue-600 checked:border-blue-600 transition-all duration-200"
-                    />
-                    <FiCheck
-                      size={14}
-                      strokeWidth={3}
-                      className="absolute left-[4px] top-[4px] text-white pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity"
+                      className="pf-check"
                     />
                   </div>
                   <label htmlFor="terms" className="text-sm font-semibold text-slate-700 cursor-pointer select-none leading-snug">
