@@ -108,10 +108,11 @@ function CompanyLogin() {
               <input type="checkbox" id="remember" />
               <label htmlFor="remember">Remember my session for 30 days</label>
             </div>
-
-            <button type="submit" className="login-btn">
+           <Link to="/admin" style={{textDecoration:'none'}}>
+            <button type="button" className="login-btn">
               Log in to Dashboard <span>&gt;</span>
             </button>
+           </Link>
           </form>
 
           <div className="divider">

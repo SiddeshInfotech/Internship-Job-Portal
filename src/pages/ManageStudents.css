@@ -1,0 +1,220 @@
+/* -----------------------------------------------------------
+   📦 1. MAIN SYSTEM LAYOUT WRAPPER
+----------------------------------------------------------- */
+.stud-layout-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
+}
+
+.stud-header-title-bar h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+/* 📋 2. CONTAINER CARD FOR FILTER & TABLE */
+.stud-table-card-wrapper {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  width: 100%;
+}
+
+.stud-table-action-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.stud-left-filter-cluster {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.stud-inline-search-input {
+  position: relative;
+  max-width: 380px;
+  width: 100%;
+}
+
+.stud-inline-search-input input {
+  width: 100%;
+  padding: 10px 14px 10px 38px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  font-size: 14px;
+  outline: none;
+}
+
+.stud-input-lens {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+}
+
+.stud-inline-dropdown-select {
+  padding: 9px 14px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #475569;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.stud-orange-action-cta-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background-color: #ea580c;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.stud-orange-action-cta-btn:hover {
+  background-color: #c2410c;
+}
+
+/* 📊 3. DATA GRID STRUCTURE */
+.stud-table-responsive-scroller {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.visily-stud-grid-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 14px;
+  min-width: 900px;
+}
+
+.visily-stud-grid-table th {
+  border-bottom: 2px solid #f1f5f9;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 14px 12px;
+}
+
+.visily-stud-grid-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.stud-cell-identity-layout {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stud-cell-logo-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #e2e8f0;
+  flex-shrink: 0;
+}
+
+.stud-cell-text-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.stud-cell-main-title {
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.stud-cell-sub-caption {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+.stud-cell-standard-text { color: #334155; }
+.stud-cell-standard-text.font-medium { font-weight: 500; color: #1e293b;}
+.stud-cell-standard-text.text-slate { color: #64748b; }
+
+/* Status Labels */
+.stud-pill-badge-status {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-block;
+  text-transform: uppercase;
+}
+.stud-pill-badge-status.active { background-color: #e6f4ea; color: #137333; }
+.stud-pill-badge-status.blocked { background-color: #fce8e6; color: #c5221f; }
+
+.stud-cell-actions-flex-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.stud-action-glyph {
+  cursor: pointer;
+  font-size: 14px;
+  color: #94a3b8;
+  transition: color 0.2s;
+}
+.stud-action-glyph:hover { color: #475569; }
+.stud-action-glyph.view:hover { color: #3b82f6; }
+.stud-action-glyph.delete:hover { color: #ef4444; }
+
+/* 🔢 4. FOOTER PAGINATION */
+.stud-table-pagination-footer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.stud-pagination-counter-label { font-size: 13px; color: #64748b; }
+.stud-pagination-controls-stack { display: flex; align-items: center; gap: 4px; }
+
+.stud-page-num-btn, .stud-arrow-step-btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #64748b;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.stud-page-num-btn.state-active {
+  background-color: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+  font-weight: 600;
+}
+
+.stud-pagination-ellipsis {
+  padding: 0 4px;
+  color: #94a3b8;
+}

@@ -1,0 +1,461 @@
+/* 🏢 CORE CONTAINER SETUP */
+.rep-analytics-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-sizing: border-box;
+  background-color: transparent;
+}
+
+/* 🔝 TOP HEADER BAR CONTENT FONT SYNC */
+.rep-main-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rep-main-header-flex h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.rep-search-bar-wrapper input {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid #cbd5e1;
+  font-size: 13px;
+  width: 240px;
+  outline: none;
+  background-color: #ffffff;
+}
+
+/* 📈 STEP 1: TOP PANEL STRUCTURE SPLIT ROW (METRICS ROW) */
+.rep-top-dashboard-split-row {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 20px;
+}
+
+.rep-stats-triple-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.rep-counter-box-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.rep-box-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  letter-spacing: 0.5px;
+  margin: 0 0 8px 0;
+}
+
+.rep-data-numeric-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.rep-data-numeric-row h3 {
+  font-size: 26px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+}
+
+.rep-rate-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.rep-rate-badge.upward {
+  color: #16a34a;
+  background-color: #f0fdf4;
+}
+
+.rep-peak-timeline-flag {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* 🚨 STEP 2: TOP RIGHT CORNER STATUS ROW DETAIL BLOCKS */
+.rep-status-overview-panel-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  box-sizing: border-box;
+}
+
+.rep-pill-info-row {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+}
+
+.rep-status-indicator-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+.red-dot-marker { background-color: #dc2626; }
+.blue-dot-marker { background-color: #2563eb; }
+
+.rep-pill-label { color: #64748b; margin-right: 6px; font-weight: 500;}
+.rep-pill-count-value { color: #0f172a; font-weight: 700; }
+
+/* 🔄 STEP 3: CORE COMPONENT BLOCK WORKSPACE CARDS SETUP (MIDDLE ROW SPLIT) */
+.rep-charts-equalizer-layout-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.rep-workspace-card-panel {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.rep-panel-header-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.rep-panel-header-toolbar h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 4px 0;
+}
+
+.rep-muted-sub-label {
+  font-size: 12px;
+  color: #64748b;
+  margin: 0;
+}
+
+.rep-contextual-menu-trigger {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  color: #94a3b8;
+  cursor: pointer;
+}
+
+/* 📊 STEP 4: MONTHLY BAR GRAPH VIEW RENDERS CODE FIXES */
+.rep-utility-actions-flex-strip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rep-action-download-btn {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+}
+
+.rep-bar-chart-graphics-engine-box {
+  display: flex;
+  gap: 16px;
+  height: 240px;
+}
+
+.rep-axis-ticks-y-labels {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 500;
+  text-align: right;
+  width: 24px;
+  padding-bottom: 24px;
+}
+
+.rep-bars-viewport-render-track {
+  flex: 1;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 24px;
+  box-sizing: border-box;
+}
+
+.rep-individual-column-track {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+  width: 40px;
+  position: relative;
+}
+
+.rep-solid-colored-bar {
+  width: 100%;
+  background-color: #1d4ed8;
+  border-radius: 6px 6px 0 0;
+  position: relative;
+}
+
+.rep-floating-tooltip {
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: 700;
+  background-color: #0f172a;
+  color: #ffffff;
+  padding: 2px 4px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.rep-individual-column-track:hover .rep-floating-tooltip { opacity: 1; }
+
+.rep-coordinate-label-x {
+  position: absolute;
+  bottom: -20px;
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* 🍩 STEP 5: STATUS BREAKDOWN DOUGHNUT CONTAINER SYNC CODE */
+.rep-donut-chart-graphic-frame-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 140px;
+  margin-bottom: 20px;
+}
+
+.rep-conic-gradient-pie-ring {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: conic-gradient(#16a34a 0% 35%, #eab308 35% 60%, #dc2626 60% 80%, #2563eb 80% 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rep-inner-mask-hole-core {
+  width: 90px;
+  height: 90px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.rep-inner-mask-hole-core h3 {
+  font-size: 20px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+}
+
+.rep-inner-mask-hole-core p {
+  font-size: 9px;
+  font-weight: 700;
+  color: #94a3b8;
+  margin: 2px 0 0 0;
+}
+
+.rep-donut-legends-vertical-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rep-legend-item-alignment-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+}
+
+.rep-legend-left-inline-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rep-legend-color-box-dot { width: 10px; height: 10px; border-radius: 3px; }
+.rep-legend-title-string { color: #475569; font-weight: 500; }
+.rep-legend-numeric-value { color: #0f172a; font-weight: 700; }
+
+/* 📉 STEP 6: FULL PANEL WIDTH FOR STRATEGIC TRENDS LINE GRAPH (BOTTOM ROW) */
+.rep-full-width-trends-card-wrapper {
+  width: 100%; /* Pura span cover karega bina crash huye */
+}
+
+.rep-graph-chips-filter-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.rep-toggle-filter-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.rep-color-chip-bullet { width: 8px; height: 8px; border-radius: 50%; }
+.blue-bullet-marker { background-color: #2563eb; }
+.orange-bullet-marker { background-color: #ea580c; }
+
+.rep-linear-graph-viewport-layout {
+  display: flex;
+  gap: 16px;
+  height: 200px;
+  margin-top: 12px;
+  margin-bottom: 24px;
+  box-sizing: border-box;
+}
+
+.rep-linear-y-axis-ticks-labels {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: right;
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 500;
+  width: 24px;
+  padding-bottom: 24px;
+}
+
+.rep-matrix-background-grid-lines {
+  flex: 1;
+  border-bottom: 1px solid #e2e8f0;
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.rep-matrix-grid-line-item {
+  width: 100%;
+  height: 1px;
+  background-color: #f1f5f9;
+}
+
+.rep-responsive-vector-svg-viewport {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 24px);
+  overflow: visible;
+}
+
+.rep-linear-x-axis-timeline-labels-row {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 500;
+  padding-top: 6px;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* ⚙️ STEP 7: BOTTOM ANALYTICS ELEMENT SUB STRIP */
+.rep-bottom-analytics-metric-dashboard-strip {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1fr;
+  gap: 16px;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 20px;
+  margin-top: 10px;
+}
+
+.rep-footer-status-block-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rep-footer-cell-dim-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+  letter-spacing: 0.3px;
+}
+
+.rep-footer-block-label-title-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #475569;
+}
+
+.rep-footer-status-block-cell h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.rep-footer-status-block-cell small {
+  font-size: 11px;
+  font-weight: 600;
+  margin-left: 4px;
+}
+.positive-text-trend { color: #16a34a; }
+.negative-text-trend { color: #dc2626; }
+
+/* 📱 RESPONSIVE ADJUSTMENTS FOR SMALLER SCREENS */
+@media (max-width: 1024px) {
+  .rep-top-dashboard-split-row { grid-template-columns: 1fr; }
+  .rep-charts-equalizer-layout-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .rep-stats-triple-grid { grid-template-columns: 1fr; }
+  .rep-bottom-analytics-metric-dashboard-strip { grid-template-columns: 1fr; gap: 12px; }
+}
