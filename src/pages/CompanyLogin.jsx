@@ -77,7 +77,7 @@ function CompanyLogin() {
         .hide-scrollbar::-webkit-scrollbar { display: none; }
       `}</style>
 
-      <div className="min-h-screen w-full flex bg-white overflow-hidden selection:bg-indigo-500 selection:text-white">
+      <div className="min-h-screen w-full flex bg-white overflow-hidden selection:bg-blue-600 selection:text-white">
         
         {/* Absolute Back Button */}
         <div className="absolute top-6 left-6 z-50 hover:scale-105 transition-transform duration-300">
@@ -87,8 +87,8 @@ function CompanyLogin() {
         {/* --- LEFT PANEL (Visuals & Features) - Hidden on Mobile --- */}
         <div className="hidden lg:flex lg:w-[45%] relative bg-slate-950 flex-col justify-between overflow-hidden">
           {/* Background Ambient Gradients */}
-          <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-indigo-600/30 rounded-full blur-[120px] pointer-events-none" style={{ animation: 'pulseGlow 8s ease-in-out infinite' }} />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-violet-600/20 rounded-full blur-[120px] pointer-events-none" style={{ animation: 'pulseGlow 8s ease-in-out infinite 4s' }} />
+          <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-600/30 rounded-full blur-[120px] pointer-events-none" style={{ animation: 'pulseGlow 8s ease-in-out infinite' }} />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none" style={{ animation: 'pulseGlow 8s ease-in-out infinite 4s' }} />
 
           {/* Top Brand Section */}
           <div className="p-12 z-10 animate-fade-in opacity-0">
@@ -98,7 +98,7 @@ function CompanyLogin() {
               </div>
               <div>
                 <h1 className="text-3xl font-extrabold text-white tracking-tight">
-                  Placify<span className="text-indigo-500">.</span>
+                  Placify<span className="text-blue-600">.</span>
                 </h1>
                 <p className="text-[10px] font-bold text-slate-400 tracking-[0.2em] mt-0.5">
                   CONNECT • PREPARE • SUCCEED
@@ -107,7 +107,7 @@ function CompanyLogin() {
             </div>
 
             <h2 className="text-4xl leading-tight font-bold text-white mb-6 pr-8">
-              Find placement-ready <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-400">talent, faster.</span>
+              Find placement-ready <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-400">talent, faster.</span>
             </h2>
             <p className="text-lg text-slate-400 pr-12 leading-relaxed">
               Access a curated pool of pre-screened students and streamline your recruitment workflow with our intelligent placement portal.
@@ -125,7 +125,7 @@ function CompanyLogin() {
                 key={i} 
                 className={`flex items-start gap-4 p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm hover:bg-white/10 hover:translate-x-1 transition-all duration-300 opacity-0 animate-fade-in delay-${(i + 1) * 100}`}
               >
-                <div className="p-2.5 bg-indigo-500/20 text-indigo-400 rounded-xl mt-0.5">
+                <div className="p-2.5 bg-blue-600/20 text-blue-500 rounded-xl mt-0.5">
                   <feature.icon size={20} />
                 </div>
                 <div>
@@ -168,7 +168,7 @@ function CompanyLogin() {
               <div className="space-y-2">
                 <label className="text-sm font-bold text-slate-700">Company Email</label>
                 <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-indigo-600 transition-colors">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-600 transition-colors">
                     <FiMail size={18} />
                   </div>
                   <input 
@@ -177,7 +177,7 @@ function CompanyLogin() {
                     value={email} 
                     onChange={(e) => setEmail(e.target.value)} 
                     required 
-                    className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 text-slate-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all duration-300 font-medium placeholder:text-slate-400 placeholder:font-normal"
+                    className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 text-slate-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 focus:bg-white transition-all duration-300 font-medium placeholder:text-slate-400 placeholder:font-normal"
                   />
                 </div>
               </div>
@@ -186,12 +186,12 @@ function CompanyLogin() {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <label className="text-sm font-bold text-slate-700">Password</label>
-                  <Link to="/forgot" className="text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition-colors">
+                  <Link to="/forgot" className="text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors">
                     Forgot Password?
                   </Link>
                 </div>
                 <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-indigo-600 transition-colors">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-600 transition-colors">
                     <FiLock size={18} />
                   </div>
                   <input 
@@ -200,7 +200,7 @@ function CompanyLogin() {
                     value={password} 
                     onChange={(e) => setPassword(e.target.value)} 
                     required 
-                    className="w-full pl-11 pr-14 py-3.5 bg-slate-50 border border-slate-200 text-slate-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all duration-300 font-medium placeholder:text-slate-400 placeholder:font-normal"
+                    className="w-full pl-11 pr-14 py-3.5 bg-slate-50 border border-slate-200 text-slate-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 focus:bg-white transition-all duration-300 font-medium placeholder:text-slate-400 placeholder:font-normal"
                   />
                   
                   {/* UPGRADED Show/Hide Button */}
@@ -208,7 +208,7 @@ function CompanyLogin() {
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     title={showPassword ? "Hide password" : "Show password"}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-600/30"
                   >
                     {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
                   </button>
@@ -224,11 +224,8 @@ function CompanyLogin() {
                     id="remember" 
                     checked={remember} 
                     onChange={(e) => setRemember(e.target.checked)} 
-                    className="peer appearance-none w-5 h-5 border-2 border-slate-300 rounded-md checked:bg-indigo-600 checked:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all cursor-pointer"
+                    className="pf-check sm"
                   />
-                  <svg className="absolute w-3 h-3 text-white pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity" viewBox="0 0 14 10" fill="none">
-                    <path d="M1 5L4.5 8.5L13 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
                 </div>
                 <label htmlFor="remember" className="text-sm font-medium text-slate-600 cursor-pointer select-none">
                   Remember my session for 30 days
@@ -265,10 +262,10 @@ function CompanyLogin() {
             <div className="text-center">
               <Link 
                 to="/register" 
-                className="inline-flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-indigo-600 transition-colors group"
+                className="inline-flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-blue-600 transition-colors group"
               >
                 Register your company profile
-                <span className="group-hover:translate-x-1 transition-transform text-indigo-500">&rarr;</span>
+                <span className="group-hover:translate-x-1 transition-transform text-blue-600">&rarr;</span>
               </Link>
             </div>
 

@@ -96,12 +96,12 @@ function StudentResetPassword() {
           <div className="bg-white rounded-[2rem] border border-slate-200/80 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] p-8 sm:p-10 relative overflow-hidden">
             
             {/* Top Gradient Accent */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-500"></div>
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-blue-600"></div>
 
             {!success ? (
               <>
                 <div className="text-center mb-8">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-100 mx-auto mb-6 flex items-center justify-center text-indigo-600 shadow-sm">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-50 border border-blue-100 mx-auto mb-6 flex items-center justify-center text-blue-600 shadow-sm">
                     <FiLock size={28} />
                   </div>
                   <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">Set new password</h2>
@@ -121,11 +121,11 @@ function StudentResetPassword() {
                   
                   {/* New Password Input */}
                   <div className="space-y-1.5 group">
-                    <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block group-focus-within:text-indigo-600 transition-colors">
+                    <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block group-focus-within:text-blue-600 transition-colors">
                       New Password
                     </label>
                     <div className="relative">
-                      <FiLock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors" size={18} />
+                      <FiLock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
                       <input 
                         type={showNewPassword ? "text" : "password"} 
                         value={newPassword} 
@@ -133,12 +133,12 @@ function StudentResetPassword() {
                         required 
                         placeholder="Min. 8 characters"
                         minLength={8}
-                        className="w-full pl-11 pr-12 py-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 shadow-[0_2px_10px_rgb(0,0,0,0.01)] hover:border-slate-300"
+                        className="w-full pl-11 pr-12 py-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[0_2px_10px_rgb(0,0,0,0.01)] hover:border-slate-300"
                       />
                       <button 
                         type="button"
                         onClick={() => setShowNewPassword(!showNewPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-slate-400 hover:text-indigo-600 transition-colors rounded-lg focus:outline-none"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-slate-400 hover:text-blue-600 transition-colors rounded-lg focus:outline-none"
                         aria-label={showNewPassword ? "Hide password" : "Show password"}
                       >
                         {showNewPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
@@ -148,23 +148,23 @@ function StudentResetPassword() {
 
                   {/* Confirm Password Input */}
                   <div className="space-y-1.5 group">
-                    <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block group-focus-within:text-indigo-600 transition-colors">
+                    <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block group-focus-within:text-blue-600 transition-colors">
                       Confirm Password
                     </label>
                     <div className="relative">
-                      <FiLock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors" size={18} />
+                      <FiLock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
                       <input 
                         type={showConfirmPassword ? "text" : "password"} 
                         value={confirmPassword} 
                         onChange={(e) => setConfirmPassword(e.target.value)} 
                         required 
                         placeholder="Repeat your password"
-                        className="w-full pl-11 pr-12 py-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 shadow-[0_2px_10px_rgb(0,0,0,0.01)] hover:border-slate-300"
+                        className="w-full pl-11 pr-12 py-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[0_2px_10px_rgb(0,0,0,0.01)] hover:border-slate-300"
                       />
                       <button 
                         type="button"
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-slate-400 hover:text-indigo-600 transition-colors rounded-lg focus:outline-none"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-slate-400 hover:text-blue-600 transition-colors rounded-lg focus:outline-none"
                         aria-label={showConfirmPassword ? "Hide password" : "Show password"}
                       >
                         {showConfirmPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
@@ -176,7 +176,7 @@ function StudentResetPassword() {
                   <button 
                     type="submit" 
                     disabled={loading || !newPassword || !confirmPassword} 
-                    className="w-full py-4 mt-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-sm transition-all duration-300 shadow-[0_4px_14px_0_rgb(79,70,229,0.39)] hover:shadow-[0_6px_20px_rgba(79,70,229,0.23)] hover:-translate-y-0.5 disabled:opacity-70 disabled:pointer-events-none disabled:transform-none flex items-center justify-center gap-2"
+                    className="w-full py-4 mt-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm transition-all duration-300 shadow-[0_4px_14px_0_rgb(79,70,229,0.39)] hover:shadow-[0_6px_20px_rgba(79,70,229,0.23)] hover:-translate-y-0.5 disabled:opacity-70 disabled:pointer-events-none disabled:transform-none flex items-center justify-center gap-2"
                   >
                     {loading ? (
                       <>
@@ -202,7 +202,7 @@ function StudentResetPassword() {
                   {success}
                 </p>
                 <div className="flex justify-center">
-                   <div className="w-6 h-6 border-2 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
+                   <div className="w-6 h-6 border-2 border-indigo-200 border-t-blue-600 rounded-full animate-spin"></div>
                 </div>
               </div>
             )}
@@ -212,7 +212,7 @@ function StudentResetPassword() {
               <div className="mt-8 pt-6 border-t border-slate-100 text-center">
                 <Link 
                   to="/student/login" 
-                  className="inline-flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-indigo-600 transition-colors group"
+                  className="inline-flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-blue-600 transition-colors group"
                 >
                   <FiArrowLeft className="group-hover:-translate-x-1 transition-transform" size={16} />
                   Back to sign in

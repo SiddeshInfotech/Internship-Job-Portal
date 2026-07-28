@@ -111,7 +111,7 @@ function Resumes() {
             {/* Total Count Badge */}
             <div className="bg-white rounded-2xl px-5 py-3 border border-slate-200 shadow-sm flex items-center gap-3">
               <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Total Documents</span>
-              <span className="text-lg font-extrabold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-lg">
+              <span className="text-lg font-extrabold text-blue-600 bg-blue-50 px-3 py-1 rounded-lg">
                 {resumes.length}
               </span>
             </div>
@@ -137,7 +137,7 @@ function Resumes() {
           <div className="bg-white rounded-3xl border border-slate-200/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden animate-entrance delay-200 transition-all">
             {!showAddForm ? (
               <div className="p-10 text-center transition-colors duration-300 hover:bg-slate-50/50">
-                <div className="w-16 h-16 rounded-2xl mx-auto mb-5 flex items-center justify-center shadow-sm bg-gradient-to-br from-indigo-50 to-indigo-100/50 text-indigo-500 border border-indigo-100">
+                <div className="w-16 h-16 rounded-2xl mx-auto mb-5 flex items-center justify-center shadow-sm bg-gradient-to-br from-blue-50 to-blue-100/50 text-blue-600 border border-blue-100">
                   <FiUploadCloud size={28} />
                 </div>
                 
@@ -150,7 +150,7 @@ function Resumes() {
                 
                 <button 
                   onClick={() => setShowAddForm(true)} 
-                  className="px-8 py-3 rounded-xl bg-slate-900 hover:bg-indigo-600 text-white font-bold text-sm transition-all duration-300 shadow-md hover:shadow-indigo-500/25 hover:-translate-y-0.5"
+                  className="px-8 py-3 rounded-xl bg-slate-900 hover:bg-blue-600 text-white font-bold text-sm transition-all duration-300 shadow-md hover:shadow-blue-600/25 hover:-translate-y-0.5"
                 >
                   + Add Resume Link
                 </button>
@@ -158,7 +158,7 @@ function Resumes() {
             ) : (
               <div className="p-8 sm:p-10">
                 <div className="flex items-center gap-4 mb-8">
-                  <div className="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600">
+                  <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
                     <FiLink size={22} />
                   </div>
                   <div>
@@ -176,7 +176,7 @@ function Resumes() {
                         onChange={(e) => setFilename(e.target.value)} 
                         required 
                         placeholder="e.g. Frontend_Dev_Resume.pdf" 
-                        className="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500" 
+                        className="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all focus:bg-white focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600" 
                       />
                     </div>
                     <div className="space-y-1.5">
@@ -187,7 +187,7 @@ function Resumes() {
                         required 
                         type="url" 
                         placeholder="https://drive.google.com/..." 
-                        className="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500" 
+                        className="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all focus:bg-white focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600" 
                       />
                     </div>
                   </div>
@@ -203,7 +203,7 @@ function Resumes() {
                     <button 
                       type="submit" 
                       disabled={saving} 
-                      className="px-8 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm transition-all shadow-md hover:shadow-indigo-500/25 disabled:opacity-70 flex items-center justify-center gap-2 sm:ml-auto"
+                      className="px-8 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm transition-all shadow-md hover:shadow-blue-600/25 disabled:opacity-70 flex items-center justify-center gap-2 sm:ml-auto"
                     >
                       {saving ? (
                         <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Saving...</>
@@ -221,7 +221,7 @@ function Resumes() {
               <div className="py-24 flex flex-col items-center justify-center space-y-4 bg-white rounded-3xl border border-slate-200/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
                 <div className="relative w-12 h-12">
                   <div className="absolute inset-0 rounded-full border-4 border-slate-100"></div>
-                  <div className="absolute inset-0 rounded-full border-4 border-indigo-600 border-t-transparent animate-spin"></div>
+                  <div className="absolute inset-0 rounded-full border-4 border-blue-600 border-t-transparent animate-spin"></div>
                 </div>
                 <p className="text-slate-500 font-semibold tracking-wide animate-pulse">Loading documents...</p>
               </div>
@@ -244,7 +244,7 @@ function Resumes() {
                       
                       {/* Document Info */}
                       <div className="flex items-center gap-4">
-                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 transition-colors ${r.is_primary ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20' : 'bg-slate-100 text-slate-400 group-hover:bg-slate-200 group-hover:text-slate-500'}`}>
+                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 transition-colors ${r.is_primary ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20' : 'bg-slate-100 text-slate-400 group-hover:bg-slate-200 group-hover:text-slate-500'}`}>
                           <FiFileText size={20} />
                         </div>
                         <div>
@@ -269,7 +269,7 @@ function Resumes() {
                           target="_blank" 
                           rel="noreferrer" 
                           title="Open/Download" 
-                          className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-indigo-600 hover:border-indigo-200 hover:bg-indigo-50 font-bold text-xs transition-all shadow-sm"
+                          className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-blue-600 hover:border-blue-200 hover:bg-blue-50 font-bold text-xs transition-all shadow-sm"
                         >
                           <FiDownload size={14} /> <span className="hidden sm:inline">View</span>
                         </a>

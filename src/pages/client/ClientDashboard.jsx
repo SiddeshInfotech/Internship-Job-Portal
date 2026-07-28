@@ -98,7 +98,7 @@ function ClientDashboard() {
         .delay-300 { animation-delay: 300ms; }
       `}</style>
 
-      <div className="min-h-screen bg-slate-50/50 pb-16 font-sans">
+      <div className="min-h-screen bg-slate-50/50 pt-4 pb-16 font-sans">
         <ClientTopNavbar title="Dashboard" />
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
@@ -128,7 +128,7 @@ function ClientDashboard() {
             </div>
             <button 
               onClick={() => navigate('/jobs/new')} 
-              className="group flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold py-2.5 px-5 rounded-xl shadow-[0_4px_12px_rgba(79,70,229,0.25)] hover:shadow-[0_6px_16px_rgba(79,70,229,0.35)] transition-all duration-300 active:scale-95"
+              className="group flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold py-2.5 px-5 rounded-xl shadow-[0_4px_12px_rgba(79,70,229,0.25)] hover:shadow-[0_6px_16px_rgba(79,70,229,0.35)] transition-all duration-300 active:scale-95"
             >
               <FiPlus size={18} className="group-hover:rotate-90 transition-transform duration-300" /> 
               Post a new job
@@ -208,7 +208,7 @@ function ClientDashboard() {
                     <h3 className="text-lg font-bold text-slate-900">Recent Applications</h3>
                     <button 
                       onClick={() => navigate('/applicants')} 
-                      className="text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition-colors flex items-center gap-1 group"
+                      className="text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors flex items-center gap-1 group"
                     >
                       View all <FiChevronRight className="group-hover:translate-x-0.5 transition-transform" />
                     </button>
@@ -232,7 +232,7 @@ function ClientDashboard() {
                             className="group flex items-center justify-between p-3 sm:p-4 hover:bg-slate-50 rounded-2xl transition-colors cursor-pointer"
                           >
                             <div className="flex items-center gap-4 min-w-0">
-                              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-100 to-blue-100 text-indigo-600 flex items-center justify-center font-bold text-sm shadow-inner flex-shrink-0">
+                              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-100 to-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm shadow-inner flex-shrink-0">
                                 {(app.student_name || app.name || '?').charAt(0).toUpperCase()}
                               </div>
                               <div className="min-w-0">
@@ -255,7 +255,7 @@ function ClientDashboard() {
                               <div className="sm:hidden scale-90 origin-right">
                                 <StatusPill status={app.status} />
                               </div>
-                              <div className="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:border-indigo-200 group-hover:text-indigo-600 group-hover:bg-indigo-50 transition-all">
+                              <div className="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:border-blue-200 group-hover:text-blue-600 group-hover:bg-blue-50 transition-all">
                                 <FiChevronRight size={16} />
                               </div>
                             </div>
@@ -272,7 +272,7 @@ function ClientDashboard() {
                     <h3 className="text-lg font-bold text-slate-900">Active Jobs</h3>
                     <button 
                       onClick={() => navigate('/jobs')} 
-                      className="text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition-colors flex items-center gap-1 group"
+                      className="text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors flex items-center gap-1 group"
                     >
                       Manage <FiChevronRight className="group-hover:translate-x-0.5 transition-transform" />
                     </button>
@@ -296,7 +296,7 @@ function ClientDashboard() {
                             className="group p-4 hover:bg-slate-50 rounded-2xl transition-all cursor-pointer border border-transparent hover:border-slate-100"
                           >
                             <div className="flex justify-between items-start mb-2">
-                              <p className="text-sm font-bold text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-1 pr-4">
+                              <p className="text-sm font-bold text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-1 pr-4">
                                 {job.title}
                               </p>
                               <div className="flex-shrink-0">
@@ -316,7 +316,7 @@ function ClientDashboard() {
                                 <FiUsers size={12} className="text-slate-400" />
                                 {job.applicants_count ?? job.applications_count ?? 0} Applicants
                               </p>
-                              <FiChevronRight size={16} className="text-slate-300 group-hover:text-indigo-500 transition-colors translate-x-0 group-hover:translate-x-1" />
+                              <FiChevronRight size={16} className="text-slate-300 group-hover:text-blue-600 transition-colors translate-x-0 group-hover:translate-x-1" />
                             </div>
                           </div>
                         ))}
@@ -324,12 +324,12 @@ function ClientDashboard() {
                     )}
 
                     {/* Tip Box */}
-                    <div className="mt-4 m-2 bg-indigo-50/50 rounded-2xl p-4 flex items-start gap-3 border border-indigo-100/50">
-                      <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <div className="mt-4 m-2 bg-blue-50/50 rounded-2xl p-4 flex items-start gap-3 border border-blue-100/50">
+                      <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0 mt-0.5">
                         <FiInfo size={16} />
                       </div>
-                      <p className="text-xs sm:text-sm text-indigo-900 leading-relaxed font-medium">
-                        <strong className="font-bold text-indigo-700">Recruitment tip:</strong> Jobs with detailed eligibility criteria and clear salary ranges get <span className="text-indigo-600 font-bold bg-indigo-100/50 px-1 rounded">40% more</span> qualified applicants.
+                      <p className="text-xs sm:text-sm text-blue-900 leading-relaxed font-medium">
+                        <strong className="font-bold text-blue-700">Recruitment tip:</strong> Jobs with detailed eligibility criteria and clear salary ranges get <span className="text-blue-600 font-bold bg-blue-100/50 px-1 rounded">40% more</span> qualified applicants.
                       </p>
                     </div>
 
@@ -349,10 +349,10 @@ function ClientDashboard() {
 function MetricCard({ icon, label, value, color }) {
   // Map colors for the dynamic icon background based on the 'color' prop
   const colorMap = {
-    indigo: 'bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white',
+    indigo: 'bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white',
     blue: 'bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white',
     emerald: 'bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white',
-    violet: 'bg-violet-50 text-violet-600 group-hover:bg-violet-600 group-hover:text-white',
+    violet: 'bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white',
   };
 
   const iconClasses = colorMap[color] || colorMap.indigo;

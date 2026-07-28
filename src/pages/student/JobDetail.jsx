@@ -6,12 +6,12 @@ import {
   FiCalendar, 
   FiClock, 
   FiMapPin, 
-  FiDollarSign, 
   FiBriefcase,
   FiAlertCircle
 } from 'react-icons/fi';
 import { fmtJobDate } from '../../utils/fields';
 import JobBody from '../../components/JobSections';
+import { fmtMoney } from '../../utils/fields';
 
 // --- Premium Skeleton Components ---
 const JobHeaderSkeleton = () => (
@@ -100,7 +100,7 @@ function JobDetail() {
   }, [id]);
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] font-sans pb-24 selection:bg-indigo-100 selection:text-indigo-900">
+    <div className="min-h-screen bg-[#F8FAFC] font-sans pb-24 selection:bg-blue-100 selection:text-blue-900">
       
       {/* Subtle Top Gradient */}
       <div className="absolute top-0 inset-x-0 h-80 bg-gradient-to-b from-slate-200/50 to-transparent pointer-events-none"></div>
@@ -141,7 +141,7 @@ function JobDetail() {
             {/* Hero Header Card */}
             <div className="relative bg-[#0F172A] rounded-[2rem] p-8 md:p-10 mb-8 overflow-hidden shadow-xl shadow-slate-900/10 border border-slate-800">
               {/* Decorative Background Elements */}
-              <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+              <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
               <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
               
               <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
@@ -169,7 +169,7 @@ function JobDetail() {
                     {/* Tags */}
                     <div className="flex flex-wrap gap-2.5">
                       <Badge icon={<FiBriefcase />} text={job.job_type} />
-                      <Badge icon={<FiDollarSign />} text={job.salary_stipend} />
+                      <Badge icon={<span style={{fontWeight:800}}>₹</span>} text={fmtMoney(job.salary_stipend)} />
                       {job.last_date_to_apply && (
                         <Badge 
                           icon={<FiCalendar />} 
@@ -199,7 +199,7 @@ function JobDetail() {
               
               {/* Left Column: Job Details */}
               <div className="lg:col-span-2 space-y-6">
-                <div className="bg-white rounded-[2rem] border border-slate-200/60 p-8 md:p-10 shadow-sm leading-relaxed text-slate-600 prose prose-slate prose-headings:font-bold prose-headings:text-slate-900 prose-a:text-indigo-600 hover:prose-a:text-indigo-700 max-w-none">
+                <div className="bg-white rounded-[2rem] border border-slate-200/60 p-8 md:p-10 shadow-sm leading-relaxed text-slate-600 prose prose-slate prose-headings:font-bold prose-headings:text-slate-900 prose-a:text-blue-600 hover:prose-a:text-blue-700 max-w-none">
                   {/* JobBody typically contains HTML injected content or specialized sections */}
                   <JobBody job={job} />
                 </div>
@@ -215,7 +215,7 @@ function JobDetail() {
                   </h4>
                   <div className="space-y-6">
                     <SummaryRow 
-                      icon={<FiCalendar className="text-indigo-500" size={20} />} 
+                      icon={<FiCalendar className="text-blue-600" size={20} />} 
                       label="Application Deadline" 
                       value={job.last_date_to_apply ? fmtJobDate(job.last_date_to_apply) : 'Ongoing'} 
                     />
@@ -234,7 +234,7 @@ function JobDetail() {
                   <div className="mt-8 pt-6 border-t border-slate-100">
                     <button 
                       onClick={() => navigate(`/student/jobs/${id}/apply`)} 
-                      className="w-full py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold shadow-md hover:shadow-indigo-500/25 transition-all active:scale-95"
+                      className="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-md hover:shadow-blue-600/25 transition-all active:scale-95"
                     >
                       Apply Now
                     </button>
@@ -255,7 +255,7 @@ function JobDetail() {
                   </p>
                   <Link 
                     to="/student/profile" 
-                    className="text-sm font-bold text-indigo-600 hover:text-indigo-700 transition-colors"
+                    className="text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors"
                   >
                     Update Profile →
                   </Link>

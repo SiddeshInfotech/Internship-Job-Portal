@@ -111,18 +111,18 @@ function StudentLogin() {
         
         {/* LEFT PANEL - Branding (Hidden on Mobile, Visible on lg screens) */}
         <div className="hidden lg:flex lg:w-5/12 relative flex-col justify-between p-12 overflow-hidden bg-slate-900">
-          <div className="absolute top-[-10%] left-[-20%] w-[500px] h-[500px] rounded-full bg-indigo-600/30 blur-[80px] pointer-events-none" />
-          <div className="absolute bottom-[-10%] right-[-20%] w-[500px] h-[500px] rounded-full bg-purple-600/30 blur-[80px] pointer-events-none" />
+          <div className="absolute top-[-10%] left-[-20%] w-[500px] h-[500px] rounded-full bg-blue-600/30 blur-[80px] pointer-events-none" />
+          <div className="absolute bottom-[-10%] right-[-20%] w-[500px] h-[500px] rounded-full bg-blue-700/30 blur-[80px] pointer-events-none" />
 
           <div className="relative z-10 animate-entrance">
             <div className="flex items-center gap-3 mb-10">
               <img src="/images/brand/placify-icon.png" alt="Placify" className="w-10 h-10 object-contain drop-shadow-lg" />
-              <span className="font-extrabold text-2xl text-white tracking-tight">Placify<span className="text-indigo-500">.</span></span>
+              <span className="font-extrabold text-2xl text-white tracking-tight">Placify<span className="text-blue-600">.</span></span>
             </div>
 
             <h1 className="text-4xl xl:text-5xl font-extrabold text-white leading-tight mb-6">
               Your next internship starts with <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">one login.</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-500">one login.</span>
             </h1>
             <p className="text-slate-400 text-lg leading-relaxed max-w-md">
               Connect with top-tier employers, manage your applications, and launch your career — all from your campus hub.
@@ -131,7 +131,7 @@ function StudentLogin() {
 
           <div className="relative z-10 animate-entrance delay-200 animate-float">
             <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-3xl p-6 flex items-start gap-5 shadow-2xl">
-              <div className="w-12 h-12 rounded-2xl bg-indigo-500/20 flex items-center justify-center text-indigo-300 flex-shrink-0">
+              <div className="w-12 h-12 rounded-2xl bg-blue-600/20 flex items-center justify-center text-blue-400 flex-shrink-0">
                 <FiCheckCircle size={24} />
               </div>
               <div>
@@ -186,18 +186,18 @@ function StudentLogin() {
 
                 {/* Email Input */}
                 <div className="space-y-1.5 group">
-                  <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block group-focus-within:text-indigo-600 transition-colors">
+                  <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block group-focus-within:text-blue-600 transition-colors">
                   Enter Email Address
                   </label>
                   <div className="relative">
-                    <FiMail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors" size={18} />
+                    <FiMail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
                     <input 
                       type="email" 
                       placeholder="e.g. j.doe@university.edu" 
                       value={email} 
                       onChange={(e) => setEmail(e.target.value)} 
                       required 
-                      className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 shadow-[0_2px_10px_rgb(0,0,0,0.01)] hover:border-slate-300"
+                      className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[0_2px_10px_rgb(0,0,0,0.01)] hover:border-slate-300"
                     />
                   </div>
                 </div>
@@ -205,32 +205,24 @@ function StudentLogin() {
                 {/* Password Input with Show/Hide Toggle */}
                 <div className="space-y-1.5 group">
                   <div className="flex items-center justify-between">
-                    <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block group-focus-within:text-indigo-600 transition-colors">
+                    <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block group-focus-within:text-blue-600 transition-colors">
                       Password
                     </label>
-                    <Link to="/student/forgot-password" className="text-[12px] font-bold text-indigo-600 hover:text-indigo-700 transition-colors">
+                    <Link to="/student/forgot-password" className="text-[12px] font-bold text-blue-600 hover:text-blue-700 transition-colors">
                       Forgot password?
                     </Link>
                   </div>
                   <div className="relative">
-                    <FiLock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors" size={18} />
+                    <FiLock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
                     <input 
                       type={showPassword ? "text" : "password"} 
                       placeholder="••••••••" 
                       value={password} 
                       onChange={(e) => setPassword(e.target.value)} 
                       required 
-                      className="w-full pl-11 pr-12 py-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 shadow-[0_2px_10px_rgb(0,0,0,0.01)] hover:border-slate-300"
+                      className="w-full pl-11 pr-12 py-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[0_2px_10px_rgb(0,0,0,0.01)] hover:border-slate-300"
                     />
-                    <button 
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-slate-400 hover:text-indigo-600 transition-colors rounded-lg hover:bg-indigo-50 focus:outline-none"
-                      aria-label={showPassword ? "Hide password" : "Show password"}
-                    >
-                      {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
-                    </button>
-                  </div>
+            </div>
                 </div>
 
                 {/* Remember Me */}
@@ -241,9 +233,8 @@ function StudentLogin() {
                       id="remember" 
                       checked={remember} 
                       onChange={(e) => setRemember(e.target.checked)}
-                      className="peer w-4 h-4 cursor-pointer appearance-none rounded-[4px] border-2 border-slate-300 checked:bg-indigo-600 checked:border-indigo-600 transition-all"
+                      className="pf-check sm"
                     />
-                    <FiCheckCircle size={12} className="absolute left-[2px] top-[2px] text-white pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity" />
                   </div>
                   <label htmlFor="remember" className="text-sm font-semibold text-slate-600 cursor-pointer select-none">
                     Remember me
@@ -254,7 +245,7 @@ function StudentLogin() {
                 <button 
                   type="submit" 
                   disabled={loading}
-                  className="w-full py-4 rounded-xl bg-slate-900 hover:bg-indigo-600 text-white font-extrabold text-sm transition-all duration-300 shadow-[0_4px_14px_0_rgb(0,0,0,0.1)] hover:shadow-[0_6px_20px_rgba(79,70,229,0.23)] hover:-translate-y-0.5 disabled:opacity-70 disabled:pointer-events-none flex items-center justify-center gap-2 group/btn"
+                  className="w-full py-4 rounded-xl bg-slate-900 hover:bg-blue-600 text-white font-extrabold text-sm transition-all duration-300 shadow-[0_4px_14px_0_rgb(0,0,0,0.1)] hover:shadow-[0_6px_20px_rgba(79,70,229,0.23)] hover:-translate-y-0.5 disabled:opacity-70 disabled:pointer-events-none flex items-center justify-center gap-2 group/btn"
                 >
                   {loading ? (
                     <div className="premium-loader"></div>
@@ -285,7 +276,7 @@ function StudentLogin() {
                   />
                   {googleLoading && (
                     <div className="absolute inset-0 bg-white/80 rounded-full flex items-center justify-center backdrop-blur-sm z-10 border border-slate-200">
-                       <div className="w-5 h-5 border-2 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
+                       <div className="w-5 h-5 border-2 border-indigo-200 border-t-blue-600 rounded-full animate-spin"></div>
                     </div>
                   )}
                 </div>
@@ -295,7 +286,7 @@ function StudentLogin() {
               <div className="mt-8 pt-6 border-t border-slate-100 text-center">
                 <p className="text-sm font-semibold text-slate-500">
                   New to Placify?{' '}
-                  <Link to="/student/register" className="text-indigo-600 hover:text-indigo-700 hover:underline transition-all">
+                  <Link to="/student/register" className="text-blue-600 hover:text-blue-700 hover:underline transition-all">
                     Register now &rarr;
                   </Link>
                 </p>

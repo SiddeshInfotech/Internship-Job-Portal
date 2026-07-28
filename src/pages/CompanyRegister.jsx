@@ -3,6 +3,7 @@ import './CompanyRegister.css';
 import { Link, useNavigate } from "react-router-dom";
 import clientAxios from "../api/clientAxios";
 import BackToWebsite from "../components/BackToWebsite";
+import PasswordStrength from '../components/PasswordStrength';
 
 function CompanyRegister() {
   const navigate = useNavigate();
@@ -133,6 +134,7 @@ function CompanyRegister() {
               <div className="input-group">
                 <label>Password <span className="star-req">*</span></label>
                 <input type="password" placeholder="Min. 8 characters" value={form.password} onChange={update('password')} minLength={8} required />
+                <PasswordStrength password={form.password} />
               </div>
               <div className="input-group">
                 <label>Confirm Password <span className="star-req">*</span></label>

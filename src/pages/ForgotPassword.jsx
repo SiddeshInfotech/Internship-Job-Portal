@@ -126,8 +126,8 @@ function ChangePassword() {
 
       <main className="min-h-screen bg-[#F8FAFC] font-sans relative overflow-hidden">
         {/* Immersive Background Effects */}
-        <div className="absolute top-[-15%] left-[-10%] w-[600px] h-[600px] rounded-full bg-indigo-500/10 blur-[120px] pointer-events-none -z-10" />
-        <div className="absolute bottom-[-15%] right-[-10%] w-[500px] h-[500px] rounded-full bg-purple-500/10 blur-[120px] pointer-events-none -z-10" />
+        <div className="absolute top-[-15%] left-[-10%] w-[600px] h-[600px] rounded-full bg-blue-600/10 blur-[120px] pointer-events-none -z-10" />
+        <div className="absolute bottom-[-15%] right-[-10%] w-[500px] h-[500px] rounded-full bg-blue-600/10 blur-[120px] pointer-events-none -z-10" />
 
         <TopNavbar title="Security Settings" />
 
@@ -136,13 +136,13 @@ function ChangePassword() {
           <div className="bg-white/80 backdrop-blur-xl rounded-[2.5rem] border border-white/60 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.08)] overflow-hidden relative animate-stagger-1">
             
             {/* Top Glowing Edge */}
-            <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 opacity-90"></div>
+            <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-blue-600 via-blue-600 to-blue-600 opacity-90"></div>
 
             <div className="p-8 sm:p-12">
               
               {/* Header Section */}
               <div className="flex flex-col items-center text-center gap-4 mb-10">
-                <div className="w-20 h-20 rounded-[1.5rem] bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-100 flex items-center justify-center text-4xl shadow-sm flex-shrink-0 floating-icon" style={{ animationDelay: '0.2s' }}>
+                <div className="w-20 h-20 rounded-[1.5rem] bg-gradient-to-br from-blue-50 to-blue-50 border border-blue-100 flex items-center justify-center text-4xl shadow-sm flex-shrink-0 floating-icon" style={{ animationDelay: '0.2s' }}>
                   🛡️
                 </div>
                 <div>
@@ -192,7 +192,7 @@ function ChangePassword() {
                 <div className="space-y-2.5 animate-stagger-3">
                   <div className="flex justify-between items-end">
                     <FieldLabel>New Password</FieldLabel>
-                    <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest bg-indigo-50 px-2 py-1 rounded-md">
+                    <span className="text-[10px] font-bold text-blue-600 uppercase tracking-widest bg-blue-50 px-2 py-1 rounded-md">
                       Min 10 Characters
                     </span>
                   </div>
@@ -246,7 +246,7 @@ function ChangePassword() {
                 <button 
                   type="submit" 
                   disabled={loading || !current || !next || !confirm} 
-                  className="shimmer-btn relative w-full py-4 mt-8 rounded-2xl bg-slate-900 hover:bg-indigo-600 text-white font-extrabold text-sm transition-all duration-300 shadow-[0_8px_20px_-6px_rgba(0,0,0,0.3)] hover:shadow-[0_12px_25px_-6px_rgba(79,70,229,0.4)] hover:-translate-y-1 disabled:opacity-60 disabled:pointer-events-none disabled:transform-none flex items-center justify-center gap-3 overflow-hidden"
+                  className="shimmer-btn relative w-full py-4 mt-8 rounded-2xl bg-slate-900 hover:bg-blue-600 text-white font-extrabold text-sm transition-all duration-300 shadow-[0_8px_20px_-6px_rgba(0,0,0,0.3)] hover:shadow-[0_12px_25px_-6px_rgba(79,70,229,0.4)] hover:-translate-y-1 disabled:opacity-60 disabled:pointer-events-none disabled:transform-none flex items-center justify-center gap-3 overflow-hidden"
                 >
                   {loading ? (
                     <>
@@ -291,7 +291,7 @@ function PasswordInput({ value, onChange, show, toggle, placeholder }) {
   return (
     <div className="relative group">
       {/* Kept original emoji exact constraint */}
-      <span className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors opacity-80" style={{ fontSize: '16px' }}>
+      <span className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors opacity-80" style={{ fontSize: '16px' }}>
         🔒
       </span>
       <input
@@ -300,13 +300,13 @@ function PasswordInput({ value, onChange, show, toggle, placeholder }) {
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         required
-        className="w-full pl-14 pr-14 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-[15px] font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
+        className="w-full pl-14 pr-14 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-[15px] font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
       />
       <button 
         type="button" 
         onClick={toggle} 
         aria-label={show ? 'Hide password' : 'Show password'} 
-        className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors rounded-xl focus:outline-none opacity-80"
+        className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors rounded-xl focus:outline-none opacity-80"
         style={{ fontSize: '18px' }}
       >
         {/* Kept original emoji exact constraint */}

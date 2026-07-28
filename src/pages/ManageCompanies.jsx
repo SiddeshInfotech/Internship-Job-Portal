@@ -30,17 +30,17 @@ function ManageCompanies() {
 
   const loadStats = async () => {
     try {
-      const [allRes, verifiedRes, pendingRes, blockedRes] = await Promise.all([
-        axiosClient.get('/admin/companies', { params: { page: 1, per_page: 1 } }),
-        axiosClient.get('/admin/companies', { params: { status: 'Approved', page: 1, per_page: 1 } }),
-        axiosClient.get('/admin/companies', { params: { status: 'Pending', page: 1, per_page: 1 } }),
-        axiosClient.get('/admin/companies', { params: { status: 'Blocked', page: 1, per_page: 1 } }),
-      ]);
+      // Pull a big page of companies once and count client-side. This is
+      // robust even if the backend ignores the status filter or omits `total`.
+      const res = await axiosClient.get('/admin/companies', { params: { page: 1, per_page: 200 } });
+      const list = asArray(res.data.companies, res.data.results, res.data);
+      const norm = (c) => (pick(c, 'admin_status', 'status', 'account_status') || 'Pending').toLowerCase().trim();
+      const isApprovedStatus = (st) => ['approved', 'verified', 'active'].includes(st);
       setStatCounts({
-        total: allRes.data.total ?? 0,
-        verified: verifiedRes.data.total ?? 0,
-        pending: pendingRes.data.total ?? 0,
-        blocked: blockedRes.data.total ?? 0,
+        total: res.data.total ?? list.length,
+        verified: list.filter((c) => isApprovedStatus(norm(c))).length,
+        pending: list.filter((c) => norm(c) === 'pending').length,
+        blocked: list.filter((c) => norm(c) === 'blocked').length,
       });
     } catch {
       // stats are a nice-to-have; don't block the page on failure

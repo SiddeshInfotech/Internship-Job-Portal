@@ -150,7 +150,7 @@ function JobsPosted() {
         .delay-200 { animation-delay: 200ms; }
       `}</style>
 
-      <div className="min-h-screen bg-slate-50/80 pb-16 font-sans text-slate-900 relative overflow-hidden">
+      <div className="min-h-screen bg-slate-50/80 pt-4 pb-16 font-sans text-slate-900 relative overflow-hidden">
         <ClientTopNavbar title="Jobs Posted" />
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
@@ -164,11 +164,11 @@ function JobsPosted() {
             
             <div className="flex w-full md:w-auto items-center gap-3">
               <div className="relative w-full md:w-56 group">
-                <FiFilter className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors" size={18} />
+                <FiFilter className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
                 <select
                   value={statusFilter}
                   onChange={(e) => { setPage(1); setStatusFilter(e.target.value); }}
-                  className="w-full pl-10 pr-8 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium appearance-none cursor-pointer shadow-sm"
+                  className="w-full pl-10 pr-8 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all font-medium appearance-none cursor-pointer shadow-sm"
                 >
                   <option value="">All Statuses</option>
                   <option value="Draft">Draft</option>
@@ -185,7 +185,7 @@ function JobsPosted() {
               
               <button 
                 onClick={() => navigate('/jobs/new')} 
-                className="flex items-center justify-center gap-2 whitespace-nowrap bg-indigo-600 text-white font-bold px-5 py-2.5 rounded-xl hover:bg-indigo-700 transition-all shadow-[0_4px_12px_rgba(79,70,229,0.25)] hover:shadow-[0_6px_16px_rgba(79,70,229,0.35)] active:scale-[0.98] group"
+                className="flex items-center justify-center gap-2 whitespace-nowrap bg-blue-600 text-white font-bold px-5 py-2.5 rounded-xl hover:bg-blue-700 transition-all shadow-[0_4px_12px_rgba(79,70,229,0.25)] hover:shadow-[0_6px_16px_rgba(79,70,229,0.35)] active:scale-[0.98] group"
               >
                 <FiPlus size={18} className="group-hover:rotate-90 transition-transform duration-300" />
                 <span className="hidden sm:inline">Post New Job</span>
@@ -204,7 +204,7 @@ function JobsPosted() {
 
           {/* Premium Stats Row */}
           <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8 animate-slide-up delay-100">
-            <StatCard label="Total listings" value={stats?.total_listings} icon={FiLayers} colorClass="text-indigo-600" bgClass="bg-indigo-50" />
+            <StatCard label="Total listings" value={stats?.total_listings} icon={FiLayers} colorClass="text-blue-600" bgClass="bg-blue-50" />
             <StatCard label="Active now" value={stats?.active_now} icon={FiActivity} colorClass="text-emerald-600" bgClass="bg-emerald-50" />
             <StatCard label="Positions filled" value={stats?.positions_filled} icon={FiCheckCircle} colorClass="text-blue-600" bgClass="bg-blue-50" />
             <StatCard label="Closed / drafts" value={stats?.closed_or_drafts} icon={FiArchive} colorClass="text-slate-500" bgClass="bg-slate-100" />
@@ -262,7 +262,7 @@ function JobsPosted() {
                           <td className="px-6 py-5">
                             <p 
                               onClick={() => navigate(`/jobs/${job.id}/applicants`)}
-                              className="text-[15px] font-bold text-slate-900 group-hover:text-indigo-600 transition-colors cursor-pointer mb-1 line-clamp-1"
+                              className="text-[15px] font-bold text-slate-900 group-hover:text-blue-600 transition-colors cursor-pointer mb-1 line-clamp-1"
                             >
                               {job.title}
                             </p>

@@ -197,7 +197,7 @@ button:focus-visible {
 
 /* ---------- Modal ---------- */
 .pf-modal-backdrop {
-  position: fixed; inset: 0; z-index: 1000;
+  position: fixed; inset: 0; z-index: 3000;
   background: rgba(11, 21, 38, 0.5);
   backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
   display: flex; align-items: center; justify-content: center; padding: 20px;
@@ -383,3 +383,111 @@ button:focus-visible {
   animation: cb-ring-expand 900ms ease-out forwards;
 }
 .cb-ring-2 { border-color: #2563eb; animation-delay: 180ms; }
+
+/* ============================================================
+   DARK THEME — Tailwind-utility override layer for the CLIENT
+   (company) portal and any page using hardcoded light Tailwind
+   colors instead of --pf tokens or dark: variants.
+   Scoped to portal wrappers so the marketing site is untouched.
+   ============================================================ */
+[data-theme='dark'] .db-layout-container,
+[data-theme='dark'] .client-scope,
+[data-theme='dark'] .student-scope,
+[data-theme='dark'] .admin-scope {
+  color-scheme: dark;
+}
+[data-theme='dark'] .admin-scope { background: #0a111f !important; }
+[data-theme='dark'] .admin-main { background: #0a111f !important; }
+[data-theme='dark'] .admin-scope .bg-\[\#F8FAFC\] { background-color: #0a111f !important; }
+[data-theme='dark'] .admin-scope .bg-white { background-color: #101a2c !important; }
+[data-theme='dark'] .admin-scope .bg-slate-50, [data-theme='dark'] .admin-scope .bg-slate-50\/50,
+[data-theme='dark'] .admin-scope .bg-slate-100 { background-color: #0d1626 !important; }
+[data-theme='dark'] .admin-scope .text-slate-900, [data-theme='dark'] .admin-scope .text-slate-800,
+[data-theme='dark'] .admin-scope .text-slate-700 { color: #e8eef7 !important; }
+[data-theme='dark'] .admin-scope .text-slate-600, [data-theme='dark'] .admin-scope .text-slate-500 { color: #a8b7cc !important; }
+[data-theme='dark'] .admin-scope .text-slate-400 { color: #6d7f99 !important; }
+[data-theme='dark'] .admin-scope .border-slate-100, [data-theme='dark'] .admin-scope .border-slate-200 { border-color: #1c2940 !important; }
+[data-theme='dark'] .admin-scope .from-blue-50\/50 { --tw-gradient-from: rgba(37,99,235,0.05) !important; }
+[data-theme='dark'] .admin-scope input, [data-theme='dark'] .admin-scope select, [data-theme='dark'] .admin-scope textarea {
+  background-color: #0d1626 !important; color: #e8eef7 !important; border-color: #27364f !important;
+}
+
+/* Backgrounds */
+[data-theme='dark'] .client-scope .bg-white,
+[data-theme='dark'] .db-layout-container .bg-white {
+  background-color: #101a2c !important;
+}
+[data-theme='dark'] .client-scope .bg-slate-50,
+[data-theme='dark'] .client-scope .bg-slate-50\/50,
+[data-theme='dark'] .client-scope .bg-slate-50\/80,
+[data-theme='dark'] .client-scope .bg-slate-100,
+[data-theme='dark'] .db-layout-container .bg-slate-50,
+[data-theme='dark'] .db-layout-container .bg-slate-50\/50 {
+  background-color: #0a111f !important;
+}
+[data-theme='dark'] .client-scope .bg-gradient-to-r.from-slate-50,
+[data-theme='dark'] .client-scope .from-slate-50 { --tw-gradient-from: #0d1626 !important; }
+
+/* Text */
+[data-theme='dark'] .client-scope .text-slate-900,
+[data-theme='dark'] .client-scope .text-slate-800,
+[data-theme='dark'] .client-scope .text-slate-700,
+[data-theme='dark'] .db-layout-container .text-slate-900,
+[data-theme='dark'] .db-layout-container .text-slate-800 { color: #e8eef7 !important; }
+[data-theme='dark'] .client-scope .text-slate-600,
+[data-theme='dark'] .client-scope .text-slate-500,
+[data-theme='dark'] .db-layout-container .text-slate-600,
+[data-theme='dark'] .db-layout-container .text-slate-500 { color: #a8b7cc !important; }
+[data-theme='dark'] .client-scope .text-slate-400 { color: #6d7f99 !important; }
+
+/* Borders */
+[data-theme='dark'] .client-scope .border-slate-100,
+[data-theme='dark'] .client-scope .border-slate-200,
+[data-theme='dark'] .db-layout-container .border-slate-100,
+[data-theme='dark'] .db-layout-container .border-slate-200 { border-color: #1c2940 !important; }
+
+/* Inputs */
+[data-theme='dark'] .client-scope input,
+[data-theme='dark'] .client-scope select,
+[data-theme='dark'] .client-scope textarea {
+  background-color: #0d1626 !important; color: #e8eef7 !important; border-color: #27364f !important;
+}
+[data-theme='dark'] .client-scope input::placeholder,
+[data-theme='dark'] .client-scope textarea::placeholder { color: #6d7f99 !important; }
+
+/* Hover surfaces */
+[data-theme='dark'] .client-scope .hover\:bg-slate-50:hover,
+[data-theme='dark'] .client-scope .hover\:bg-slate-100:hover { background-color: rgba(37,99,235,0.08) !important; }
+
+/* The team's ClientSettings --st-* variable system */
+[data-theme='dark'] .client-scope {
+  --st-bg: #0a111f;
+  --st-surface: #101a2c;
+  --st-text-main: #e8eef7;
+  --st-text-muted: #a8b7cc;
+  --st-border: #1c2940;
+  --st-primary-soft: rgba(37,99,235,0.16);
+  --st-error-bg: rgba(217,45,32,0.14);
+  --st-success-bg: rgba(21,153,87,0.14);
+}
+
+/* Student settings hardcoded off-white bg → dark */
+[data-theme='dark'] .student-scope.bg-\[\#FAFAFA\],
+[data-theme='dark'] .student-scope .bg-\[\#FAFAFA\] { background-color: #0a111f !important; }
+[data-theme='dark'] .student-scope .bg-\[\#FAFAFA\] { background-color: #0a111f !important; }
+
+/* Student scope — cover gray-* utilities (Application Tracker uses these) */
+[data-theme='dark'] .student-scope .bg-\[\#FAFAFA\],
+[data-theme='dark'] .student-scope.bg-\[\#FAFAFA\] { background-color: #0a111f !important; }
+[data-theme='dark'] .student-scope .text-gray-900,
+[data-theme='dark'] .student-scope .text-gray-800,
+[data-theme='dark'] .student-scope .text-gray-700 { color: #e8eef7 !important; }
+[data-theme='dark'] .student-scope .text-gray-600,
+[data-theme='dark'] .student-scope .text-gray-500 { color: #a8b7cc !important; }
+[data-theme='dark'] .student-scope .text-gray-400 { color: #6d7f99 !important; }
+[data-theme='dark'] .student-scope .bg-gray-50,
+[data-theme='dark'] .student-scope .bg-gray-100 { background-color: #0d1626 !important; }
+[data-theme='dark'] .student-scope .border-gray-100,
+[data-theme='dark'] .student-scope .border-gray-200 { border-color: #1c2940 !important; }
+/* stat card labels/values that were near-invisible on dark */
+[data-theme='dark'] .student-scope .text-slate-300 { color: #6d7f99 !important; }

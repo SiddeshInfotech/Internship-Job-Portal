@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import studentAxios from '../../api/studentAxios';
 import { asArray } from '../../api/asArray';
-import { FiSearch, FiMapPin, FiClock, FiAlertCircle, FiChevronRight, FiDollarSign } from 'react-icons/fi';
+import { FiSearch, FiMapPin, FiClock, FiAlertCircle, FiChevronRight } from 'react-icons/fi';
+import { fmtMoney } from '../../utils/fields';
 import ProfileCompletionBanner from '../../components/ProfileCompletionBanner';
 
 const PER_PAGE = 9;
@@ -101,7 +102,7 @@ function BrowseJobs() {
       {/* Results Count Header */}
       <div className="flex items-center justify-between mb-6 animate-entrance stagger-3">
         <p className="text-sm font-semibold text-slate-500 flex items-center gap-2">
-          Showing <span className="text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-md">{total}</span> opportunities
+          Showing <span className="text-blue-700 bg-blue-50 px-2.5 py-1 rounded-md">{total}</span> opportunities
         </p>
       </div>
 
@@ -110,7 +111,7 @@ function BrowseJobs() {
         <div className="py-32 flex flex-col items-center justify-center space-y-5 animate-entrance stagger-3">
           <div className="relative w-12 h-12">
             <div className="absolute inset-0 rounded-full border-4 border-slate-100"></div>
-            <div className="absolute inset-0 rounded-full border-4 border-indigo-600 border-t-transparent animate-spin"></div>
+            <div className="absolute inset-0 rounded-full border-4 border-blue-600 border-t-transparent animate-spin"></div>
           </div>
           <p className="text-slate-500 font-semibold tracking-wide animate-pulse">Curating opportunities...</p>
         </div>
@@ -130,7 +131,7 @@ function BrowseJobs() {
                 </p>
                 <button 
                   onClick={() => { setSearch(''); setJobType(''); setLocation(''); setPage(1); }}
-                  className="mt-8 px-6 py-3 bg-indigo-50 hover:bg-indigo-600 text-indigo-700 hover:text-white font-bold rounded-xl transition-all duration-300 text-sm shadow-sm"
+                  className="mt-8 px-6 py-3 bg-blue-50 hover:bg-blue-600 text-blue-700 hover:text-white font-bold rounded-xl transition-all duration-300 text-sm shadow-sm"
                 >
                   Clear all filters
                 </button>
@@ -141,20 +142,20 @@ function BrowseJobs() {
             {jobs.map((job) => (
               <div 
                 key={job.id} 
-                className="group relative bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-7 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.07)] hover:border-indigo-300 transition-all duration-500 ease-out flex flex-col h-full hover:-translate-y-1.5 overflow-hidden z-10"
+                className="group relative bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-7 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.07)] hover:border-blue-400 transition-all duration-500 ease-out flex flex-col h-full hover:-translate-y-1.5 overflow-hidden z-10"
               >
                 {/* Top Glow Accent */}
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                 <div className="flex items-start gap-4 mb-6">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-50 border border-slate-200 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:shadow-md group-hover:border-indigo-100 transition-all duration-300">
-                    <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-indigo-600 to-purple-600 text-xl">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-50 border border-slate-200 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:shadow-md group-hover:border-blue-100 transition-all duration-300">
+                    <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-blue-600 to-blue-700 text-xl">
                       {(job.company_name || job.company || '?').charAt(0).toUpperCase()}
                     </span>
                   </div>
                   <div className="flex-1 pt-1">
                     <h3 
-                      className="font-extrabold text-slate-900 text-lg leading-tight cursor-pointer group-hover:text-indigo-600 transition-colors line-clamp-1" 
+                      className="font-extrabold text-slate-900 text-lg leading-tight cursor-pointer group-hover:text-blue-600 transition-colors line-clamp-1" 
                       onClick={() => navigate(`/student/jobs/${job.id}`)}
                       title={job.title}
                     >
@@ -168,11 +169,11 @@ function BrowseJobs() {
 
                 {/* Badges */}
                 <div className="flex flex-wrap items-center gap-2 mb-6">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 text-[13px] font-semibold text-slate-600 group-hover:bg-indigo-50/50 transition-colors">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 text-[13px] font-semibold text-slate-600 group-hover:bg-blue-50/50 transition-colors">
                     <FiMapPin size={14} className="text-slate-400" />
                     {job.location || 'Remote'}
                   </span>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 text-[13px] font-semibold text-slate-600 group-hover:bg-indigo-50/50 transition-colors">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 text-[13px] font-semibold text-slate-600 group-hover:bg-blue-50/50 transition-colors">
                     <FiClock size={14} className="text-slate-400" />
                     {job.job_type || 'Full-Time'}
                   </span>
@@ -180,8 +181,8 @@ function BrowseJobs() {
 
                 <div className="mb-8">
                   <div className="inline-flex items-center gap-1.5 text-[13px] font-bold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg">
-                    <FiDollarSign size={14} />
-                    {job.salary_stipend || 'Unspecified Pay'}
+                    <span className="font-extrabold">₹</span>
+                    {job.salary_stipend ? fmtMoney(job.salary_stipend).replace('₹','') : 'Unspecified Pay'}
                   </div>
                 </div>
 
@@ -195,7 +196,7 @@ function BrowseJobs() {
                   </button>
                   <button 
                     onClick={() => navigate(`/student/jobs/${job.id}/apply`)} 
-                    className="flex-1 py-3 rounded-xl bg-slate-900 hover:bg-indigo-600 text-white text-sm font-bold shadow-md hover:shadow-indigo-500/25 transition-all duration-300 flex items-center justify-center gap-1.5 group/btn"
+                    className="flex-1 py-3 rounded-xl bg-slate-900 hover:bg-blue-600 text-white text-sm font-bold shadow-md hover:shadow-blue-600/25 transition-all duration-300 flex items-center justify-center gap-1.5 group/btn"
                   >
                     Apply 
                     <FiChevronRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
@@ -214,8 +215,8 @@ function BrowseJobs() {
                   onClick={() => setPage(p)} 
                   className={`w-11 h-11 rounded-xl text-sm font-extrabold transition-all duration-300 flex items-center justify-center ${
                     p === page 
-                      ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 scale-105' 
-                      : 'bg-white text-slate-600 border border-slate-200 hover:border-indigo-300 hover:text-indigo-600 hover:bg-indigo-50 hover:scale-105 shadow-sm'
+                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30 scale-105' 
+                      : 'bg-white text-slate-600 border border-slate-200 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 hover:scale-105 shadow-sm'
                   }`}
                 >
                   {p}

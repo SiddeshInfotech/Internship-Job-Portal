@@ -105,9 +105,9 @@ function ApplyJob() {
         <div className="max-w-3xl mx-auto">
           <Link 
             to={`/student/jobs/${jobId}`} 
-            className="inline-flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-indigo-600 mb-8 transition-colors group"
+            className="inline-flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-blue-600 mb-8 transition-colors group"
           >
-            <div className="p-1.5 rounded-lg bg-slate-200/50 group-hover:bg-indigo-100 transition-colors">
+            <div className="p-1.5 rounded-lg bg-slate-200/50 group-hover:bg-blue-100 transition-colors">
               <FiArrowLeft size={16} />
             </div>
             Back to Job Details
@@ -118,8 +118,8 @@ function ApplyJob() {
             <div className="py-24 flex flex-col items-center justify-center space-y-6 animate-entrance">
               <div className="relative w-20 h-20">
                 <div className="absolute inset-0 rounded-full border-4 border-slate-100 shadow-inner"></div>
-                <div className="absolute inset-0 rounded-full border-4 border-indigo-600 border-t-transparent animate-spin drop-shadow-md"></div>
-                <div className="absolute inset-0 flex items-center justify-center text-indigo-600">
+                <div className="absolute inset-0 rounded-full border-4 border-blue-600 border-t-transparent animate-spin drop-shadow-md"></div>
+                <div className="absolute inset-0 flex items-center justify-center text-blue-600">
                   <FiSend size={24} className="animate-pulse" />
                 </div>
               </div>
@@ -133,12 +133,12 @@ function ApplyJob() {
               
               {/* Job Header Card */}
               {job && (
-                <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col sm:flex-row sm:items-center justify-between gap-6 animate-entrance relative overflow-hidden group hover:border-indigo-200 transition-colors">
-                  <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-indigo-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col sm:flex-row sm:items-center justify-between gap-6 animate-entrance relative overflow-hidden group hover:border-blue-200 transition-colors">
+                  <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-blue-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   
                   <div className="flex items-center gap-5">
                     <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-50 border border-slate-200 flex items-center justify-center flex-shrink-0 shadow-sm">
-                      <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-indigo-600 to-purple-600 text-2xl">
+                      <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-blue-600 to-blue-700 text-2xl">
                         {(job.company_name || job.company || '?').charAt(0).toUpperCase()}
                       </span>
                     </div>
@@ -224,13 +224,13 @@ function ApplyJob() {
                         <select 
                           value={selectedResumeId} 
                           onChange={(e) => setSelectedResumeId(e.target.value)} 
-                          className="w-full pl-5 pr-12 py-3.5 rounded-xl bg-white border border-slate-200/80 text-sm font-semibold text-slate-800 outline-none transition-all focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 shadow-[0_2px_10px_rgb(0,0,0,0.01)] hover:border-slate-300 appearance-none cursor-pointer"
+                          className="w-full pl-5 pr-12 py-3.5 rounded-xl bg-white border border-slate-200/80 text-sm font-semibold text-slate-800 outline-none transition-all focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[0_2px_10px_rgb(0,0,0,0.01)] hover:border-slate-300 appearance-none cursor-pointer"
                         >
                           {resumes.map((r) => (
                             <option key={r.id} value={r.id}>{r.filename} {r.is_primary ? '(Primary)' : ''}</option>
                           ))}
                         </select>
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 group-hover:text-indigo-500 transition-colors">
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 group-hover:text-blue-600 transition-colors">
                           <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M1.5 1.5L6 6L10.5 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                           </svg>
@@ -255,7 +255,7 @@ function ApplyJob() {
                       rows={6} 
                       maxLength={2000}
                       placeholder="Why are you a great fit for this role? Share your motivation and highlight relevant experience..."
-                      className="w-full px-5 py-4 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-medium text-slate-800 placeholder-slate-400 outline-none transition-all focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 shadow-[0_2px_10px_rgb(0,0,0,0.01)] hover:border-slate-300 resize-none"
+                      className="w-full px-5 py-4 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-medium text-slate-800 placeholder-slate-400 outline-none transition-all focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[0_2px_10px_rgb(0,0,0,0.01)] hover:border-slate-300 resize-none"
                     />
                   </div>
 
@@ -268,7 +268,7 @@ function ApplyJob() {
                       value={portfolioLink} 
                       onChange={(e) => setPortfolioLink(e.target.value)} 
                       placeholder="https://linkedin.com/in/yourprofile or your personal site"
-                      className="w-full px-5 py-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-medium text-slate-800 placeholder-slate-400 outline-none transition-all focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 shadow-[0_2px_10px_rgb(0,0,0,0.01)] hover:border-slate-300"
+                      className="w-full px-5 py-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-medium text-slate-800 placeholder-slate-400 outline-none transition-all focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[0_2px_10px_rgb(0,0,0,0.01)] hover:border-slate-300"
                     />
                   </div>
                 </div>
@@ -278,7 +278,7 @@ function ApplyJob() {
                   <button 
                     type="submit" 
                     disabled={submitting || resumes.length === 0} 
-                    className="flex-1 sm:flex-none sm:w-2/3 py-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-sm transition-all duration-300 shadow-[0_4px_14px_0_rgb(79,70,229,0.39)] hover:shadow-[0_6px_20px_rgba(79,70,229,0.23)] hover:-translate-y-0.5 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2 group/btn"
+                    className="flex-1 sm:flex-none sm:w-2/3 py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm transition-all duration-300 shadow-[0_4px_14px_0_rgb(79,70,229,0.39)] hover:shadow-[0_6px_20px_rgba(79,70,229,0.23)] hover:-translate-y-0.5 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2 group/btn"
                   >
                     {submitting ? (
                       <>

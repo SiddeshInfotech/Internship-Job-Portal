@@ -39,7 +39,7 @@ function StudentSubTabs() {
                 className={({ isActive }) =>
                   `relative flex items-center gap-2.5 py-4 px-3 sm:px-1 text-sm font-bold transition-all duration-300 ease-out whitespace-nowrap group active:scale-[0.98] ${
                     isActive
-                      ? 'text-indigo-600 dark:text-indigo-400'
+                      ? 'text-blue-600 dark:text-blue-500'
                       : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
                   }`
                 }
@@ -50,7 +50,7 @@ function StudentSubTabs() {
                       size={16} 
                       className={`transition-transform duration-300 ${
                         isActive 
-                          ? 'scale-110 drop-shadow-sm text-indigo-500' 
+                          ? 'scale-110 drop-shadow-sm text-blue-600' 
                           : 'group-hover:scale-110 group-hover:text-slate-700 dark:group-hover:text-slate-300'
                       }`} 
                     />
@@ -60,7 +60,7 @@ function StudentSubTabs() {
                     <div 
                       className={`absolute bottom-0 left-0 w-full h-[3px] rounded-t-full transition-all duration-300 ease-out origin-center ${
                         isActive 
-                          ? 'bg-gradient-to-r from-indigo-500 to-violet-500 dark:from-indigo-400 dark:to-violet-400 opacity-100 scale-x-100 shadow-[0_-2px_10px_rgba(99,102,241,0.4)]' 
+                          ? 'bg-gradient-to-r from-blue-600 to-blue-600 dark:from-blue-500 dark:to-blue-400 opacity-100 scale-x-100 shadow-[0_-2px_10px_rgba(37,99,235,0.4)]' 
                           : 'bg-slate-300 dark:bg-slate-600 opacity-0 scale-x-0 group-hover:opacity-100 group-hover:scale-x-75'
                       }`}
                     />

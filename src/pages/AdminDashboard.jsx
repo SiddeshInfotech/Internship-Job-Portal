@@ -50,8 +50,8 @@ function AdminDashboard() {
     const isActive = location.pathname === path;
     return `flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-bold transition-all duration-300 group ${
       isActive 
-        ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/25 translate-x-1' 
-        : 'text-slate-500 hover:bg-indigo-50 hover:text-indigo-700 hover:translate-x-1'
+        ? 'bg-blue-600 text-white shadow-md shadow-blue-600/25 translate-x-1' 
+        : 'text-slate-500 hover:bg-blue-50 hover:text-blue-700 hover:translate-x-1'
     }`;
   };
 
@@ -90,7 +90,7 @@ function AdminDashboard() {
         }
       `}</style>
 
-      <div className="flex h-screen bg-[#F8FAFC] font-sans overflow-hidden">
+      <div className="admin-scope flex h-screen bg-[#F8FAFC] font-sans overflow-hidden">
         
         {/* Mobile Menu Overlay */}
         {isMobileMenuOpen && (
@@ -111,7 +111,7 @@ function AdminDashboard() {
             <div className="flex items-center gap-3">
               <BrandLogo size={36} plate />
               <div className="flex flex-col">
-                <h3 className="font-extrabold text-xl text-slate-900 tracking-tight leading-none">Placify<span className="text-indigo-600">.</span></h3>
+                <h3 className="font-extrabold text-xl text-slate-900 tracking-tight leading-none">Placify<span className="text-blue-600">.</span></h3>
                 <p className="text-[9px] font-bold text-slate-400 tracking-widest mt-1 uppercase">Admin Portal</p>
               </div>
             </div>
@@ -164,7 +164,7 @@ function AdminDashboard() {
               <span className="font-extrabold text-lg text-slate-900">Placify</span>
             </div>
             <button 
-              className="text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 p-2 rounded-xl transition-colors"
+              className="text-slate-600 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-xl transition-colors"
               onClick={() => setIsMobileMenuOpen(true)}
             >
               <FiMenu size={24} />
@@ -172,9 +172,9 @@ function AdminDashboard() {
           </header>
 
           {/* Main Dynamic Content Area */}
-          <main className="flex-1 overflow-y-auto bg-[#F8FAFC] relative">
+          <main className="admin-main flex-1 overflow-y-auto bg-[#F8FAFC] relative">
             {/* Subtle Gradient Background Effect for the Main View */}
-            <div className="absolute top-0 left-0 right-0 h-64 bg-gradient-to-b from-indigo-50/50 to-transparent pointer-events-none -z-10" />
+            <div className="absolute top-0 left-0 right-0 h-64 bg-gradient-to-b from-blue-50/50 to-transparent pointer-events-none -z-10" />
             
             <div className="p-4 sm:p-6 lg:p-8 min-h-full animate-fade-in">
               {/* 🔥 YAHAN OUTLET LAGAYA HAI: React Router handles the smooth component swapping here */}

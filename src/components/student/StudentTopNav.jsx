@@ -21,17 +21,47 @@ function StudentTopNav() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  let student = { name: 'Student' };
-  try {
-    const stored = sessionStorage.getItem('student_info');
-    if (stored) student = JSON.parse(stored);
-  } catch { /* ignore malformed storage */ }
+  // Initialize state from sessionStorage to prevent UI flashing
+  const [student, setStudent] = useState(() => {
+    try {
+      const stored = sessionStorage.getItem('student_info');
+      return stored ? JSON.parse(stored) : { name: 'Student' };
+    } catch {
+      return { name: 'Student' };
+    }
+  });
 
   const handleLogout = () => {
     sessionStorage.removeItem('student_token');
     sessionStorage.removeItem('student_info');
     navigate('/student/login');
   };
+
+  // Fetch the latest profile data from backend to keep the photo & name in sync
+  useEffect(() => {
+    const fetchLatestProfile = async () => {
+      try {
+        const res = await studentAxios.get('/student/profile');
+        const p = res.data.profile || res.data;
+        setStudent(p);
+        
+        // Optionally update sessionStorage so it stays fresh on hard reloads
+        sessionStorage.setItem('student_info', JSON.stringify(p));
+      } catch (err) {
+        console.error("Could not fetch latest profile for navbar", err);
+      }
+    };
+
+    fetchLatestProfile();
+
+    // Listen for custom event from Settings page to update instantly without refresh
+    const handleProfileUpdate = () => {
+      fetchLatestProfile();
+    };
+    window.addEventListener('profileUpdated', handleProfileUpdate);
+
+    return () => window.removeEventListener('profileUpdated', handleProfileUpdate);
+  }, []);
 
   // Close mobile menu and dropdowns when route changes
   useEffect(() => {
@@ -54,7 +84,7 @@ function StudentTopNav() {
   const desktopNavLinkClass = ({ isActive }) =>
     `relative px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ease-out flex items-center gap-2 hover:scale-105 active:scale-95 ${
       isActive
-        ? 'bg-gradient-to-r from-indigo-50 to-violet-50 dark:from-indigo-900/30 dark:to-violet-900/30 text-indigo-700 dark:text-indigo-400 shadow-[inset_0_1px_2px_rgba(255,255,255,0.5)] border border-indigo-100 dark:border-indigo-800/50'
+        ? 'bg-gradient-to-r from-blue-50 to-blue-50 dark:from-indigo-900/30 dark:to-blue-900/30 text-blue-700 dark:text-blue-500 shadow-[inset_0_1px_2px_rgba(255,255,255,0.5)] border border-blue-100 dark:border-indigo-800/50'
         : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50/80 dark:hover:bg-slate-800/80 border border-transparent'
     }`;
 
@@ -62,9 +92,12 @@ function StudentTopNav() {
   const mobileNavLinkClass = ({ isActive }) =>
     `flex items-center gap-3 px-5 py-3.5 rounded-2xl text-base font-bold transition-all duration-300 active:scale-[0.98] ${
       isActive
-        ? 'bg-gradient-to-r from-indigo-50 to-violet-50 dark:from-indigo-900/40 dark:to-violet-900/40 text-indigo-700 dark:text-indigo-400 shadow-sm border border-indigo-100/50 dark:border-indigo-800/50'
+        ? 'bg-gradient-to-r from-blue-50 to-blue-50 dark:from-indigo-900/40 dark:to-blue-900/40 text-blue-700 dark:text-blue-500 shadow-sm border border-blue-100/50 dark:border-indigo-800/50'
         : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-100'
     }`;
+
+  // Helper to safely get the photo URL regardless of what the backend calls it
+  const photoUrl = student?.profile_photo || student?.profile_photo_url || student?.photo_url;
 
   return (
     <>
@@ -94,8 +127,8 @@ function StudentTopNav() {
             {/* Left: Brand & Desktop Nav */}
             <div className="flex items-center gap-8">
               <Link to="/student/browse-jobs" className="flex items-center gap-3 group active:scale-95 transition-transform duration-300">
-                <div className="relative w-10 h-10 bg-gradient-to-br from-white to-slate-50 dark:from-slate-800 dark:to-slate-900 rounded-xl shadow-sm border border-slate-200/80 dark:border-slate-700 flex items-center justify-center group-hover:shadow-indigo-500/20 group-hover:shadow-lg group-hover:border-indigo-300 dark:group-hover:border-indigo-500/50 transition-all duration-500 group-hover:-translate-y-1 overflow-hidden">
-                  <div className="absolute inset-0 bg-indigo-500/10 dark:bg-indigo-400/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
+                <div className="relative w-10 h-10 bg-gradient-to-br from-white to-slate-50 dark:from-slate-800 dark:to-slate-900 rounded-xl shadow-sm border border-slate-200/80 dark:border-slate-700 flex items-center justify-center group-hover:shadow-blue-600/20 group-hover:shadow-lg group-hover:border-blue-400 dark:group-hover:border-blue-600/50 transition-all duration-500 group-hover:-translate-y-1 overflow-hidden">
+                  <div className="absolute inset-0 bg-blue-600/10 dark:bg-blue-500/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
                   <img
                     src="/images/brand/placify-icon.png"
                     alt="Placify"
@@ -103,7 +136,7 @@ function StudentTopNav() {
                   />
                 </div>
                 <span className="font-extrabold text-2xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-300">
-                  Placify<span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-500 dark:from-indigo-400 dark:to-violet-400">.</span>
+                  Placify<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-600 dark:from-blue-500 dark:to-blue-400">.</span>
                 </span>
               </Link>
 
@@ -139,24 +172,24 @@ function StudentTopNav() {
               <div className="relative" ref={dropdownRef}>
                 <button 
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
-                  className="group flex items-center gap-3 p-1.5 pr-4 rounded-full hover:bg-slate-100/50 dark:hover:bg-slate-800/50 border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-indigo-500/20 active:scale-95"
+                  className="group flex items-center gap-3 p-1.5 pr-4 rounded-full hover:bg-slate-100/50 dark:hover:bg-slate-800/50 border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-600/20 active:scale-95"
                 >
-                  <div className="relative w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 shadow-sm flex items-center justify-center font-extrabold text-white text-sm group-hover:shadow-md group-hover:ring-4 ring-indigo-500/20 dark:ring-indigo-400/20 transition-all duration-300 z-10 hover-float">
-                    {student.profile_photo ? (
-                      <img src={student.profile_photo} alt="Profile" className="w-full h-full rounded-full object-cover border-2 border-white dark:border-slate-900" />
+                  <div className="relative w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 via-blue-600 to-pink-500 shadow-sm flex items-center justify-center font-extrabold text-white text-sm group-hover:shadow-md group-hover:ring-4 ring-blue-600/20 dark:ring-blue-500/20 transition-all duration-300 z-10 hover-float overflow-hidden">
+                    {photoUrl ? (
+                      <img src={photoUrl} alt="Profile" className="w-full h-full rounded-full object-cover border-2 border-white dark:border-slate-900" />
                     ) : (
-                      <span className="drop-shadow-md">{(student.name || 'S').charAt(0).toUpperCase()}</span>
+                      <span className="drop-shadow-md">{(student?.name || 'S').charAt(0).toUpperCase()}</span>
                     )}
                   </div>
                   <div className="hidden sm:flex flex-col items-start justify-center">
-                    <span className="text-sm font-bold text-slate-700 dark:text-slate-200 max-w-[100px] truncate leading-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                      {student.name || 'Student'}
+                    <span className="text-sm font-bold text-slate-700 dark:text-slate-200 max-w-[100px] truncate leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-500 transition-colors">
+                      {student?.name || 'Student'}
                     </span>
                     <span className="text-[10px] font-medium text-slate-400 dark:text-slate-500 tracking-wider uppercase">
                       Student
                     </span>
                   </div>
-                  <FiChevronDown className={`text-slate-400 dark:text-slate-500 transition-transform duration-500 hidden sm:block ${isProfileOpen ? 'rotate-180 text-indigo-500' : 'group-hover:text-slate-600 dark:group-hover:text-slate-300'}`} size={16} />
+                  <FiChevronDown className={`text-slate-400 dark:text-slate-500 transition-transform duration-500 hidden sm:block ${isProfileOpen ? 'rotate-180 text-blue-600' : 'group-hover:text-slate-600 dark:group-hover:text-slate-300'}`} size={16} />
                 </button>
 
                 {/* Dropdown Menu */}
@@ -164,15 +197,15 @@ function StudentTopNav() {
                   <div className="absolute right-0 top-full mt-3 w-64 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] border border-slate-100/80 dark:border-slate-800 p-2 z-50 animate-pop-in origin-top-right">
                     <div className="px-4 py-3 mb-2 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
                       <p className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">Signed in as</p>
-                      <p className="text-sm font-extrabold text-slate-900 dark:text-white truncate">{student.name}</p>
-                      <p className="text-xs font-medium text-slate-500 dark:text-slate-400 truncate">{student.email}</p>
+                      <p className="text-sm font-extrabold text-slate-900 dark:text-white truncate">{student?.name}</p>
+                      <p className="text-xs font-medium text-slate-500 dark:text-slate-400 truncate">{student?.email}</p>
                     </div>
                     
                     <div className="space-y-1">
-                      <Link to="/student/profile" className="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-xl transition-all duration-200 group">
+                      <Link to="/student/profile" className="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-blue-600/10 hover:text-blue-600 dark:hover:text-blue-500 rounded-xl transition-all duration-200 group">
                         <FiUser size={16} className="group-hover:scale-110 transition-transform" /> My Profile
                       </Link>
-                      <Link to="/student/settings" className="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-xl transition-all duration-200 group">
+                      <Link to="/student/settings" className="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-blue-600/10 hover:text-blue-600 dark:hover:text-blue-500 rounded-xl transition-all duration-200 group">
                         <FiSettings size={16} className="group-hover:scale-110 group-hover:rotate-45 transition-transform duration-300" /> Account Settings
                       </Link>
                     </div>
@@ -194,7 +227,7 @@ function StudentTopNav() {
               {/* Mobile Menu Hamburger */}
               <button 
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden p-2 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 rounded-xl transition-all duration-300 focus:outline-none active:scale-90"
+                className="md:hidden p-2 text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-600/10 rounded-xl transition-all duration-300 focus:outline-none active:scale-90"
               >
                 <div className={`transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-90 scale-110' : 'rotate-0'}`}>
                   {isMobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}

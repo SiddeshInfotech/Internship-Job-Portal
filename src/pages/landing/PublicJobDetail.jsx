@@ -5,6 +5,7 @@ import publicAxios from '../../api/publicAxios';
 import { FiArrowLeft, FiMapPin, FiBriefcase, FiCalendar } from 'react-icons/fi';
 import { fmtJobDate } from '../../utils/fields';
 import JobBody from '../../components/JobSections';
+import { fmtMoney } from '../../utils/fields';
 
 function PublicJobDetail() {
   const { id } = useParams();
@@ -75,7 +76,7 @@ function PublicJobDetail() {
                     <p className="text-white/70">{job.company_name}{job.location ? ` · ${job.location}` : ''}</p>
                     <div className="flex flex-wrap gap-2 mt-3">
                       {job.job_type && <span className="px-3 py-1 rounded-full bg-white/10 text-xs font-semibold">{job.job_type}</span>}
-                      {job.salary_stipend && <span className="px-3 py-1 rounded-full bg-white/10 text-xs font-semibold">{job.salary_stipend}</span>}
+                      {job.salary_stipend && <span className="px-3 py-1 rounded-full bg-white/10 text-xs font-semibold">{fmtMoney(job.salary_stipend)}</span>}
                       {job.last_date_to_apply && <span className="px-3 py-1 rounded-full bg-[#F59E0B]/20 text-[#F59E0B] text-xs font-semibold">Apply by {fmtJobDate(job.last_date_to_apply)}</span>}
                     </div>
                   </div>

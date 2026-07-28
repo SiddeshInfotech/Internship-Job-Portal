@@ -209,17 +209,17 @@ function ProfileWizard() {
           <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-8">
               <div className="flex items-center gap-2 group cursor-pointer">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-white font-extrabold text-xl shadow-lg group-hover:scale-105 transition-transform">
+                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center text-white font-extrabold text-xl shadow-lg group-hover:scale-105 transition-transform">
                   P
                 </div>
                 <span className="font-extrabold text-xl text-slate-900 tracking-tight">Placify</span>
               </div>
               <div className="hidden sm:flex items-center gap-6">
-                <Link to="/student/browse-jobs" className="text-sm font-semibold text-slate-500 hover:text-indigo-600 transition-colors">Browse Jobs</Link>
-                <Link to="/student/applications" className="text-sm font-semibold text-slate-500 hover:text-indigo-600 transition-colors">My Applications</Link>
+                <Link to="/student/browse-jobs" className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors">Browse Jobs</Link>
+                <Link to="/student/applications" className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors">My Applications</Link>
               </div>
             </div>
-            <Link to="/student/browse-jobs" className="text-sm font-bold text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-4 py-2 rounded-xl transition-all">
+            <Link to="/student/browse-jobs" className="text-sm font-bold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-xl transition-all">
               Skip for Now
             </Link>
           </div>
@@ -238,21 +238,21 @@ function ProfileWizard() {
                   <div className="flex flex-col items-center relative z-10 w-24">
                     <div className={`w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold transition-all duration-500 shadow-sm ${
                       step === s.id 
-                        ? 'bg-indigo-600 text-white ring-4 ring-indigo-100 scale-110 shadow-indigo-500/30' 
+                        ? 'bg-blue-600 text-white ring-4 ring-blue-100 scale-110 shadow-blue-600/30' 
                         : step > s.id 
                           ? 'bg-emerald-500 text-white' 
                           : 'bg-white text-slate-400 border border-slate-200'
                     }`}>
                       {step > s.id ? <FiCheck size={20} /> : s.icon}
                     </div>
-                    <span className={`text-xs font-bold mt-3 absolute -bottom-6 w-32 text-center transition-colors ${step === s.id ? 'text-indigo-600' : 'text-slate-400'}`}>
+                    <span className={`text-xs font-bold mt-3 absolute -bottom-6 w-32 text-center transition-colors ${step === s.id ? 'text-blue-600' : 'text-slate-400'}`}>
                       {s.title}
                     </span>
                   </div>
                   {i < steps.length - 1 && (
                     <div className="flex-1 h-[2px] mx-2 sm:mx-4 bg-slate-200 relative">
                       <div 
-                        className="absolute top-0 left-0 h-full bg-indigo-600 transition-all duration-700 ease-out"
+                        className="absolute top-0 left-0 h-full bg-blue-600 transition-all duration-700 ease-out"
                         style={{ width: step > s.id ? '100%' : '0%' }}
                       />
                     </div>
@@ -276,22 +276,22 @@ function ProfileWizard() {
                 <div className="relative w-24 h-24 flex items-center justify-center">
                   <div className="loader-circle w-full h-full" style={{ animationDelay: '0s' }}></div>
                   <div className="loader-circle w-3/4 h-3/4" style={{ animationDelay: '0.4s' }}></div>
-                  <div className="w-10 h-10 bg-indigo-600 rounded-full shadow-lg shadow-indigo-500/40 flex items-center justify-center text-white relative z-10">
+                  <div className="w-10 h-10 bg-blue-600 rounded-full shadow-lg shadow-blue-600/40 flex items-center justify-center text-white relative z-10">
                     <FiUser size={20} className="animate-pulse" />
                   </div>
                 </div>
-                <p className="mt-6 text-sm font-bold text-indigo-600 tracking-wider uppercase animate-pulse">
+                <p className="mt-6 text-sm font-bold text-blue-600 tracking-wider uppercase animate-pulse">
                   Loading Profile...
                 </p>
               </div>
             ) : (
               <div className="bg-white rounded-[2rem] border border-slate-200/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 sm:p-10 animate-entrance delay-100 relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-500"></div>
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-blue-600"></div>
                 
                 {step === 1 && (
                   <div className="animate-entrance">
                     <div className="flex items-center gap-3 mb-8">
-                      <div className="p-2.5 bg-indigo-50 text-indigo-600 rounded-xl">
+                      <div className="p-2.5 bg-blue-50 text-blue-600 rounded-xl">
                         <FiUser className="w-5 h-5" />
                       </div>
                       <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">Personal Information</h3>
@@ -354,13 +354,13 @@ function ProfileWizard() {
                       <div className="pt-6 border-t border-slate-100 animate-entrance">
                         <div className="flex items-center justify-between mb-5">
                           <div className="flex items-center gap-2 text-slate-900">
-                            <FiBriefcase className="text-indigo-500" />
+                            <FiBriefcase className="text-blue-600" />
                             <h4 className="font-extrabold text-lg">Work Experience</h4>
                           </div>
                           <button
                             type="button"
                             onClick={() => setExperiences((prev) => [...prev, { job_designation: '', company: '', duration: '', years: '' }])}
-                            className="flex items-center gap-1.5 px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-sm rounded-xl transition-colors"
+                            className="flex items-center gap-1.5 px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-sm rounded-xl transition-colors"
                           >
                             <FiPlus /> Add Role
                           </button>
@@ -368,7 +368,7 @@ function ProfileWizard() {
 
                         {experiences.length === 0 ? (
                           <div className="p-8 rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 flex flex-col items-center justify-center text-center group">
-                            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-slate-400 mb-3 group-hover:text-indigo-500 transition-colors">
+                            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-slate-400 mb-3 group-hover:text-blue-600 transition-colors">
                               <FiBriefcase size={20} />
                             </div>
                             <p className="text-sm font-semibold text-slate-600 mb-1">No experience added yet.</p>
@@ -377,8 +377,8 @@ function ProfileWizard() {
                         ) : (
                           <div className="space-y-4">
                             {experiences.map((exp, i) => (
-                              <div key={i} className="group p-6 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md hover:border-indigo-200 transition-all relative overflow-hidden">
-                                <div className="absolute left-0 top-0 w-1 h-full bg-slate-200 group-hover:bg-indigo-400 transition-colors"></div>
+                              <div key={i} className="group p-6 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-200 transition-all relative overflow-hidden">
+                                <div className="absolute left-0 top-0 w-1 h-full bg-slate-200 group-hover:bg-blue-500 transition-colors"></div>
                                 
                                 <div className="flex items-center justify-between mb-5 pl-2">
                                   <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest bg-slate-100 px-2 py-1 rounded-md">
@@ -438,7 +438,7 @@ function ProfileWizard() {
                           <Field label="Certificate URL (Google Drive/Link)" className="flex-1 w-full">
                             <input value={certFileUrl} onChange={(e) => setCertFileUrl(e.target.value)} type="url" placeholder="https://drive.google.com/..." className={inputCls} />
                           </Field>
-                          <button type="button" onClick={handleAddCert} className="w-full sm:w-auto px-8 py-3 rounded-xl bg-slate-900 hover:bg-indigo-600 text-white font-bold text-sm transition-colors flex items-center justify-center gap-2 shadow-sm">
+                          <button type="button" onClick={handleAddCert} className="w-full sm:w-auto px-8 py-3 rounded-xl bg-slate-900 hover:bg-blue-600 text-white font-bold text-sm transition-colors flex items-center justify-center gap-2 shadow-sm">
                             <FiPlus /> Add 
                           </button>
                         </div>
@@ -475,7 +475,7 @@ function ProfileWizard() {
                     {/* Skills Section */}
                     <div className="pt-8 border-t border-slate-100">
                       <div className="flex items-center gap-3 mb-6">
-                        <div className="p-2.5 bg-purple-50 text-purple-600 rounded-xl">
+                        <div className="p-2.5 bg-blue-50 text-blue-700 rounded-xl">
                           <FiBookOpen className="w-5 h-5" />
                         </div>
                         <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">Technical Skills</h3>
@@ -500,7 +500,7 @@ function ProfileWizard() {
                           </select>
                           <FiChevronRight className="absolute right-4 top-[65%] -translate-y-1/2 text-slate-400 rotate-90 pointer-events-none" />
                         </Field>
-                        <button type="button" onClick={handleAddSkill} className="w-full sm:w-auto px-8 py-3 rounded-xl bg-slate-900 hover:bg-indigo-600 text-white font-bold text-sm transition-colors flex items-center justify-center gap-2 shadow-sm">
+                        <button type="button" onClick={handleAddSkill} className="w-full sm:w-auto px-8 py-3 rounded-xl bg-slate-900 hover:bg-blue-600 text-white font-bold text-sm transition-colors flex items-center justify-center gap-2 shadow-sm">
                           <FiPlus /> Add
                         </button>
                       </div>
@@ -550,7 +550,7 @@ function ProfileWizard() {
                     type="button" 
                     disabled={saving} 
                     onClick={() => handleSaveNext(step === 3)} 
-                    className="w-full sm:w-auto px-10 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-sm transition-all shadow-[0_4px_14px_0_rgb(79,70,229,0.39)] hover:shadow-[0_6px_20px_rgba(79,70,229,0.23)] hover:-translate-y-0.5 disabled:opacity-70 disabled:pointer-events-none flex items-center justify-center gap-2"
+                    className="w-full sm:w-auto px-10 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm transition-all shadow-[0_4px_14px_0_rgb(79,70,229,0.39)] hover:shadow-[0_6px_20px_rgba(79,70,229,0.23)] hover:-translate-y-0.5 disabled:opacity-70 disabled:pointer-events-none flex items-center justify-center gap-2"
                   >
                     {saving ? (
                       <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Saving...</>
@@ -571,12 +571,12 @@ function ProfileWizard() {
   );
 }
 
-const inputCls = "w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 shadow-[0_2px_10px_rgb(0,0,0,0.01)] hover:border-slate-300";
+const inputCls = "w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[0_2px_10px_rgb(0,0,0,0.01)] hover:border-slate-300";
 
 function Field({ label, children, className = '' }) {
   return (
     <div className={`group flex flex-col ${className}`}>
-      <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2 group-focus-within:text-indigo-600 transition-colors">
+      <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2 group-focus-within:text-blue-600 transition-colors">
         {label}
       </label>
       {children}

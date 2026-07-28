@@ -79,11 +79,11 @@ function AppliedStatus() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] pb-24 font-sans selection:bg-indigo-100 selection:text-indigo-900">
+    <div className="student-scope min-h-screen bg-[#FAFAFA] pb-24 font-sans selection:bg-blue-100 selection:text-blue-900">
       <StudentSubTabs />
       
       {/* Decorative Top Gradient */}
-      <div className="absolute top-0 inset-x-0 h-[300px] bg-gradient-to-b from-indigo-50/50 to-transparent pointer-events-none"></div>
+      <div className="absolute top-0 inset-x-0 h-[300px] bg-gradient-to-b from-blue-50/50 to-transparent pointer-events-none"></div>
 
       <main className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         
@@ -148,7 +148,7 @@ function AppliedStatus() {
               </p>
               <button 
                 onClick={() => navigate('/student/browse-jobs')} 
-                className="inline-flex items-center gap-2 px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-sm hover:shadow transition-all text-sm active:scale-95"
+                className="inline-flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-sm hover:shadow transition-all text-sm active:scale-95"
               >
                 Browse open roles
               </button>
@@ -164,7 +164,7 @@ function AppliedStatus() {
                   <div 
                     key={app.id} 
                     className={`bg-white rounded-2xl border transition-all duration-300 overflow-hidden animate-in fade-in slide-in-from-bottom-4 ${
-                      isOpen ? 'border-indigo-300 shadow-md ring-1 ring-indigo-50' : 'border-gray-200 shadow-sm hover:shadow hover:border-gray-300'
+                      isOpen ? 'border-blue-400 shadow-md ring-1 ring-blue-50' : 'border-gray-200 shadow-sm hover:shadow hover:border-gray-300'
                     }`}
                     style={{ animationFillMode: 'both', animationDelay: `${index * 50}ms` }}
                   >
@@ -177,12 +177,12 @@ function AppliedStatus() {
                         <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg flex-shrink-0 shadow-sm transition-transform group-hover:scale-105 ${
                           isRejected 
                             ? 'bg-gray-50 text-gray-400 border border-gray-100' 
-                            : 'bg-gradient-to-br from-indigo-50 to-indigo-100/50 text-indigo-700 border border-indigo-100'
+                            : 'bg-gradient-to-br from-blue-50 to-blue-100/50 text-blue-700 border border-blue-100'
                         }`}>
                           {(app.company_name || app.company || '?').charAt(0).toUpperCase()}
                         </div>
                         <div>
-                          <h3 className="font-bold text-gray-900 text-base md:text-lg group-hover:text-indigo-600 transition-colors line-clamp-1">
+                          <h3 className="font-bold text-gray-900 text-base md:text-lg group-hover:text-blue-600 transition-colors line-clamp-1">
                             {app.job_title || app.role}
                           </h3>
                           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-500 mt-1">
@@ -197,7 +197,7 @@ function AppliedStatus() {
                       
                       <div className="flex items-center justify-between mt-4 sm:mt-0 sm:ml-4 gap-4">
                         <StatusBadge status={app.status} />
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${isOpen ? 'bg-indigo-50 text-indigo-600' : 'bg-gray-50 text-gray-400 group-hover:bg-gray-100'}`}>
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${isOpen ? 'bg-blue-50 text-blue-600' : 'bg-gray-50 text-gray-400 group-hover:bg-gray-100'}`}>
                           <FiChevronDown className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} size={18} />
                         </div>
                       </div>
@@ -212,7 +212,7 @@ function AppliedStatus() {
                             <h4 className="text-sm font-bold text-gray-900">Application Journey</h4>
                             {!isRejected && (
                               <span className="text-xs font-semibold px-2.5 py-1 rounded-md bg-white border border-gray-200 text-gray-600 shadow-sm">
-                                Stage <span className="text-indigo-600">{Math.max(currentStage + 1, 1)}</span> of {STAGES.length}
+                                Stage <span className="text-blue-600">{Math.max(currentStage + 1, 1)}</span> of {STAGES.length}
                               </span>
                             )}
                           </div>
@@ -236,7 +236,7 @@ function AppliedStatus() {
                               
                               {/* Active Line */}
                               <div 
-                                className="absolute top-6 left-10 h-[2px] bg-indigo-500 rounded-full z-0 transition-all duration-700 hidden sm:block" 
+                                className="absolute top-6 left-10 h-[2px] bg-blue-600 rounded-full z-0 transition-all duration-700 hidden sm:block" 
                                 style={{ width: `${(Math.max(0, currentStage) / (STAGES.length - 1)) * 100}%` }}
                               ></div>
 
@@ -251,14 +251,14 @@ function AppliedStatus() {
                                       
                                       {/* Mobile Vertical Line Connecting Dots */}
                                       {i < STAGES.length - 1 && (
-                                        <div className={`absolute top-8 left-[15px] w-[2px] h-full -z-10 sm:hidden ${isCompleted ? 'bg-indigo-500' : 'bg-gray-200'}`}></div>
+                                        <div className={`absolute top-8 left-[15px] w-[2px] h-full -z-10 sm:hidden ${isCompleted ? 'bg-blue-600' : 'bg-gray-200'}`}></div>
                                       )}
 
                                       <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border-2 transition-all duration-300 shrink-0 shadow-sm ${
                                         isCompleted 
-                                          ? 'bg-indigo-600 border-indigo-600 text-white' 
+                                          ? 'bg-blue-600 border-blue-600 text-white' 
                                           : isCurrent 
-                                            ? 'bg-white border-indigo-500 text-indigo-600 ring-4 ring-indigo-50' 
+                                            ? 'bg-white border-blue-600 text-blue-600 ring-4 ring-blue-50' 
                                             : 'bg-white border-gray-200 text-gray-300'
                                       }`}>
                                         {isCompleted ? <FiCheck size={14} /> : (i + 1)}
@@ -271,7 +271,7 @@ function AppliedStatus() {
                                           {stage}
                                         </span>
                                         {isCurrent && (
-                                          <p className="text-[11px] text-indigo-600 font-semibold mt-0.5 sm:hidden">Current Stage</p>
+                                          <p className="text-[11px] text-blue-600 font-semibold mt-0.5 sm:hidden">Current Stage</p>
                                         )}
                                       </div>
                                     </div>
@@ -287,7 +287,7 @@ function AppliedStatus() {
                                 e.stopPropagation();
                                 navigate(`/student/jobs/${app.job_id}`);
                               }} 
-                              className="inline-flex items-center gap-1.5 text-sm font-semibold text-gray-700 bg-white border border-gray-200 px-4 py-2 rounded-lg hover:bg-gray-50 hover:text-indigo-600 transition-colors shadow-sm active:scale-95"
+                              className="inline-flex items-center gap-1.5 text-sm font-semibold text-gray-700 bg-white border border-gray-200 px-4 py-2 rounded-lg hover:bg-gray-50 hover:text-blue-600 transition-colors shadow-sm active:scale-95"
                             >
                               View job details <FiExternalLink size={14} />
                             </button>
@@ -333,7 +333,7 @@ function StatCard({ label, value, type }) {
 function StatusBadge({ status }) {
   const map = {
     'Applied':     { bg: 'bg-blue-50 text-blue-700 border-blue-200/60' },
-    'In Review':   { bg: 'bg-indigo-50 text-indigo-700 border-indigo-200/60' },
+    'In Review':   { bg: 'bg-blue-50 text-blue-700 border-indigo-200/60' },
     'Shortlisted': { bg: 'bg-amber-50 text-amber-700 border-amber-200/60' },
     'Interview':   { bg: 'bg-amber-50 text-amber-700 border-amber-200/60' },
     'Offered':     { bg: 'bg-emerald-50 text-emerald-700 border-emerald-200/60' },

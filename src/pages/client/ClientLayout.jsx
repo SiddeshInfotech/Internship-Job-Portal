@@ -32,7 +32,7 @@ function ClientLayout() {
   );
 
   return (
-    <div className="db-layout-container">
+    <div className="db-layout-container client-scope">
       <aside className="db-sidebar">
         <div className="sidebar-brand-area">
           <BrandLogo size={38} plate />
@@ -47,6 +47,7 @@ function ClientLayout() {
           {navItem('/jobs', '💼', 'Jobs')}
           {navItem('/applicants', '👥', 'Applicants')}
           {navItem('/company-profile', '🏢', 'Company Profile')}
+          {navItem('/notifications', '🔔', 'Notifications')}
           {navItem('/settings', '⚙️', 'Settings')}
         </nav>
 

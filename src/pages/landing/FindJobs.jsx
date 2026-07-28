@@ -5,6 +5,7 @@ import { FiSearch, FiGrid, FiList, FiMapPin, FiBriefcase } from 'react-icons/fi'
 import publicAxios from '../../api/publicAxios';
 import { asArray } from '../../api/asArray';
 import JobCard from '../../components/landing/JobCard';
+import { fmtMoney } from '../../utils/fields';
 
 const PER_PAGE = 9;
 
@@ -151,7 +152,7 @@ function FindJobs() {
                   </div>
                   <div className="flex items-center gap-4">
                     {job.salary_stipend && (
-                      <span className="font-extrabold text-[#0F172A] text-sm tabular-nums" style={{ fontFamily: 'Sora, Inter, sans-serif' }}>{job.salary_stipend}</span>
+                      <span className="font-extrabold text-[#0F172A] text-sm tabular-nums" style={{ fontFamily: 'Sora, Inter, sans-serif' }}>{fmtMoney(job.salary_stipend)}</span>
                     )}
                     <button
                       onClick={() => navigate(isStudentLoggedIn ? `/student/jobs/${job.id}/apply` : '/student/login')}

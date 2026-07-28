@@ -64,7 +64,7 @@ function MyProfile() {
         {/* Loading State */}
         {loading && (
           <div className="flex flex-col items-center justify-center py-32 space-y-4">
-            <div className="w-10 h-10 border-4 border-indigo-100 border-t-indigo-600 rounded-full animate-spin"></div>
+            <div className="w-10 h-10 border-4 border-blue-100 border-t-blue-600 rounded-full animate-spin"></div>
             <p className="text-slate-500 font-medium animate-pulse">Loading your premium profile...</p>
           </div>
         )}
@@ -77,7 +77,7 @@ function MyProfile() {
               <div className="bg-white rounded-3xl border border-slate-200/70 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
                 
                 {/* Gradient Banner */}
-                <div className="h-32 bg-gradient-to-br from-indigo-500 via-purple-500 to-blue-600 relative">
+                <div className="h-32 bg-gradient-to-br from-blue-600 via-blue-600 to-blue-600 relative">
                   <div className="absolute inset-0 bg-white/10 backdrop-blur-[1px]"></div>
                 </div>
 
@@ -89,7 +89,7 @@ function MyProfile() {
                   
                   <div className="mt-4 mb-6">
                     <h2 className="font-extrabold text-2xl text-slate-900 tracking-tight">{profile.name}</h2>
-                    <p className="text-sm font-medium text-indigo-600 mt-1 bg-indigo-50 inline-block px-3 py-1 rounded-full">
+                    <p className="text-sm font-medium text-blue-600 mt-1 bg-blue-50 inline-block px-3 py-1 rounded-full">
                       {profile.branch} {profile.current_year ? `· ${profile.current_year}` : ''}
                     </p>
                   </div>
@@ -119,7 +119,7 @@ function MyProfile() {
             <div className="lg:col-span-8 space-y-6">
               
               <div className="animate-entrance delay-100">
-                <SectionCard title="Personal Information" icon={<FiUser className="text-indigo-500" />}>
+                <SectionCard title="Personal Information" icon={<FiUser className="text-blue-600" />}>
                   <div className="grid sm:grid-cols-2 gap-4">
                     <ReadField label="Full Name" value={profile.name} />
                     <ReadField label="Email" value={profile.email} />
@@ -149,7 +149,7 @@ function MyProfile() {
 
               {(profile.experiences?.length > 0 || profile.job_designation || profile.experience_level === 'Experienced') && (
                 <div className="animate-entrance delay-300">
-                  <SectionCard title="Work Experience" icon={<FiBriefcase className="text-purple-500" />}>
+                  <SectionCard title="Work Experience" icon={<FiBriefcase className="text-blue-600" />}>
                     {(profile.experiences?.length > 0 || profile.job_designation) ? (
                       <div className="space-y-4">
                         {(profile.experiences?.length > 0
@@ -157,9 +157,9 @@ function MyProfile() {
                           : [{ job_designation: profile.job_designation, company: profile.experience_company, duration: profile.experience_duration, years: profile.years_of_experience }]
                         ).map((exp, i) => (
                           <div key={i} className="group relative pl-6 py-4 rounded-2xl bg-slate-50/50 hover:bg-slate-50 border border-slate-100 transition-all duration-300">
-                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-indigo-500 rounded-l-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-600 rounded-l-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                             <h4 className="font-bold text-slate-800 text-base">{exp.job_designation || 'Role'}</h4>
-                            {exp.company && <p className="text-sm font-medium text-indigo-600 mt-1">{exp.company}</p>}
+                            {exp.company && <p className="text-sm font-medium text-blue-600 mt-1">{exp.company}</p>}
                             {exp.duration && (
                               <p className="text-xs font-medium text-slate-500 mt-2 flex items-center gap-2">
                                 <span className="bg-white border border-slate-200 px-2 py-1 rounded-md shadow-sm">{exp.duration}</span>
@@ -182,10 +182,10 @@ function MyProfile() {
               <div className="animate-entrance delay-300">
                 <SectionCard title="Skills & Certificates" icon={<FiAward className="text-amber-500" />}>
                   {(!profile.skills || profile.skills.length === 0) && (!profile.certifications || profile.certifications.length === 0) ? (
-                    <div className="p-8 text-center border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50 transition-colors hover:border-indigo-300">
+                    <div className="p-8 text-center border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50 transition-colors hover:border-blue-400">
                       <FiAward className="w-8 h-8 mx-auto text-slate-300 mb-3" />
                       <p className="text-sm text-slate-500 font-medium mb-2">Stand out to recruiters by adding your expertise.</p>
-                      <button onClick={() => navigate('/student/profile-wizard/3')} className="text-indigo-600 font-bold text-sm hover:text-indigo-700 hover:underline transition-all">
+                      <button onClick={() => navigate('/student/profile-wizard/3')} className="text-blue-600 font-bold text-sm hover:text-blue-700 hover:underline transition-all">
                         + Add Skills & Certifications
                       </button>
                     </div>
@@ -196,8 +196,8 @@ function MyProfile() {
                           <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Core Skills</h4>
                           <div className="flex flex-wrap gap-2.5">
                             {profile.skills.map((s, i) => (
-                              <span key={i} className="px-4 py-2 rounded-xl bg-white border border-slate-200 shadow-sm text-sm font-semibold text-slate-700 hover:border-indigo-300 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-default">
-                                {s.skill_name || s.name} {s.level ? <span className="text-indigo-500 ml-1 opacity-75">· {s.level}</span> : ''}
+                              <span key={i} className="px-4 py-2 rounded-xl bg-white border border-slate-200 shadow-sm text-sm font-semibold text-slate-700 hover:border-blue-400 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-default">
+                                {s.skill_name || s.name} {s.level ? <span className="text-blue-600 ml-1 opacity-75">· {s.level}</span> : ''}
                               </span>
                             ))}
                           </div>
@@ -215,7 +215,7 @@ function MyProfile() {
                                   <span className="text-xs font-medium text-slate-500 mt-1 block">{c.issued_by}</span>
                                 </div>
                                 {c.file_url && (
-                                  <a href={c.file_url} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 px-4 py-2 bg-indigo-50 text-indigo-700 rounded-lg font-bold text-xs hover:bg-indigo-600 hover:text-white transition-colors">
+                                  <a href={c.file_url} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 px-4 py-2 bg-blue-50 text-blue-700 rounded-lg font-bold text-xs hover:bg-blue-600 hover:text-white transition-colors">
                                     View PDF <FiExternalLink />
                                   </a>
                                 )}
@@ -243,11 +243,11 @@ function InfoRow({ icon, value, isLink }) {
   if (!value) return null;
   return (
     <div className="flex items-center gap-3 group">
-      <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors">
+      <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
         {icon}
       </div>
       {isLink ? (
-        <a href={value.startsWith('http') ? value : `https://${value}`} target="_blank" rel="noreferrer" className="text-sm font-medium text-slate-600 hover:text-indigo-600 truncate transition-colors">
+        <a href={value.startsWith('http') ? value : `https://${value}`} target="_blank" rel="noreferrer" className="text-sm font-medium text-slate-600 hover:text-blue-600 truncate transition-colors">
           {value.replace(/^https?:\/\//, '')}
         </a>
       ) : (
@@ -262,7 +262,7 @@ function SnapshotRow({ label, value, highlight }) {
   return (
     <div className="flex justify-between items-center text-sm">
       <span className="text-slate-500 font-medium">{label}</span>
-      <span className={`font-bold ${highlight ? 'text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md' : 'text-slate-800'}`}>
+      <span className={`font-bold ${highlight ? 'text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md' : 'text-slate-800'}`}>
         {value}
       </span>
     </div>
@@ -339,7 +339,7 @@ function ProfilePhotoUpload({ profile, onUploaded }) {
         {/* Loading Overlay */}
         {uploading && (
           <div className="absolute inset-0 rounded-full bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center z-20">
-            <div className="w-8 h-8 border-3 border-indigo-100 border-t-indigo-600 rounded-full animate-spin mb-1"></div>
+            <div className="w-8 h-8 border-3 border-blue-100 border-t-blue-600 rounded-full animate-spin mb-1"></div>
           </div>
         )}
 

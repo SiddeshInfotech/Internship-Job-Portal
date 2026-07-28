@@ -3,6 +3,7 @@ import '../CompanyRegister.css'; // Kept for safety, though UI uses modern utili
 import { Link, useNavigate } from "react-router-dom";
 import studentAxios from "../../api/studentAxios";
 import BackToWebsite from "../../components/BackToWebsite";
+import PasswordStrength from "../../components/PasswordStrength";
 import { 
   FiUser, 
   FiMail, 
@@ -171,7 +172,7 @@ function StudentRegister() {
         <div className="flex flex-col items-center gap-4">
           <img src="/images/brand/placify-icon.png" alt="Placify" className="w-12 h-12 object-contain animate-pulse" />
           <div className="w-48 h-1 bg-slate-100 rounded-full overflow-hidden">
-            <div className="h-full bg-indigo-600 rounded-full w-1/2 animate-[spin_1s_infinite_linear]" style={{ transformOrigin: 'left' }}></div>
+            <div className="h-full bg-blue-600 rounded-full w-1/2 animate-[spin_1s_infinite_linear]" style={{ transformOrigin: 'left' }}></div>
           </div>
         </div>
       </div>
@@ -181,8 +182,8 @@ function StudentRegister() {
         {/* LEFT PANEL - Branding (Hidden on Mobile, Visible on lg screens) */}
         <div className="hidden lg:flex lg:w-5/12 relative flex-col justify-between p-12 overflow-hidden bg-slate-900 border-r border-slate-800 shadow-2xl z-10">
           {/* Animated Immersive Background Elements */}
-          <div className="absolute top-[-10%] left-[-20%] w-[600px] h-[600px] rounded-full bg-indigo-600/20 blur-[100px] pointer-events-none" />
-          <div className="absolute bottom-[-10%] right-[-20%] w-[600px] h-[600px] rounded-full bg-purple-600/20 blur-[100px] pointer-events-none" />
+          <div className="absolute top-[-10%] left-[-20%] w-[600px] h-[600px] rounded-full bg-blue-600/20 blur-[100px] pointer-events-none" />
+          <div className="absolute bottom-[-10%] right-[-20%] w-[600px] h-[600px] rounded-full bg-blue-700/20 blur-[100px] pointer-events-none" />
 
           {/* Top Brand Area */}
           <div className="relative z-10 animate-fade-in">
@@ -190,12 +191,12 @@ function StudentRegister() {
               <div className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/10 shadow-lg">
                 <img src="/images/brand/placify-icon.png" alt="Placify" className="w-8 h-8 object-contain" />
               </div>
-              <span className="font-extrabold text-3xl text-white tracking-tight">Placify<span className="text-indigo-500">.</span></span>
+              <span className="font-extrabold text-3xl text-white tracking-tight">Placify<span className="text-blue-600">.</span></span>
             </div>
 
             <h1 className="text-4xl xl:text-5xl font-extrabold text-white leading-[1.15] mb-6">
               Your next career move starts with a <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">single step.</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-500">single step.</span>
             </h1>
             <p className="text-slate-400 text-lg leading-relaxed max-w-md font-medium">
               Join thousands of students connecting with top-tier companies and securing exclusive placement opportunities.
@@ -205,7 +206,7 @@ function StudentRegister() {
           {/* Floating Feature Cards */}
           <div className="relative z-10 space-y-5 animate-stagger-2">
             <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[1.5rem] p-5 flex items-start gap-5 shadow-2xl animate-float" style={{ animationDelay: '0s' }}>
-              <div className="w-12 h-12 rounded-2xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-300 flex-shrink-0 shadow-[0_0_15px_rgba(99,102,241,0.2)]">
+              <div className="w-12 h-12 rounded-2xl bg-blue-600/20 border border-blue-600/30 flex items-center justify-center text-blue-400 flex-shrink-0 shadow-[0_0_15px_rgba(37,99,235,0.2)]">
                 <FiBriefcase size={22} />
               </div>
               <div>
@@ -215,7 +216,7 @@ function StudentRegister() {
             </div>
             
             <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[1.5rem] p-5 flex items-start gap-5 shadow-2xl animate-float" style={{ animationDelay: '2s' }}>
-              <div className="w-12 h-12 rounded-2xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-300 flex-shrink-0 shadow-[0_0_15px_rgba(168,85,247,0.2)]">
+              <div className="w-12 h-12 rounded-2xl bg-blue-600/20 border border-blue-600/30 flex items-center justify-center text-blue-400 flex-shrink-0 shadow-[0_0_15px_rgba(37,99,235,0.2)]">
                 <FiAward size={22} />
               </div>
               <div>
@@ -247,10 +248,10 @@ function StudentRegister() {
               
               <div className="text-center mb-10 animate-stagger-1">
                 <div className="lg:hidden flex items-center justify-center gap-3 mb-8">
-                   <div className="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center border border-indigo-100 shadow-sm">
+                   <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center border border-blue-100 shadow-sm">
                      <img src="/images/brand/placify-icon.png" alt="Placify" className="w-6 h-6 object-contain" />
                    </div>
-                   <span className="font-extrabold text-2xl text-slate-900 tracking-tight">Placify<span className="text-indigo-600">.</span></span>
+                   <span className="font-extrabold text-2xl text-slate-900 tracking-tight">Placify<span className="text-blue-600">.</span></span>
                 </div>
                 <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-3">Create Account</h2>
                 <p className="text-slate-500 font-medium text-sm sm:text-base">Please provide your institutional details to get started.</p>
@@ -268,27 +269,27 @@ function StudentRegister() {
                 {/* Name & Email Row */}
                 <div className="grid sm:grid-cols-2 gap-6 animate-stagger-2">
                   <div className="space-y-1.5 group">
-                    <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block ml-1 group-focus-within:text-indigo-600 transition-colors">
+                    <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block ml-1 group-focus-within:text-blue-600 transition-colors">
                       Full Name <span className="text-rose-500">*</span>
                     </label>
                     <div className="relative">
-                      <FiUser className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors" size={18} />
+                      <FiUser className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
                       <input 
                         value={form.name} onChange={update('name')} placeholder="John Doe" required
-                        className="w-full pl-12 pr-5 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
+                        className="w-full pl-12 pr-5 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
                       />
                     </div>
                   </div>
                   
                   <div className="space-y-1.5 group">
-                    <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block ml-1 group-focus-within:text-indigo-600 transition-colors">
+                    <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block ml-1 group-focus-within:text-blue-600 transition-colors">
                       Email Address <span className="text-rose-500">*</span>
                     </label>
                     <div className="relative">
-                      <FiMail className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors" size={18} />
+                      <FiMail className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
                       <input 
                         type="email" value={form.email} onChange={update('email')} placeholder="john@university.edu" required
-                        className="w-full pl-12 pr-5 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
+                        className="w-full pl-12 pr-5 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
                       />
                     </div>
                   </div>
@@ -297,48 +298,45 @@ function StudentRegister() {
                 {/* Password Row */}
                 <div className="grid sm:grid-cols-2 gap-6 animate-stagger-3">
                   <div className="space-y-1.5 group">
-                    <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block ml-1 group-focus-within:text-indigo-600 transition-colors">
+                    <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block ml-1 group-focus-within:text-blue-600 transition-colors">
                       Password <span className="text-rose-500">*</span>
                     </label>
                     <div className="relative">
-                      <FiLock className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors" size={18} />
+                      <FiLock className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
                       <input 
                         type={showPassword ? "text" : "password"} value={form.password} onChange={update('password')} placeholder="Min. 8 characters" minLength={8} required
-                        className="w-full pl-12 pr-12 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
+                        className="w-full pl-12 pr-12 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
                       />
-                      <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors rounded-xl focus:outline-none">
-                        {showPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
-                      </button>
+                      
                     </div>
+                    <PasswordStrength password={form.password} />
                   </div>
 
                   <div className="space-y-1.5 group">
-                    <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block ml-1 group-focus-within:text-indigo-600 transition-colors">
+                    <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block ml-1 group-focus-within:text-blue-600 transition-colors">
                       Confirm Password <span className="text-rose-500">*</span>
                     </label>
                     <div className="relative">
-                      <FiLock className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors" size={18} />
+                      <FiLock className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
                       <input 
                         type={showConfirmPassword ? "text" : "password"} value={form.confirmPassword} onChange={update('confirmPassword')} placeholder="Repeat password" required
-                        className="w-full pl-12 pr-12 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
+                        className="w-full pl-12 pr-12 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
                       />
-                      <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors rounded-xl focus:outline-none">
-                        {showConfirmPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
-                      </button>
+                  
                     </div>
                   </div>
                 </div>
 
                 {/* College - Full Width */}
                 <div className="space-y-1.5 group animate-stagger-4">
-                  <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block ml-1 group-focus-within:text-indigo-600 transition-colors">
+                  <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block ml-1 group-focus-within:text-blue-600 transition-colors">
                     College / Institution <span className="text-rose-500">*</span>
                   </label>
                   <div className="relative">
-                    <FiBook className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors" size={18} />
+                    <FiBook className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
                     <input 
                       value={form.college} onChange={update('college')} placeholder="Enter your university name" required
-                      className="w-full pl-12 pr-5 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
+                      className="w-full pl-12 pr-5 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
                     />
                   </div>
                 </div>
@@ -346,26 +344,26 @@ function StudentRegister() {
                 {/* Branch & Year Row */}
                 <div className="grid sm:grid-cols-2 gap-6 animate-stagger-4">
                   <div className="space-y-1.5 group">
-                    <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block ml-1 group-focus-within:text-indigo-600 transition-colors">
+                    <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block ml-1 group-focus-within:text-blue-600 transition-colors">
                       Branch<span className="text-rose-500">*</span>
                     </label>
                     <div className="relative">
-                      <FiAward className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors" size={18} />
+                      <FiAward className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
                       <input 
                         value={form.branch} onChange={update('branch')} placeholder="e.g. Computer Science" required
-                        className="w-full pl-12 pr-5 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
+                        className="w-full pl-12 pr-5 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
                       />
                     </div>
                   </div>
                   
                   <div className="space-y-1.5 group">
-                    <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block ml-1 group-focus-within:text-indigo-600 transition-colors">
+                    <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block ml-1 group-focus-within:text-blue-600 transition-colors">
                       Year of Study
                     </label>
                     <div className="relative">
                       <select 
                         value={form.year} onChange={update('year')}
-                        className="w-full pl-5 pr-12 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300 appearance-none cursor-pointer"
+                        className="w-full pl-5 pr-12 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300 appearance-none cursor-pointer"
                       >
                         <option value="">Select year...</option>
                         <option value="1">First Year</option>
@@ -381,13 +379,13 @@ function StudentRegister() {
                 {/* Experience Row */}
                 <div className="grid sm:grid-cols-2 gap-6 animate-stagger-5">
                   <div className="space-y-1.5 group">
-                    <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block ml-1 group-focus-within:text-indigo-600 transition-colors">
+                    <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block ml-1 group-focus-within:text-blue-600 transition-colors">
                       Experience Level <span className="text-rose-500">*</span>
                     </label>
                     <div className="relative">
                       <select 
                         value={form.experience_level} onChange={update('experience_level')} required
-                        className="w-full pl-5 pr-12 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300 appearance-none cursor-pointer"
+                        className="w-full pl-5 pr-12 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300 appearance-none cursor-pointer"
                       >
                         <option value="Fresher">Fresher (No Experience)</option>
                         <option value="Experienced">Experienced (Internships/Jobs)</option>
@@ -398,12 +396,12 @@ function StudentRegister() {
 
                   {form.experience_level === 'Experienced' && (
                     <div className="space-y-1.5 group animate-expand">
-                      <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block ml-1 group-focus-within:text-indigo-600 transition-colors">
+                      <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block ml-1 group-focus-within:text-blue-600 transition-colors">
                         Years of Exp <span className="text-rose-500">*</span>
                       </label>
                       <input 
                         type="number" min="0" max="50" step="0.5" value={form.years_of_experience} onChange={update('years_of_experience')} placeholder="e.g. 1.5" required
-                        className="w-full px-5 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
+                        className="w-full px-5 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
                       />
                     </div>
                   )}
@@ -416,12 +414,7 @@ function StudentRegister() {
                       type="checkbox"
                       id="terms"
                       required
-                      className="peer w-[22px] h-[22px] cursor-pointer appearance-none rounded-[6px] border-2 border-slate-300 bg-white hover:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/20 checked:bg-indigo-600 checked:border-indigo-600 transition-all duration-200"
-                    />
-                    <FiCheck
-                      size={14}
-                      strokeWidth={3}
-                      className="check-icon absolute left-[4px] top-[4px] text-white pointer-events-none opacity-0"
+                      className="pf-check"
                     />
                   </div>
                   <label htmlFor="terms" className="text-sm font-semibold text-slate-700 cursor-pointer select-none leading-snug">
@@ -436,7 +429,7 @@ function StudentRegister() {
                 <button 
                   type="submit" 
                   disabled={loading}
-                  className="shimmer-btn relative w-full py-4 mt-6 rounded-2xl bg-slate-900 hover:bg-indigo-600 text-white font-extrabold text-sm transition-all duration-300 shadow-[0_8px_20px_-6px_rgba(0,0,0,0.3)] hover:shadow-[0_12px_25px_-6px_rgba(79,70,229,0.4)] hover:-translate-y-1 disabled:opacity-70 disabled:pointer-events-none disabled:transform-none flex items-center justify-center gap-3 overflow-hidden animate-stagger-5"
+                  className="shimmer-btn relative w-full py-4 mt-6 rounded-2xl bg-slate-900 hover:bg-blue-600 text-white font-extrabold text-sm transition-all duration-300 shadow-[0_8px_20px_-6px_rgba(0,0,0,0.3)] hover:shadow-[0_12px_25px_-6px_rgba(79,70,229,0.4)] hover:-translate-y-1 disabled:opacity-70 disabled:pointer-events-none disabled:transform-none flex items-center justify-center gap-3 overflow-hidden animate-stagger-5"
                 >
                   {loading ? (
                     <>
@@ -457,7 +450,7 @@ function StudentRegister() {
                 <div className="pt-6 text-center animate-stagger-5">
                   <p className="text-sm font-bold text-slate-500">
                     Already have an account?{' '}
-                    <Link to="/student/login" className="text-indigo-600 hover:text-indigo-700 hover:underline transition-all ml-1">
+                    <Link to="/student/login" className="text-blue-600 hover:text-blue-700 hover:underline transition-all ml-1">
                       Log in here &rarr;
                     </Link>
                   </p>

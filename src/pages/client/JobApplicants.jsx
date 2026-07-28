@@ -158,7 +158,7 @@ function JobApplicants() {
           
           {/* Sleek Breadcrumbs */}
           <nav aria-label="Breadcrumb" className="inline-flex items-center space-x-2 text-xs font-bold text-slate-500 bg-white border border-slate-200 px-3 py-2 rounded-xl mb-6 shadow-sm animate-slide-up">
-            <Link to="/jobs" className="hover:text-indigo-600 transition-colors flex items-center gap-1.5">
+            <Link to="/jobs" className="hover:text-blue-600 transition-colors flex items-center gap-1.5">
               <FiBriefcase size={14} /> Jobs
             </Link>
             <FiChevronRight size={14} className="text-slate-400" />
@@ -181,7 +181,7 @@ function JobApplicants() {
 
           {/* Dynamic Stats Row */}
           <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8 animate-slide-up delay-100">
-            <StatCard label="Total received" value={stats?.total_received} icon={FiUsers} colorClass="text-indigo-600" bgClass="bg-indigo-50" />
+            <StatCard label="Total received" value={stats?.total_received} icon={FiUsers} colorClass="text-blue-600" bgClass="bg-blue-50" />
             <StatCard label="New / unseen" value={stats?.new_unseen} icon={FiStar} colorClass="text-amber-600" bgClass="bg-amber-50" />
             <StatCard label="Shortlisted" value={stats?.shortlisted} icon={FiCheckCircle} colorClass="text-emerald-600" bgClass="bg-emerald-50" />
             <StatCard label="Rejected" value={stats?.rejected} icon={FiXCircle} colorClass="text-rose-600" bgClass="bg-rose-50" />
@@ -192,22 +192,22 @@ function JobApplicants() {
             <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto flex-1">
               {/* Search */}
               <div className="relative flex-1 max-w-md group">
-                <FiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors" size={18} />
+                <FiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
                 <input
                   type="text"
                   value={search}
                   onChange={(e) => { setPage(1); setSearch(e.target.value); }}
                   placeholder="Search applicants by name or skill..."
-                  className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium placeholder:text-slate-400 placeholder:font-normal"
+                  className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all font-medium placeholder:text-slate-400 placeholder:font-normal"
                 />
               </div>
               {/* Filter */}
               <div className="relative w-full sm:w-48 group">
-                <FiFilter className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors" size={18} />
+                <FiFilter className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
                 <select
                   value={statusFilter}
                   onChange={(e) => { setPage(1); setStatusFilter(e.target.value); }}
-                  className="w-full pl-10 pr-8 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium appearance-none cursor-pointer"
+                  className="w-full pl-10 pr-8 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all font-medium appearance-none cursor-pointer"
                 >
                   <option value="">All Statuses</option>
                   <option value="Applied">Applied</option>
@@ -226,7 +226,7 @@ function JobApplicants() {
             <button
               onClick={() => { setShowMessageModal(true); setMsgResult(''); setMsgError(''); }}
               disabled={total === 0}
-              className="w-full lg:w-auto flex items-center justify-center gap-2 px-5 py-2.5 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 hover:text-indigo-600 hover:border-slate-300 transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed group active:scale-[0.98]"
+              className="w-full lg:w-auto flex items-center justify-center gap-2 px-5 py-2.5 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 hover:text-blue-600 hover:border-slate-300 transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed group active:scale-[0.98]"
             >
               <FiMail className="group-hover:scale-110 transition-transform" />
               Message All Applicants
@@ -268,7 +268,7 @@ function JobApplicants() {
                 )}
                 
                 {applicants.map((a) => (
-                  <div key={a.id} className="group bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:border-indigo-100 transition-all duration-300 flex flex-col md:flex-row gap-6">
+                  <div key={a.id} className="group bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:border-blue-100 transition-all duration-300 flex flex-col md:flex-row gap-6">
                     
                     {/* Left: Avatar & Info */}
                     <div className="flex gap-4 flex-1 min-w-0">
@@ -283,7 +283,7 @@ function JobApplicants() {
                           />
                         ) : null}
                         <div 
-                          className="w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-50 to-blue-50 text-indigo-600 flex items-center justify-center font-bold text-xl shadow-inner ring-1 ring-inset ring-indigo-100/50"
+                          className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-50 to-blue-50 text-blue-600 flex items-center justify-center font-bold text-xl shadow-inner ring-1 ring-inset ring-blue-100/50"
                           style={{ display: a.profile_photo ? 'none' : 'flex' }}
                         >
                           {(a.name || '?').charAt(0).toUpperCase()}
@@ -294,7 +294,7 @@ function JobApplicants() {
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-3 mb-1.5 flex-wrap">
                           <h3 
-                            className="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors cursor-pointer truncate"
+                            className="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors cursor-pointer truncate"
                             onClick={() => navigate(`/applicants/${a.id}`)}
                           >
                             {a.name}
@@ -347,7 +347,7 @@ function JobApplicants() {
                       <div className="w-full space-y-2">
                         <button 
                           onClick={() => navigate(`/applicants/${a.id}`)} 
-                          className="w-full bg-indigo-50 hover:bg-indigo-600 text-indigo-700 hover:text-white py-2 px-4 rounded-xl text-sm font-bold transition-all duration-300 active:scale-[0.98]"
+                          className="w-full bg-blue-50 hover:bg-blue-600 text-blue-700 hover:text-white py-2 px-4 rounded-xl text-sm font-bold transition-all duration-300 active:scale-[0.98]"
                         >
                           View Profile
                         </button>
@@ -433,7 +433,7 @@ function JobApplicants() {
               >
                 <div className="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
                   <h3 className="text-xl font-extrabold text-slate-900 flex items-center gap-2">
-                    <FiMail className="text-indigo-500" /> Message Applicants
+                    <FiMail className="text-blue-600" /> Message Applicants
                   </h3>
                   <button 
                     onClick={() => !msgSending && setShowMessageModal(false)}
@@ -470,7 +470,7 @@ function JobApplicants() {
                         onChange={(e) => setMsgSubject(e.target.value)}
                         required
                         placeholder="Update on your application"
-                        className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium placeholder:text-slate-400 placeholder:font-normal"
+                        className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all font-medium placeholder:text-slate-400 placeholder:font-normal"
                       />
                     </div>
                     <div>
@@ -482,7 +482,7 @@ function JobApplicants() {
                         required
                         rows={5}
                         placeholder="Thanks for applying! We'll be in touch soon."
-                        className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium placeholder:text-slate-400 placeholder:font-normal resize-y min-h-[120px]"
+                        className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all font-medium placeholder:text-slate-400 placeholder:font-normal resize-y min-h-[120px]"
                       />
                     </div>
                     
@@ -498,7 +498,7 @@ function JobApplicants() {
                       <button 
                         type="submit" 
                         disabled={msgSending} 
-                        className="flex-1 px-4 py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition-all shadow-[0_4px_12px_rgba(79,70,229,0.25)] hover:shadow-[0_6px_16px_rgba(79,70,229,0.35)] active:scale-[0.98] disabled:opacity-70 flex items-center justify-center gap-2"
+                        className="flex-1 px-4 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all shadow-[0_4px_12px_rgba(79,70,229,0.25)] hover:shadow-[0_6px_16px_rgba(79,70,229,0.35)] active:scale-[0.98] disabled:opacity-70 flex items-center justify-center gap-2"
                       >
                         {msgSending ? (
                           <span className="animate-pulse">Sending...</span>

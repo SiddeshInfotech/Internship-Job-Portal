@@ -157,7 +157,7 @@ function PostJob() {
               </p>
             </div>
             <div className="bg-white border border-slate-200 text-slate-600 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-sm">
-              <FiSave size={14} className="text-indigo-500" /> Drafts autosave
+              <FiSave size={14} className="text-blue-600" /> Drafts autosave
             </div>
           </div>
 
@@ -195,7 +195,7 @@ function PostJob() {
                     <Field label="Job Title" htmlFor="pj-title" icon={FiBriefcase}>
                       <input 
                         id="pj-title" 
-                        className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all font-semibold placeholder:text-slate-400 placeholder:font-medium text-slate-900" 
+                        className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 transition-all font-semibold placeholder:text-slate-400 placeholder:font-medium text-slate-900" 
                         value={form.title} 
                         onChange={update('title')} 
                         placeholder="e.g. Senior Frontend Engineer" 
@@ -206,7 +206,7 @@ function PostJob() {
                       <Field label="Department" htmlFor="pj-dept" icon={FiTarget}>
                         <input 
                           id="pj-dept" 
-                          className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all font-semibold placeholder:text-slate-400 placeholder:font-medium text-slate-900" 
+                          className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 transition-all font-semibold placeholder:text-slate-400 placeholder:font-medium text-slate-900" 
                           value={form.department} 
                           onChange={update('department')} 
                           placeholder="e.g. Engineering" 
@@ -223,7 +223,7 @@ function PostJob() {
                               onClick={() => setForm((f) => ({ ...f, job_type: t }))}
                               className={`flex-1 flex items-center justify-center text-sm font-bold rounded-xl transition-all duration-300 z-10 ${
                                 form.job_type === t 
-                                  ? 'text-indigo-700 shadow-sm' 
+                                  ? 'text-blue-700 shadow-sm' 
                                   : 'text-slate-500 hover:text-slate-700'
                               }`}
                             >
@@ -247,7 +247,7 @@ function PostJob() {
                     <Field label="Job Description" htmlFor="pj-desc" icon={FiFileText} alignTop>
                       <textarea 
                         id="pj-desc" 
-                        className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all font-medium placeholder:text-slate-400 text-slate-900 resize-y min-h-[160px]" 
+                        className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 transition-all font-medium placeholder:text-slate-400 text-slate-900 resize-y min-h-[160px]" 
                         value={form.description} 
                         onChange={update('description')} 
                         placeholder="Describe the responsibilities, day-to-day tasks, and expectations..." 
@@ -255,14 +255,14 @@ function PostJob() {
                     </Field>
 
                     <Field label="Required Skills" icon={FiAward} alignTop>
-                      <div className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-12 pr-3 py-3 min-h-[58px] flex flex-wrap gap-2 focus-within:bg-white focus-within:ring-2 focus-within:ring-indigo-500/30 focus-within:border-indigo-500 transition-all">
+                      <div className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-12 pr-3 py-3 min-h-[58px] flex flex-wrap gap-2 focus-within:bg-white focus-within:ring-2 focus-within:ring-blue-600/30 focus-within:border-blue-600 transition-all">
                         {skills.map((s) => (
-                          <span key={s} className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 text-indigo-700 rounded-xl text-sm font-bold border border-indigo-100 group transition-all hover:bg-indigo-100">
+                          <span key={s} className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-xl text-sm font-bold border border-blue-100 group transition-all hover:bg-blue-100">
                             {s}
                             <button
                               type="button"
                               onClick={() => removeSkill(s)}
-                              className="text-indigo-400 hover:text-rose-500 transition-colors focus:outline-none p-0.5 rounded-md hover:bg-white/50"
+                              className="text-blue-500 hover:text-rose-500 transition-colors focus:outline-none p-0.5 rounded-md hover:bg-white/50"
                               aria-label={`Remove ${s}`}
                             >
                               <FiX size={14} />
@@ -289,7 +289,7 @@ function PostJob() {
                     <Field label="Eligibility Criteria" htmlFor="pj-elig" icon={FiCheckCircle} alignTop>
                       <textarea 
                         id="pj-elig" 
-                        className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all font-medium placeholder:text-slate-400 text-slate-900 resize-y min-h-[120px]" 
+                        className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 transition-all font-medium placeholder:text-slate-400 text-slate-900 resize-y min-h-[120px]" 
                         value={form.eligibility_criteria} 
                         onChange={update('eligibility_criteria')} 
                         placeholder="e.g. B.Tech in CSE/IT, Min 7.5 CGPA, Batch of 2024" 
@@ -305,7 +305,7 @@ function PostJob() {
                     <Field label="Location" htmlFor="pj-loc" icon={FiMapPin}>
                       <input 
                         id="pj-loc" 
-                        className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all font-semibold placeholder:text-slate-400 text-slate-900 placeholder:font-medium" 
+                        className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 transition-all font-semibold placeholder:text-slate-400 text-slate-900 placeholder:font-medium" 
                         value={form.location} 
                         onChange={update('location')} 
                         placeholder="Bengaluru (Remote)" 
@@ -314,7 +314,7 @@ function PostJob() {
                     <Field label="Salary / Stipend" htmlFor="pj-sal" icon={FiDollarSign}>
                       <input 
                         id="pj-sal" 
-                        className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all font-semibold placeholder:text-slate-400 text-slate-900 placeholder:font-medium" 
+                        className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 transition-all font-semibold placeholder:text-slate-400 text-slate-900 placeholder:font-medium" 
                         value={form.salary_stipend} 
                         onChange={update('salary_stipend')} 
                         placeholder="₹15 - 18 LPA" 
@@ -324,7 +324,7 @@ function PostJob() {
                       <input 
                         id="pj-date" 
                         type="date" 
-                        className="w-full px-4 pl-12 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all font-semibold text-slate-900" 
+                        className="w-full px-4 pl-12 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 transition-all font-semibold text-slate-900" 
                         value={form.last_date_to_apply} 
                         onChange={update('last_date_to_apply')} 
                       />
@@ -337,13 +337,13 @@ function PostJob() {
           )}
 
           {/* Pro Tip Box */}
-          <div className="mt-8 bg-gradient-to-r from-indigo-50 to-blue-50 border border-indigo-100 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6 animate-slide-up delay-200">
-            <div className="w-14 h-14 rounded-2xl bg-white text-indigo-600 flex items-center justify-center flex-shrink-0 shadow-sm border border-indigo-50">
+          <div className="mt-8 bg-gradient-to-r from-blue-50 to-blue-50 border border-blue-100 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6 animate-slide-up delay-200">
+            <div className="w-14 h-14 rounded-2xl bg-white text-blue-600 flex items-center justify-center flex-shrink-0 shadow-sm border border-blue-50">
               <FiBriefcase size={26} />
             </div>
             <p className="text-sm sm:text-base text-indigo-950 leading-relaxed font-medium">
-              <strong className="font-extrabold text-indigo-700 tracking-tight block mb-1">Pro Tip for Maximum Reach:</strong> 
-              Listings with transparent salary ranges and clear eligibility criteria see a <span className="bg-white text-indigo-700 px-2 py-0.5 rounded-md font-bold shadow-sm inline-block mx-1">40% higher</span> conversion rate of top-tier applicants.
+              <strong className="font-extrabold text-blue-700 tracking-tight block mb-1">Pro Tip for Maximum Reach:</strong> 
+              Listings with transparent salary ranges and clear eligibility criteria see a <span className="bg-white text-blue-700 px-2 py-0.5 rounded-md font-bold shadow-sm inline-block mx-1">40% higher</span> conversion rate of top-tier applicants.
             </p>
           </div>
         </main>
@@ -375,7 +375,7 @@ function PostJob() {
                 type="button"
                 disabled={saving}
                 onClick={() => save(false)}
-                className="flex-1 sm:flex-none px-6 py-3.5 text-sm font-extrabold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200/50 rounded-xl transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="flex-1 sm:flex-none px-6 py-3.5 text-sm font-extrabold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-indigo-200/50 rounded-xl transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 <FiSave size={18} /> Draft
               </button>
@@ -442,7 +442,7 @@ function PostJob() {
 function SectionHeader({ n, title }) {
   return (
     <div className="flex items-center gap-4 mb-8 pb-5 border-b border-slate-100/60">
-      <div className="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-sm font-black shadow-sm ring-1 ring-inset ring-indigo-100">
+      <div className="w-10 h-10 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-sm font-black shadow-sm ring-1 ring-inset ring-blue-100">
         0{n}
       </div>
       <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">{title}</h2>
@@ -458,7 +458,7 @@ function Field({ label, htmlFor, icon: Icon, alignTop = false, children }) {
       </label>
       <div className="relative group">
         {Icon && (
-          <div className={`absolute left-4 ${alignTop ? 'top-4' : 'top-1/2 -translate-y-1/2'} text-slate-400 group-focus-within:text-indigo-500 transition-colors pointer-events-none z-10`}>
+          <div className={`absolute left-4 ${alignTop ? 'top-4' : 'top-1/2 -translate-y-1/2'} text-slate-400 group-focus-within:text-blue-600 transition-colors pointer-events-none z-10`}>
             <Icon size={20} />
           </div>
         )}

@@ -134,7 +134,7 @@ function ApplicationDetail() {
             <div className="flex items-center gap-2 text-sm font-medium">
               <Link 
                 to="/admin/applications" 
-                className="text-slate-500 hover:text-indigo-600 transition-colors flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm"
+                className="text-slate-500 hover:text-blue-600 transition-colors flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm"
               >
                 <FiArrowLeft size={14} /> Back to Applications
               </Link>
@@ -143,7 +143,7 @@ function ApplicationDetail() {
             {app && (
               <div className="flex flex-wrap items-center gap-4 text-xs font-bold text-slate-500 bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm">
                 <span className="flex items-center gap-1.5 uppercase tracking-wider">
-                  <FiCalendar size={14} className="text-indigo-500" /> 
+                  <FiCalendar size={14} className="text-blue-600" /> 
                   Applied: <span className="text-slate-800">{app.applied_date || 'N/A'}</span>
                 </span>
                 <span className="w-1 h-1 rounded-full bg-slate-300 hidden sm:block"></span>
@@ -183,7 +183,7 @@ function ApplicationDetail() {
               <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-8 animate-entrance delay-100">
                 <div className="bg-white rounded-[2rem] border border-slate-200/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden relative">
                   {/* Decorative Background for Avatar */}
-                  <div className="h-28 bg-gradient-to-br from-slate-800 via-indigo-900 to-slate-800 relative overflow-hidden">
+                  <div className="h-28 bg-gradient-to-br from-slate-800 via-blue-900 to-slate-800 relative overflow-hidden">
                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
                   </div>
                   
@@ -198,14 +198,14 @@ function ApplicationDetail() {
                           onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextSibling.style.display = 'flex'; }}
                         />
                       ) : null}
-                      <div className={`w-full h-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-3xl font-extrabold text-white ${app.profile_photo ? 'hidden' : 'flex'}`}>
+                      <div className={`w-full h-full bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center text-3xl font-extrabold text-white ${app.profile_photo ? 'hidden' : 'flex'}`}>
                         {(app.name || '?').charAt(0)}
                       </div>
                     </div>
 
                     <div className="mt-4 mb-5">
                       <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">{app.name}</h3>
-                      <p className="text-sm font-semibold text-indigo-600 mt-1">{app.job_title || app.role}</p>
+                      <p className="text-sm font-semibold text-blue-600 mt-1">{app.job_title || app.role}</p>
                     </div>
 
                     <div className="flex justify-center mb-6">
@@ -216,7 +216,7 @@ function ApplicationDetail() {
                     <div className="space-y-3.5 text-left border-t border-slate-100 pt-6">
                       {(app.institution || app.college) && (
                         <div className="flex items-start gap-3 group">
-                          <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors flex-shrink-0">
+                          <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors flex-shrink-0">
                             <FiBook size={16} />
                           </div>
                           <p className="text-sm font-semibold text-slate-700 leading-snug pt-1.5">{app.institution || app.college}</p>
@@ -224,15 +224,15 @@ function ApplicationDetail() {
                       )}
                       {app.email && (
                         <div className="flex items-center gap-3 group">
-                          <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors flex-shrink-0">
+                          <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors flex-shrink-0">
                             <FiMail size={16} />
                           </div>
-                          <a href={`mailto:${app.email}`} className="text-sm font-semibold text-slate-700 hover:text-indigo-600 truncate pt-0.5">{app.email}</a>
+                          <a href={`mailto:${app.email}`} className="text-sm font-semibold text-slate-700 hover:text-blue-600 truncate pt-0.5">{app.email}</a>
                         </div>
                       )}
                       {app.phone && (
                         <div className="flex items-center gap-3 group">
-                          <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors flex-shrink-0">
+                          <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors flex-shrink-0">
                             <FiPhone size={16} />
                           </div>
                           <p className="text-sm font-semibold text-slate-700 pt-0.5">{app.phone}</p>
@@ -240,7 +240,7 @@ function ApplicationDetail() {
                       )}
                       {app.location && (
                         <div className="flex items-center gap-3 group">
-                          <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors flex-shrink-0">
+                          <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors flex-shrink-0">
                             <FiMapPin size={16} />
                           </div>
                           <p className="text-sm font-semibold text-slate-700 pt-0.5">{app.location}</p>
@@ -278,7 +278,7 @@ function ApplicationDetail() {
                         onChange={(e) => setNotes(e.target.value)}
                         placeholder="Add internal notes about this candidate..."
                         rows={4}
-                        className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-medium text-slate-700 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 resize-none shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]"
+                        className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-medium text-slate-700 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 resize-none shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]"
                       />
                     </div>
 
@@ -292,7 +292,7 @@ function ApplicationDetail() {
                   
                   {/* Header */}
                   <div className="flex items-center gap-3 mb-8">
-                    <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
                       <FiFileText size={20} />
                     </div>
                     <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">Application Documents</h2>
@@ -302,7 +302,7 @@ function ApplicationDetail() {
                   <div className="mb-10">
                     <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-3">Attached Resume / CV</h3>
                     {app.resume_url ? (
-                      <div className="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-gradient-to-r from-slate-50 to-white border border-slate-200 hover:border-indigo-200 hover:shadow-md transition-all duration-300">
+                      <div className="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-gradient-to-r from-slate-50 to-white border border-slate-200 hover:border-blue-200 hover:shadow-md transition-all duration-300">
                         <div className="flex items-center gap-4">
                           <div className="w-12 h-12 rounded-xl bg-rose-50 text-rose-500 flex items-center justify-center flex-shrink-0">
                             <FiFileText size={24} />
@@ -318,7 +318,7 @@ function ApplicationDetail() {
                           href={app.resume_url} 
                           target="_blank" 
                           rel="noreferrer" 
-                          className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold text-sm hover:text-indigo-600 hover:border-indigo-300 hover:bg-indigo-50 transition-all text-center flex items-center justify-center gap-2"
+                          className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold text-sm hover:text-blue-600 hover:border-blue-400 hover:bg-blue-50 transition-all text-center flex items-center justify-center gap-2"
                         >
                           View Document <FiExternalLink size={14} />
                         </a>
@@ -350,7 +350,7 @@ function ApplicationDetail() {
                         {app.skills.map((skill, i) => (
                           <span 
                             key={i} 
-                            className="px-4 py-2 rounded-xl bg-indigo-50/50 border border-indigo-100 text-indigo-700 text-sm font-bold shadow-sm hover:-translate-y-0.5 transition-transform cursor-default"
+                            className="px-4 py-2 rounded-xl bg-blue-50/50 border border-blue-100 text-blue-700 text-sm font-bold shadow-sm hover:-translate-y-0.5 transition-transform cursor-default"
                           >
                             {typeof skill === 'string' ? skill : `${skill?.name || 'Skill'}${skill?.level ? ` · ${skill.level}` : ''}`}
                           </span>
@@ -375,7 +375,7 @@ function ApplicationDetail() {
                               ) : (
                                 <>
                                   <h4 className="font-extrabold text-slate-900 text-base">{exp?.title || 'Role'}</h4>
-                                  {exp?.company && <p className="text-sm font-bold text-indigo-600 mt-0.5">{exp.company}</p>}
+                                  {exp?.company && <p className="text-sm font-bold text-blue-600 mt-0.5">{exp.company}</p>}
                                   {exp?.duration && <p className="text-xs font-semibold text-slate-500 mt-1.5 flex items-center gap-1.5"><FiCalendar size={12} /> {exp.duration}</p>}
                                 </>
                               )}
