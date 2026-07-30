@@ -222,6 +222,7 @@ function StudentLogin() {
                       required 
                       className="w-full pl-11 pr-12 py-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[0_2px_10px_rgb(0,0,0,0.01)] hover:border-slate-300"
                     />
+                    
             </div>
                 </div>
 
@@ -235,6 +236,7 @@ function StudentLogin() {
                       onChange={(e) => setRemember(e.target.checked)}
                       className="pf-check sm"
                     />
+                    
                   </div>
                   <label htmlFor="remember" className="text-sm font-semibold text-slate-600 cursor-pointer select-none">
                     Remember me

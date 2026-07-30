@@ -9,18 +9,20 @@ function BackToWebsite() {
   return (
     <Link
       to="/"
+      className="pf-focusable"
       style={{
-        position: 'fixed', top: '20px', left: '20px', zIndex: 100,
-        display: 'inline-flex', alignItems: 'center', gap: '7px',
+        position: 'fixed', top: '5px', left: '20px', zIndex: 100,
+        display: 'flex', alignItems: 'center', gap: '7px',
         padding: '9px 15px', borderRadius: '999px',
-        whiteSpace: 'nowrap', width: 'auto', maxWidth: 'none',
         background: 'rgba(255,255,255,0.88)',
         backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
         border: '1px solid var(--pf-line)', boxShadow: 'var(--pf-shadow-sm)',
         fontSize: '13px', fontWeight: 600, color: 'var(--pf-text-2)',
-        textDecoration: 'none',
+        textDecoration: 'none', transition: 'box-shadow 150ms ease, color 150ms ease',
         fontFamily: 'var(--pf-font)',
       }}
+      onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--pf-shadow-md)'; e.currentTarget.style.color = 'var(--pf-text)'; }}
+      onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'var(--pf-shadow-sm)'; e.currentTarget.style.color = 'var(--pf-text-2)'; }}
     >
       ← Back to website
     </Link>
