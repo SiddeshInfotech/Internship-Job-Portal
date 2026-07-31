@@ -11,7 +11,7 @@ import './styles/landing.css'
 import './index.css'
 import App from './App.jsx'
 
-const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '986941539016-trl8j3nic5vq04htn9u7q0sqda626oa4.apps.googleusercontent.com';
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '953205120073-sla287k450n92kgfgjipp62cj16lelgi.apps.googleusercontent.com';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
