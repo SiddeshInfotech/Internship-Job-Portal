@@ -307,7 +307,16 @@ function StudentRegister() {
                         type={showPassword ? "text" : "password"} value={form.password} onChange={update('password')} placeholder="Min. 8 characters" minLength={8} required
                         className="w-full pl-12 pr-12 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
                       />
-                      
+                      {/* Password Show/Hide Button */}
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        style={{ border: 'none', background: 'transparent', boxShadow: 'none', outline: 'none' }}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 p-0 border-0 bg-transparent shadow-none outline-none focus:outline-none focus:ring-0 text-slate-400 hover:text-blue-600 active:scale-95 transition-all duration-200 cursor-pointer select-none flex items-center justify-center"
+                        aria-label={showPassword ? "Hide password" : "Show password"}
+                      >
+                        {showPassword ? <FiEyeOff size={19} /> : <FiEye size={19} />}
+                      </button>
                     </div>
                     <PasswordStrength password={form.password} />
                   </div>
@@ -322,7 +331,16 @@ function StudentRegister() {
                         type={showConfirmPassword ? "text" : "password"} value={form.confirmPassword} onChange={update('confirmPassword')} placeholder="Repeat password" required
                         className="w-full pl-12 pr-12 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
                       />
-                  
+                      {/* Confirm Password Show/Hide Button */}
+                      <button
+                        type="button"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        style={{ border: 'none', background: 'transparent', boxShadow: 'none', outline: 'none' }}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 p-0 border-0 bg-transparent shadow-none outline-none focus:outline-none focus:ring-0 text-slate-400 hover:text-blue-600 active:scale-95 transition-all duration-200 cursor-pointer select-none flex items-center justify-center"
+                        aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                      >
+                        {showConfirmPassword ? <FiEyeOff size={19} /> : <FiEye size={19} />}
+                      </button>
                     </div>
                   </div>
                 </div>

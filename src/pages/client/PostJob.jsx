@@ -128,7 +128,7 @@ function PostJob() {
           to { opacity: 1; transform: translateY(0); }
         }
         @keyframes slideInRight {
-          from { opacity: 0; transform: translateX(100%); }
+          from { opacity: 0; transform: translateX(32px); }
           to { opacity: 1; transform: translateX(0); }
         }
         .animate-slide-up {
@@ -139,8 +139,8 @@ function PostJob() {
         .delay-200 { animation-delay: 200ms; }
       `}</style>
 
-      {/* Root Container uses flex-col to push footer to bottom properly */}
-      <div className="min-h-full bg-slate-50 relative overflow-x-hidden font-sans text-slate-900 flex flex-col">
+      {/* Root Container updated with min-h-screen w-full to prevent layout width jumping */}
+      <div className="min-h-screen w-full bg-slate-50 relative overflow-x-hidden font-sans text-slate-900 flex flex-col">
         
         <ClientTopNavbar title={isEdit ? "Edit Job" : "Post a job"} />
 
@@ -230,8 +230,9 @@ function PostJob() {
                               {t}
                             </button>
                           ))}
+                          {/* FIX: added `left-1.5` so it establishes an exact boundary origin within the relative container */}
                           <div 
-                            className="absolute top-1.5 bottom-1.5 w-[calc(50%-6px)] bg-white border border-slate-200/50 rounded-xl transition-transform duration-300 ease-in-out shadow-[0_2px_8px_rgba(0,0,0,0.04)]"
+                            className="absolute top-1.5 bottom-1.5 left-1.5 w-[calc(50%-6px)] bg-white border border-slate-200/50 rounded-xl transition-transform duration-300 ease-in-out shadow-[0_2px_8px_rgba(0,0,0,0.04)]"
                             style={{ transform: form.job_type === 'Internship' ? 'translateX(0)' : 'translateX(100%)' }}
                           />
                         </div>
@@ -311,7 +312,7 @@ function PostJob() {
                         placeholder="Bengaluru (Remote)" 
                       />
                     </Field>
-                    <Field label="Salary / Stipend" htmlFor="pj-sal" icon={FiDollarSign}>
+                    <Field label="Salary / Stipend" htmlFor="pj-sal">
                       <input 
                         id="pj-sal" 
                         className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 transition-all font-semibold placeholder:text-slate-400 text-slate-900 placeholder:font-medium" 
@@ -348,10 +349,6 @@ function PostJob() {
           </div>
         </main>
 
-        {/* 
-          FULL-WIDTH STICKY BOTTOM BAR 
-          Changed from fixed to sticky so it naturally sits at the bottom of the scroll container
-        */}
         <div className="sticky bottom-0 z-40 bg-white/90 backdrop-blur-xl border-t border-slate-200/80 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] w-full py-4 px-4 sm:px-6 lg:px-8 mt-auto">
           <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
             
@@ -399,10 +396,11 @@ function PostJob() {
           </div>
         </div>
 
-        {/* Premium Animated Result Popup (Success / Error) */}
+        {/* FIX: Changed translate-x-[120%] to translate-x-8. 
+        Pushing a fixed element out beyond the viewport visually expands the document layout bounds, triggering horizontal page jumping. */}
         <div 
           className={`fixed top-8 right-8 z-50 transform transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-            popup.show ? 'translate-x-0 opacity-100' : 'translate-x-[120%] opacity-0 pointer-events-none'
+            popup.show ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0 pointer-events-none'
           }`}
           style={{ animation: popup.show ? 'slideInRight 0.4s cubic-bezier(0.16,1,0.3,1) forwards' : 'none' }}
         >

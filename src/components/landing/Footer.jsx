@@ -70,7 +70,7 @@ function Footer() {
           <form onSubmit={handleSubscribe} className="flex gap-2">
             <input
               type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@email.com"
+              placeholder="your email ID"
               aria-label="Email for newsletter"
               className="flex-1 min-w-0 px-3.5 py-2.5 rounded-xl bg-white/[0.07] border border-white/10 text-white placeholder-slate-500 text-sm outline-none focus:ring-2 focus:ring-[#F59E0B] focus:border-transparent transition-shadow"
             />

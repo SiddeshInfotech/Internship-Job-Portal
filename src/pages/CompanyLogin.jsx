@@ -182,7 +182,7 @@ function CompanyLogin() {
                 </div>
               </div>
 
-              {/* Password Input with Show/Hide Toggle */}
+              {/* Password Input with Borderless Show/Hide Toggle */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <label className="text-sm font-bold text-slate-700">Password</label>
@@ -200,17 +200,18 @@ function CompanyLogin() {
                     value={password} 
                     onChange={(e) => setPassword(e.target.value)} 
                     required 
-                    className="w-full pl-11 pr-14 py-3.5 bg-slate-50 border border-slate-200 text-slate-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 focus:bg-white transition-all duration-300 font-medium placeholder:text-slate-400 placeholder:font-normal"
+                    className="w-full pl-11 pr-12 py-3.5 bg-slate-50 border border-slate-200 text-slate-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 focus:bg-white transition-all duration-300 font-medium placeholder:text-slate-400 placeholder:font-normal"
                   />
                   
-                  {/* UPGRADED Show/Hide Button */}
+                  {/* Clean, Borderless & Rectangle-Free Show/Hide Button */}
                   <button 
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    title={showPassword ? "Hide password" : "Show password"}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-600/30"
+                    style={{ border: 'none', background: 'transparent', boxShadow: 'none', outline: 'none' }}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 p-0 border-0 bg-transparent shadow-none outline-none focus:outline-none focus:ring-0 text-slate-400 hover:text-blue-600 active:scale-95 transition-all duration-200 cursor-pointer select-none flex items-center justify-center"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
                   >
-                    {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+                    {showPassword ? <FiEyeOff size={19} /> : <FiEye size={19} />}
                   </button>
 
                 </div>

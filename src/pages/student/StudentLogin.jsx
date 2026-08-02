@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../CompanyLogin.css"; 
 import { Link, useNavigate } from "react-router-dom";
-import { GoogleLogin } from '@react-oauth/google';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import studentAxios from "../../api/studentAxios";
 import BackToWebsite from "../../components/BackToWebsite";
 import { 
@@ -13,6 +13,9 @@ import {
   FiEye,
   FiEyeOff
 } from 'react-icons/fi';
+
+// FIXED FOR VITE: Replaced process.env with import.meta.env
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com";
 
 function StudentLogin() {
   const navigate = useNavigate();
@@ -93,7 +96,7 @@ function StudentLogin() {
           animation: float 6s ease-in-out infinite;
         }
         
-        /* Attractive Custom Circular Loader */
+        /* Premium Circular Loader */
         .premium-loader {
           width: 24px;
           height: 24px;
@@ -158,14 +161,9 @@ function StudentLogin() {
           </div>
 
           <div className="w-full max-w-md relative z-10">
-            
-            {/* 
-              THE BORDERED LOGIN CARD 
-              Everything is now wrapped in this clean, bordered white card
-            */}
             <div className="bg-white rounded-[2rem] p-8 sm:p-10 border border-slate-200 shadow-xl shadow-slate-200/40 animate-entrance delay-100">
               
-              {/* Form Header (Now inside the card) */}
+              {/* Form Header */}
               <div className="text-center mb-8">
                 <div className="lg:hidden flex items-center justify-center gap-2 mb-6">
                    <img src="/images/brand/placify-icon.png" alt="Placify" className="w-8 h-8 object-contain" />
@@ -187,13 +185,13 @@ function StudentLogin() {
                 {/* Email Input */}
                 <div className="space-y-1.5 group">
                   <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block group-focus-within:text-blue-600 transition-colors">
-                  Enter Email Address
+                    Enter Email Address
                   </label>
                   <div className="relative">
                     <FiMail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
                     <input 
                       type="email" 
-                      placeholder="e.g. j.doe@university.edu" 
+                      placeholder="e.g. abc@gmail.com" 
                       value={email} 
                       onChange={(e) => setEmail(e.target.value)} 
                       required 
@@ -223,7 +221,16 @@ function StudentLogin() {
                       className="w-full pl-11 pr-12 py-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[0_2px_10px_rgb(0,0,0,0.01)] hover:border-slate-300"
                     />
                     
-            </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      style={{ border: 'none', background: 'transparent', boxShadow: 'none', outline: 'none' }}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 p-0 border-0 bg-transparent shadow-none outline-none focus:outline-none focus:ring-0 text-slate-400 hover:text-blue-600 active:scale-95 transition-all duration-200 cursor-pointer select-none flex items-center justify-center"
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                    >
+                      {showPassword ? <FiEyeOff size={19} /> : <FiEye size={19} />}
+                    </button>
+                  </div>
                 </div>
 
                 {/* Remember Me */}
@@ -236,7 +243,6 @@ function StudentLogin() {
                       onChange={(e) => setRemember(e.target.checked)}
                       className="pf-check sm"
                     />
-                    
                   </div>
                   <label htmlFor="remember" className="text-sm font-semibold text-slate-600 cursor-pointer select-none">
                     Remember me
@@ -266,16 +272,19 @@ function StudentLogin() {
                 <div className="flex-1 h-[1px] bg-slate-200"></div>
               </div>
 
-              {/* Google Login Area */}
-              <div className="flex flex-col items-center">
-                <div className="relative transition-transform hover:-translate-y-0.5 hover:shadow-lg rounded-full">
-                  <GoogleLogin
-                    onSuccess={handleGoogleSuccess}
-                    onError={() => setError('Google login failed. Please try again.')}
-                    text="signin_with"
-                    shape="pill"
-                    width="280"
-                  />
+              {/* Google Login Area - Simplified Wrapper */}
+              <div className="flex justify-center w-full">
+                <div className="relative inline-block w-full max-w-[280px]">
+                  <div className="flex justify-center w-full">
+                    <GoogleLogin
+                      onSuccess={handleGoogleSuccess}
+                      onError={() => setError('Google login failed. Please try again.')}
+                      text="signin_with"
+                      shape="pill"
+                      theme="outline"
+                      size="large"
+                    />
+                  </div>
                   {googleLoading && (
                     <div className="absolute inset-0 bg-white/80 rounded-full flex items-center justify-center backdrop-blur-sm z-10 border border-slate-200">
                        <div className="w-5 h-5 border-2 border-indigo-200 border-t-blue-600 rounded-full animate-spin"></div>
@@ -302,4 +311,12 @@ function StudentLogin() {
   );
 }
 
-export default StudentLogin;
+// Wrap the export directly instead of wrapping the return body 
+// to prevent re-rendering when typing in the form fields!
+export default function StudentLoginWrapper() {
+  return (
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      <StudentLogin />
+    </GoogleOAuthProvider>
+  );
+}

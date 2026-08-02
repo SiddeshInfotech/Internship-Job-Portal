@@ -100,7 +100,7 @@ function JobDetail() {
   }, [id]);
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] font-sans pb-24 selection:bg-blue-100 selection:text-blue-900">
+    <div className="min-h-screen bg-[#F8FAFC] font-sans pb-24 selection:bg-blue-100 selection:text-blue-900 overflow-x-hidden">
       
       {/* Subtle Top Gradient */}
       <div className="absolute top-0 inset-x-0 h-80 bg-gradient-to-b from-slate-200/50 to-transparent pointer-events-none"></div>
