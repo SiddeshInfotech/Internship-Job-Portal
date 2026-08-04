@@ -3,6 +3,8 @@ import './CompanyRegister.css';
 import { Link, useNavigate } from "react-router-dom";
 import clientAxios from "../api/clientAxios";
 import BackToWebsite from "../components/BackToWebsite";
+import PasswordStrength from '../components/PasswordStrength';
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 function CompanyRegister() {
   const navigate = useNavigate();
@@ -13,6 +15,10 @@ function CompanyRegister() {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // UI States for password visibility
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const update = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
 
@@ -79,7 +85,7 @@ function CompanyRegister() {
           <div className="features-list">
             <div className="feature-item">
               <div className="feature-icon-box">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
               </div>
               <div className="feature-text-box">
                 <h3>Direct Talent Access</h3>
@@ -89,7 +95,7 @@ function CompanyRegister() {
 
             <div className="feature-item">
               <div className="feature-icon-box">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line><line x1="12" y1="12" x2="12" y2="21"></line></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line><line x1="12" y1="12" x2="12" y2="21"></line></svg>
               </div>
               <div className="feature-text-box">
                 <h3>Drive Management</h3>
@@ -130,26 +136,137 @@ function CompanyRegister() {
             </div>
 
             <div className="form-grid-row">
+              {/* Password Input with Borderless Show/Hide Toggle */}
               <div className="input-group">
                 <label>Password <span className="star-req">*</span></label>
-                <input type="password" placeholder="Min. 8 characters" value={form.password} onChange={update('password')} minLength={8} required />
+                <div style={{ position: 'relative', width: '100%' }}>
+                  <input 
+                    type={showPassword ? "text" : "password"} 
+                    placeholder="Min. 8 characters" 
+                    value={form.password} 
+                    onChange={update('password')} 
+                    minLength={8} 
+                    required 
+                    style={{ width: '100%', paddingRight: '38px' }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    style={{
+                      position: 'absolute',
+                      right: '12px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      border: 'none',
+                      background: 'transparent',
+                      boxShadow: 'none',
+                      outline: 'none',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: 0,
+                      color: '#94a3b8'
+                    }}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+                  </button>
+                </div>
+                <PasswordStrength password={form.password} />
               </div>
+
+              {/* Confirm Password Input with Borderless Show/Hide Toggle */}
               <div className="input-group">
                 <label>Confirm Password <span className="star-req">*</span></label>
-                <input type="password" placeholder="Repeat password" value={form.confirmPassword} onChange={update('confirmPassword')} required />
+                <div style={{ position: 'relative', width: '100%' }}>
+                  <input 
+                    type={showConfirmPassword ? "text" : "password"} 
+                    placeholder="Repeat password" 
+                    value={form.confirmPassword} 
+                    onChange={update('confirmPassword')} 
+                    required 
+                    style={{ width: '100%', paddingRight: '38px' }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    style={{
+                      position: 'absolute',
+                      right: '12px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      border: 'none',
+                      background: 'transparent',
+                      boxShadow: 'none',
+                      outline: 'none',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: 0,
+                      color: '#94a3b8'
+                    }}
+                    aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                  >
+                    {showConfirmPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+                  </button>
+                </div>
               </div>
             </div>
 
             <div className="form-grid-row">
-              <div className="input-group">
-                <label>Industry <span className="star-req">*</span></label>
-                <select required value={form.industry} onChange={update('industry')}>
-                  <option value="" disabled>Select industry</option>
-                  <option value="Information Technology">Information Technology</option>
-                  <option value="Finance / Fintech">Finance / Fintech</option>
-                  <option value="Consulting / Management">Consulting / Management</option>
-                </select>
-              </div>
+             <div className="input-group">
+  <label>Industry <span className="star-req">*</span></label>
+  <select required value={form.industry} onChange={update('industry')}>
+    <option value="" disabled>Select industry</option>
+
+    <option value="Information Technology">Information Technology</option>
+    <option value="Software Development">Software Development</option>
+    <option value="Artificial Intelligence / Machine Learning">Artificial Intelligence / Machine Learning</option>
+    <option value="Data Science / Analytics">Data Science / Analytics</option>
+    <option value="Cybersecurity">Cybersecurity</option>
+    <option value="Cloud Computing">Cloud Computing</option>
+    <option value="Networking">Networking</option>
+    <option value="Telecommunications">Telecommunications</option>
+
+    <option value="Finance / Fintech">Finance / Fintech</option>
+    <option value="Banking">Banking</option>
+    <option value="Insurance">Insurance</option>
+    <option value="Accounting">Accounting</option>
+
+
+    <option value="Human Resources">Human Resources</option>
+    <option value="Marketing">Marketing</option>
+    <option value="Healthcare / Medical">Healthcare / Medical</option>
+    <option value="Manufacturing">Manufacturing</option>
+    <option value="Automobile">Automobile</option>
+    <option value="Mechanical Engineering">Mechanical Engineering</option>
+    <option value="Electrical Engineering">Electrical Engineering</option>
+    <option value="Electronics">Electronics</option>
+
+    <option value="Construction">Construction</option>
+
+    <option value="Real Estate">Real Estate</option>
+
+    <option value="Retail">Retail</option>
+    <option value="E-Commerce">E-Commerce</option>
+
+   
+    
+
+    <option value="Travel & Tourism">Travel & Tourism</option>
+
+    
+
+
+
+    <option value="Agriculture">Agriculture</option>
+   
+
+    <option value="Other">Other</option>
+  </select>
+</div>
               <div className="input-group">
                 <label>Website URL</label>
                 <input type="url" placeholder="https://www.yourcompany.com" value={form.website} onChange={update('website')} />
@@ -193,11 +310,11 @@ function CompanyRegister() {
               <button type="submit" className="login-btn register-btn" disabled={loading}>
                 {loading ? 'Creating account...' : 'Create account'}
               </button>
-             <Link to="/company/login"> 
-              <button type="button" className="back-btn">
-                ← Back to sign in
-              </button>
-             </Link> 
+              <Link to="/company/login"> 
+               <button type="button" className="back-btn">
+                 ← Back to sign in
+               </button>
+              </Link> 
             </div>
           </form>
         </div>

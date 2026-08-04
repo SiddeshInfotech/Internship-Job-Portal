@@ -67,6 +67,14 @@ function ApplicantProfile() {
     <main style={{ padding: '24px', fontFamily: 'var(--pf-font)' }}>
       <ClientTopNavbar title="Applicant Profile" />
 
+      <button
+        onClick={() => navigate(-1)}
+        className="pf-btn pf-btn-ghost pf-btn-sm"
+        style={{ marginBottom: '16px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+      >
+        ← Back to applicants
+      </button>
+
       {error && <div className="pf-alert-error" role="alert"><span aria-hidden="true">⚠</span>{error}</div>}
       {loading && (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '22px', alignItems: 'start' }} aria-label="Loading applicant">
@@ -163,7 +171,7 @@ function ApplicantProfile() {
                         boxShadow: '0 4px 10px -5px rgba(11,21,38,0.5)',
                       }}
                     >
-                      {typeof s === 'string' ? s : `${s.name}${s.level ? ` · ${s.level}` : ''}`}
+                      {typeof s === 'string' ? s : `${s.skill_name || s.name || 'Skill'}${s.level ? ` · ${s.level}` : ''}`}
                     </span>
                   ))}
                 </div>

@@ -1,12 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import studentAxios from '../../api/studentAxios';
 import { uploadToCloudinary } from '../../utils/uploadToCloudinary';
-import { useToast } from '../../context/ToastContext';
 import StudentSubTabs from '../../components/student/StudentSubTabs';
+import { 
+  FiCheckCircle, 
+  FiAlertCircle, 
+  FiUser, 
+  FiAward, 
+  FiBriefcase, 
+  FiCamera, 
+  FiSave,
+  FiLock,
+  FiEye,
+  FiEyeOff,
+  FiChevronRight,
+  FiSettings
+} from 'react-icons/fi';
 
 function StudentSettings() {
-  const { showToast } = useToast();
   const [form, setForm] = useState({});
   const [email, setEmail] = useState('');
   const [photoUrl, setPhotoUrl] = useState('');
@@ -16,7 +28,7 @@ function StudentSettings() {
   const [success, setSuccess] = useState('');
 
   const [photoError, setPhotoError] = useState('');
-  const photoInputRef = React.useRef(null);
+  const photoInputRef = useRef(null);
   const [photoSaving, setPhotoSaving] = useState(false);
 
   const [currentPassword, setCurrentPassword] = useState('');
@@ -73,7 +85,6 @@ function StudentSettings() {
     try {
       const payload = {};
       fields.forEach((f) => { payload[f] = form[f]; });
-      // DB column is gpa_cgpa; send a gpa alias too for safety
       if ('gpa_cgpa' in payload) payload.gpa = payload.gpa_cgpa;
       await studentAxios.put('/student/profile', payload);
       setSuccess(okMsg);
@@ -129,103 +140,249 @@ function StudentSettings() {
   };
 
   return (
-    <>
+    <div className="min-h-screen bg-[#F8FAFC]">
       <StudentSubTabs />
-      <main className="max-w-4xl mx-auto px-6 py-6">
-        {loading ? (
-          <div className="py-20 text-center text-slate-400">Loading settings...</div>
-        ) : (
-        <div className="grid md:grid-cols-3 gap-6">
-          <div className="md:col-span-1 space-y-4">
-            <div className="bg-white rounded-2xl border border-slate-200 p-6 text-center">
-              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-sky-100 to-green-100 mx-auto mb-4 overflow-hidden flex items-center justify-center text-slate-400 text-2xl font-bold">
-                {photoSaving ? <div className="pf-spinner" style={{ width: 26, height: 26 }} /> : photoUrl ? <img src={photoUrl} alt="Profile" className="w-full h-full object-cover" /> : (form.name || '?').charAt(0)}
-              </div>
-              <input
-                ref={photoInputRef}
-                type="file"
-                accept="image/jpeg,image/png,image/webp"
-                onChange={handlePhotoFile}
-                className="hidden"
-              />
-              <button
-                onClick={() => photoInputRef.current?.click()}
-                disabled={photoSaving}
-                className="px-4 py-2 rounded-xl bg-sky-100 text-sky-700 font-semibold text-sm hover:bg-sky-200 transition-colors disabled:opacity-60"
-              >
-                {photoSaving ? 'Uploading…' : photoUrl ? 'Change Photo' : 'Upload Photo'}
-              </button>
-              <p className="text-[11px] text-slate-400 mt-2">JPG, PNG or WEBP · max 5MB</p>
-              {photoError && <p className="text-[11.5px] text-red-600 font-medium mt-1" role="alert">{photoError}</p>}
-            </div>
-            <div className="bg-white rounded-2xl border border-slate-200 p-5">
-              <p className="font-bold text-[#0F172A] mb-3">Quick Links</p>
-              <Link to="/student/profile-overview" className="block w-full text-center px-4 py-2.5 rounded-xl bg-sky-100 text-sky-700 font-semibold text-sm mb-2">Update your Profile</Link>
-              <Link to="/student/profile-wizard/3" className="block w-full text-center px-4 py-2.5 rounded-xl bg-sky-100 text-sky-700 font-semibold text-sm mb-2">Update Certificates & Skills</Link>
-              <Link to="/student/applications" className="block w-full text-center px-4 py-2.5 rounded-xl bg-sky-100 text-sky-700 font-semibold text-sm">My Applications</Link>
-            </div>
-          </div>
-
-          <div className="md:col-span-2 space-y-6">
-            <form id="personal-info" onSubmit={handleSaveProfile} className="bg-white rounded-2xl border border-slate-200 p-6">
-              <h3 className="font-bold text-[#0F172A] mb-4">Personal Information</h3>
-              {error && <div className="bg-red-50 text-red-600 text-sm px-4 py-3 rounded-xl mb-4">{error}</div>}
-              {success && <div className="bg-green-50 text-green-600 text-sm px-4 py-3 rounded-xl mb-4">{success}</div>}
-              <div className="grid sm:grid-cols-2 gap-4 mb-4">
-                <Field label="Full Name"><input value={form.name} onChange={update('name')} className={inputCls} /></Field>
-                <Field label="Email (Cannot Change)"><input value={email} disabled className={`${inputCls} bg-slate-50 text-slate-400`} /></Field>
-                <Field label="Department"><input value={form.department} onChange={update('department')} className={inputCls} /></Field>
-                <Field label="College"><input value={form.college} onChange={update('college')} className={inputCls} /></Field>
-                <Field label="Current Year"><input value={form.current_year} onChange={update('current_year')} className={inputCls} /></Field>
-                <Field label="Mobile No."><input value={form.mobile_no} onChange={update('mobile_no')} className={inputCls} /></Field>
-              </div>
-              <Field label="Profile Summary"><textarea rows={3} value={form.profile_summary} onChange={update('profile_summary')} className={inputCls} /></Field>
-              <button type="submit" disabled={saving} className="mt-5 px-6 py-2.5 rounded-xl bg-[#0F172A] text-white font-bold text-sm disabled:opacity-60">
-                {saving ? 'Saving...' : 'Save Profile'}
-              </button>
-            </form>
-
-            <form id="academic-info" onSubmit={handleSaveAcademic} className="bg-white rounded-2xl border border-slate-200 p-6">
-              <h3 className="font-bold text-[#0F172A] mb-4">Academic Information</h3>
-              <div className="grid sm:grid-cols-2 gap-4 mb-2">
-                <Field label="Enrollment No"><input value={form.enrollment_no} onChange={update('enrollment_no')} className={inputCls} /></Field>
-                <Field label="Course"><input value={form.course} onChange={update('course')} className={inputCls} placeholder="e.g. B.Tech Computer Science" /></Field>
-                <Field label="GPA / CGPA"><input value={form.gpa_cgpa} onChange={update('gpa_cgpa')} className={inputCls} placeholder="e.g. 8.5" /></Field>
-                <Field label="College Address"><input value={form.college_address} onChange={update('college_address')} className={inputCls} /></Field>
-              </div>
-              <button type="submit" disabled={saving} className="mt-5 px-6 py-2.5 rounded-xl bg-[#0F172A] text-white font-bold text-sm disabled:opacity-60">
-                {saving ? 'Saving...' : 'Save Academic Info'}
-              </button>
-            </form>
-
-            <form onSubmit={handleChangePassword} className="bg-white rounded-2xl border border-slate-200 p-6">
-              <h3 className="font-bold text-[#0F172A] mb-4">Change Password</h3>
-              {pwError && <div className="bg-red-50 text-red-600 text-sm px-4 py-3 rounded-xl mb-4">{pwError}</div>}
-              {pwSuccess && <div className="bg-green-50 text-green-600 text-sm px-4 py-3 rounded-xl mb-4">{pwSuccess}</div>}
-              <div className="grid sm:grid-cols-3 gap-4">
-                <Field label="Current Password"><input type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} className={inputCls} required /></Field>
-                <Field label="New Password"><input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className={inputCls} required /></Field>
-                <Field label="Confirm Password"><input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className={inputCls} required /></Field>
-              </div>
-              <button type="submit" disabled={pwSaving} className="mt-5 px-6 py-2.5 rounded-xl bg-[#F59E0B] text-white font-bold text-sm disabled:opacity-60">
-                {pwSaving ? 'Saving...' : 'Update Password'}
-              </button>
-            </form>
-          </div>
+      
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
+        
+        {/* Page Header */}
+        <div className="mb-8">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] flex items-center gap-3">
+            <FiSettings className="text-[#F59E0B]" /> Account Settings
+          </h1>
+          <p className="text-slate-500 mt-1.5 text-sm sm:text-base">Manage your profile details, academic records, and account security.</p>
         </div>
+
+        {loading ? (
+          <div className="py-28 flex flex-col items-center justify-center space-y-4">
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-amber-200 border-t-[#F59E0B]"></div>
+            <p className="text-slate-500 font-semibold text-sm">Fetching your preferences...</p>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
+            
+            {/* LEFT COLUMN: Avatar & Links */}
+            <div className="md:col-span-1 space-y-6">
+              
+              {/* Photo Upload Card */}
+              <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 text-center shadow-sm">
+                <div className="relative w-32 h-32 mx-auto mb-6 group">
+                  <div className="w-32 h-32 rounded-full bg-gradient-to-tr from-[#F59E0B] to-amber-200 p-1 shadow-md">
+                    <div className="w-full h-full rounded-full bg-slate-50 flex items-center justify-center overflow-hidden relative text-4xl font-extrabold text-slate-400">
+                      {photoSaving ? (
+                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center backdrop-blur-sm z-10">
+                          <div className="animate-spin rounded-full h-8 w-8 border-2 border-white border-t-transparent" />
+                        </div>
+                      ) : photoUrl ? (
+                        <img src={photoUrl} alt="Profile" className="w-full h-full object-cover" />
+                      ) : (
+                        (form.name || '?').charAt(0).toUpperCase()
+                      )}
+                      
+                      {!photoSaving && (
+                        <button
+                          type="button"
+                          onClick={() => photoInputRef.current?.click()}
+                          className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center text-white text-xs font-bold gap-1 cursor-pointer backdrop-blur-sm"
+                        >
+                          <FiCamera className="text-2xl mb-1" />
+                          <span>Change Photo</span>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <input
+                  ref={photoInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  onChange={handlePhotoFile}
+                  className="hidden"
+                />
+                
+                <button
+                  type="button"
+                  onClick={() => photoInputRef.current?.click()}
+                  disabled={photoSaving}
+                  className="px-5 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 font-bold text-sm hover:bg-white hover:border-amber-300 hover:text-amber-600 transition-all disabled:opacity-50 w-full flex items-center justify-center gap-2 shadow-sm"
+                >
+                  <FiCamera /> {photoSaving ? 'Uploading…' : photoUrl ? 'Update Avatar' : 'Upload Avatar'}
+                </button>
+                <p className="text-xs text-slate-400 mt-3 font-medium">JPG, PNG or WEBP · Max 5MB</p>
+                {photoError && (
+                  <p className="text-xs text-red-600 font-bold mt-3 flex items-center justify-center gap-1.5 bg-red-50 py-2 rounded-lg">
+                    <FiAlertCircle size={14}/> {photoError}
+                  </p>
+                )}
+              </div>
+
+              {/* Quick Links Card */}
+              <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm">
+                <p className="font-extrabold text-[11px] text-slate-400 uppercase tracking-widest mb-4 pl-1">Navigation</p>
+                <div className="space-y-2.5">
+                  <Link to="/student/profile-overview" className="flex items-center justify-between w-full px-4 py-3.5 rounded-xl bg-slate-50/50 hover:bg-amber-50 border border-transparent hover:border-amber-100 text-slate-600 hover:text-amber-700 font-bold text-sm transition-all group">
+                    <span className="flex items-center gap-3"><FiUser className="text-slate-400 group-hover:text-amber-500 text-lg" /> update Profile</span>
+                    <FiChevronRight className="text-slate-300 group-hover:text-amber-500" />
+                  </Link>
+                  <Link to="/student/profile-wizard/3" className="flex items-center justify-between w-full px-4 py-3.5 rounded-xl bg-slate-50/50 hover:bg-amber-50 border border-transparent hover:border-amber-100 text-slate-600 hover:text-amber-700 font-bold text-sm transition-all group">
+                    <span className="flex items-center gap-3"><FiAward className="text-slate-400 group-hover:text-amber-500 text-lg" /> Manage Certificates</span>
+                    <FiChevronRight className="text-slate-300 group-hover:text-amber-500" />
+                  </Link>
+                  <Link to="/student/applications" className="flex items-center justify-between w-full px-4 py-3.5 rounded-xl bg-slate-50/50 hover:bg-amber-50 border border-transparent hover:border-amber-100 text-slate-600 hover:text-amber-700 font-bold text-sm transition-all group">
+                    <span className="flex items-center gap-3"><FiBriefcase className="text-slate-400 group-hover:text-amber-500 text-lg" /> My Applications</span>
+                    <FiChevronRight className="text-slate-300 group-hover:text-amber-500" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT COLUMN: Forms */}
+            <div className="md:col-span-2 space-y-8">
+              
+              {/* Personal Info Form */}
+              <form id="personal-info" onSubmit={handleSaveProfile} className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
+                <div className="flex items-center gap-3.5 mb-6 border-b border-slate-100 pb-5">
+                  <div className="p-3 rounded-2xl bg-amber-50 text-[#F59E0B]"><FiUser size={20} /></div>
+                  <div>
+                    <h3 className="font-extrabold text-[#0F172A] text-lg">Personal Information</h3>
+                    <p className="text-xs text-slate-500 mt-0.5">Update your basic details and contact information.</p>
+                  </div>
+                </div>
+                
+                <Alert type="error" message={error} />
+                <Alert type="success" message={success} />
+                
+                <div className="grid sm:grid-cols-2 gap-5 mb-5">
+                  <Field label="Full Name"><input value={form.name || ''} onChange={update('name')} className={inputCls} placeholder="e.g. John Doe" /></Field>
+                  <Field label="Email Address"><input value={email} disabled className={`${inputCls} bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed opacity-70`} /></Field>
+                  <Field label="Department"><input value={form.department || ''} onChange={update('department')} className={inputCls} placeholder="e.g. Computer Science" /></Field>
+                  <Field label="College / University"><input value={form.college || ''} onChange={update('college')} className={inputCls} placeholder="e.g. MIT" /></Field>
+                  <Field label="Current Year"><input value={form.current_year || ''} onChange={update('current_year')} className={inputCls} placeholder="e.g. 3rd Year" /></Field>
+                  <Field label="Mobile No."><input value={form.mobile_no || ''} onChange={update('mobile_no')} className={inputCls} placeholder="e.g. +91 9876543210" /></Field>
+                </div>
+                <Field label="Profile Summary">
+                  <textarea rows={3} value={form.profile_summary || ''} onChange={update('profile_summary')} className={`${inputCls} resize-none`} placeholder="Briefly describe your goals, skills, and aspirations..." />
+                </Field>
+                
+                <div className="mt-7 flex justify-end pt-5 border-t border-slate-100">
+                  <button type="submit" disabled={saving} className="px-8 py-3 rounded-xl bg-[#0F172A] hover:bg-[#1E293B] text-white font-bold text-sm disabled:opacity-60 transition-all shadow-md flex items-center gap-2">
+                    {saving ? <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div> : <FiSave size={16} />} 
+                    {saving ? 'Saving...' : 'Save Changes'}
+                  </button>
+                </div>
+              </form>
+
+              {/* Academic Info Form */}
+              <form id="academic-info" onSubmit={handleSaveAcademic} className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
+                <div className="flex items-center gap-3.5 mb-6 border-b border-slate-100 pb-5">
+                  <div className="p-3 rounded-2xl bg-blue-50 text-blue-500"><FiAward size={20} /></div>
+                  <div>
+                    <h3 className="font-extrabold text-[#0F172A] text-lg">Academic Details</h3>
+                    <p className="text-xs text-slate-500 mt-0.5">Ensure your enrollment and grade details are accurate.</p>
+                  </div>
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-5">
+                  <Field label="Enrollment No"><input value={form.enrollment_no || ''} onChange={update('enrollment_no')} className={inputCls} placeholder="e.g. 123456789" /></Field>
+                  <Field label="Course / Degree"><input value={form.course || ''} onChange={update('course')} className={inputCls} placeholder="e.g. B.Tech IT" /></Field>
+                  <Field label="GPA / CGPA"><input value={form.gpa_cgpa || ''} onChange={update('gpa_cgpa')} className={inputCls} placeholder="e.g. 8.5" /></Field>
+                  <Field label="Campus Address"><input value={form.college_address || ''} onChange={update('college_address')} className={inputCls} placeholder="Full address of institution" /></Field>
+                </div>
+                
+                <div className="mt-7 flex justify-end pt-5 border-t border-slate-100">
+                  <button type="submit" disabled={saving} className="px-8 py-3 rounded-xl bg-[#0F172A] hover:bg-[#1E293B] text-white font-bold text-sm disabled:opacity-60 transition-all shadow-md flex items-center gap-2">
+                    {saving ? <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div> : <FiSave size={16} />} 
+                    {saving ? 'Saving...' : 'Save Academic Info'}
+                  </button>
+                </div>
+              </form>
+
+              {/* Password Form */}
+              <form onSubmit={handleChangePassword} className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
+                <div className="flex items-center gap-3.5 mb-6 border-b border-slate-100 pb-5">
+                  <div className="p-3 rounded-2xl bg-red-50 text-red-500"><FiLock size={20} /></div>
+                  <div>
+                    <h3 className="font-extrabold text-[#0F172A] text-lg">Security & Password</h3>
+                    <p className="text-xs text-slate-500 mt-0.5">Protect your account with a strong password.</p>
+                  </div>
+                </div>
+
+                <Alert type="error" message={pwError} />
+                <Alert type="success" message={pwSuccess} />
+                
+                <div className="grid sm:grid-cols-3 gap-5">
+                  <PasswordField label="Current Password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
+                  <PasswordField label="New Password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+                  <PasswordField label="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                </div>
+
+                <div className="mt-7 flex justify-end pt-5 border-t border-slate-100">
+                  <button type="submit" disabled={pwSaving} className="px-8 py-3 rounded-xl bg-[#F59E0B] hover:bg-amber-600 text-white font-bold text-sm disabled:opacity-60 transition-all shadow-md flex items-center gap-2">
+                    {pwSaving ? <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div> : <FiLock size={15} />} 
+                    {pwSaving ? 'Updating...' : 'Update Password'}
+                  </button>
+                </div>
+              </form>
+
+            </div>
+          </div>
         )}
-      </main>
-    </>
+      </div>
+    </div>
   );
 }
 
-const inputCls = "w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:ring-2 focus:ring-[#F59E0B]";
+const inputCls = "w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-sm outline-none transition-all focus:bg-white focus:border-[#F59E0B] focus:ring-4 focus:ring-amber-50 text-slate-700 placeholder:text-slate-400";
 
 function Field({ label, children }) {
   return (
     <div>
-      <label className="block text-sm font-semibold text-slate-700 mb-1.5">{label}</label>
+      <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2 pl-1">{label}</label>
       {children}
+    </div>
+  );
+}
+
+function PasswordField({ label, value, onChange }) {
+  const [show, setShow] = useState(false);
+  
+  return (
+    <div>
+      <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2 pl-1">{label}</label>
+      <div className="relative">
+        <input 
+          type={show ? "text" : "password"}
+          value={value} 
+          onChange={onChange}
+          placeholder="••••••••" 
+          required 
+          className={`${inputCls} pr-12`} 
+        />
+        
+        <button 
+          type="button" 
+          onClick={() => setShow(!show)} 
+          title={show ? "Hide password" : "Show password"}
+          className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-[#F59E0B] hover:bg-amber-50 focus:outline-none transition-colors"
+          tabIndex={-1}
+        >
+          {show ? <FiEyeOff size={16} /> : <FiEye size={16} />}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function Alert({ type, message }) {
+  if (!message) return null;
+  const isError = type === 'error';
+  return (
+    <div className={`mb-6 text-sm px-4 py-3.5 rounded-xl border-l-4 flex items-center gap-3 font-semibold shadow-sm
+      ${isError ? 'bg-red-50 border-red-500 text-red-700' : 'bg-emerald-50 border-emerald-500 text-emerald-700'}`}
+    >
+      {isError ? <FiAlertCircle size={18} className="text-red-500 shrink-0" /> : <FiCheckCircle size={18} className="text-emerald-500 shrink-0" />}
+      {message}
     </div>
   );
 }

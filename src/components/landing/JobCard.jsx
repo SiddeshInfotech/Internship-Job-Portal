@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiMapPin, FiBriefcase, FiClock, FiArrowUpRight } from 'react-icons/fi';
 import { fmtJobDate } from '../../utils/fields';
+import { fmtMoney } from '../../utils/fields';
 
 function CompanyLogo({ company }) {
   const [failed, setFailed] = useState(false);
@@ -83,7 +84,7 @@ function JobCard({ job }) {
 
       {stipend && (
         <p className="text-[15px] font-extrabold text-[#0F172A] mb-5 tabular-nums" style={{ fontFamily: 'Sora, Inter, sans-serif' }}>
-          {stipend}
+          {fmtMoney(stipend)}
         </p>
       )}
 

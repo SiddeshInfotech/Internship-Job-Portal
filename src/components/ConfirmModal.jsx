@@ -1,8 +1,10 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 
 // Generic confirmation dialog used for Block/Delete/Approve/Reject/
-// Shortlist actions across all admin pages. Same API as before —
-// only the presentation changed (design-system modal + animations).
+// Shortlist actions across all admin pages. Rendered via a portal to
+// document.body so it always centers on the viewport, never trapped
+// inside a scrolled/overflow container or a transformed ancestor.
 function ConfirmModal({ open, title, message, confirmLabel, confirmColor = '#dc2626', onConfirm, onCancel, loading, children }) {
   if (!open) return null;
 
@@ -13,7 +15,7 @@ function ConfirmModal({ open, title, message, confirmLabel, confirmColor = '#dc2
     ? { bg: 'var(--pf-red-bg)', fg: 'var(--pf-red)', glyph: '⚠' }
     : { bg: 'var(--pf-blue-bg)', fg: 'var(--pf-blue)', glyph: '✓' };
 
-  return (
+  return createPortal(
     <div className="pf-modal-backdrop" onClick={onCancel} role="dialog" aria-modal="true" aria-label={title}>
       <div className="pf-modal" onClick={(e) => e.stopPropagation()}>
         <div className="pf-modal-icon" style={{ background: iconTone.bg, color: iconTone.fg }} aria-hidden="true">
@@ -36,7 +38,8 @@ function ConfirmModal({ open, title, message, confirmLabel, confirmColor = '#dc2
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 

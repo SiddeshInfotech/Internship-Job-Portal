@@ -30,3 +30,12 @@ export function fmtJobDate(value) {
   }
   return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
 }
+
+// Money: the app deals in INR. Strips any leading $ the data may carry and
+// prefixes ₹ (without doubling it if a ₹ is already present).
+export function fmtMoney(value) {
+  if (value === undefined || value === null || value === '') return '';
+  let s = String(value).trim();
+  s = s.replace(/^\$\s?/, '').replace(/^₹\s?/, '').replace(/^Rs\.?\s?/i, '').replace(/^INR\s?/i, '');
+  return `₹${s}`;
+}

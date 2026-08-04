@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axiosClient from '../api/axiosClient';
 import TopNavbar from '../components/TopNavbar';
+import { useToast } from '../context/ToastContext';
 
 function strength(pw) {
   let score = 0;
@@ -15,6 +16,7 @@ const STRENGTH_LABELS = ['Too weak', 'Weak', 'Fair', 'Good', 'Strong'];
 const STRENGTH_COLORS = ['#ef4444', '#f59e0b', '#f59e0b', '#3b82f6', '#16a34a'];
 
 function ChangePassword() {
+  const { showToast } = useToast();
   const [current, setCurrent] = useState('');
   const [next, setNext] = useState('');
   const [confirm, setConfirm] = useState('');
@@ -47,6 +49,7 @@ function ChangePassword() {
         confirm_password: confirm,
       });
       setSuccess('Password updated successfully.');
+      showToast('Password updated successfully! 🎉', 'success');
       setCurrent(''); setNext(''); setConfirm('');
     } catch (err) {
       setError(err.response?.data?.message || 'Could not update password. Please check your current password and try again.');

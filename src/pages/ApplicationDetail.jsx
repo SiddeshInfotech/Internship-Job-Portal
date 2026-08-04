@@ -7,6 +7,20 @@ import { pick, fmtDate } from '../utils/fields';
 import { normalizeApplicant } from '../utils/drive';
 import { useToast } from '../context/ToastContext';
 import ConfirmModal from '../components/ConfirmModal';
+import { 
+  FiArrowLeft, 
+  FiMail, 
+  FiPhone, 
+  FiMapPin, 
+  FiBook, 
+  FiFileText, 
+  FiExternalLink, 
+  FiBriefcase, 
+  FiCalendar,
+  FiCheck,
+  FiX,
+  FiAlertCircle
+} from 'react-icons/fi';
 
 function ApplicationDetail() {
   const { id } = useParams();
@@ -45,7 +59,10 @@ function ApplicationDetail() {
       const { type } = confirmAction;
       if (type === 'shortlist') await axiosClient.patch(`/admin/applications/${id}/shortlist`, { admin_notes: notes || undefined });
       if (type === 'reject') await axiosClient.patch(`/admin/applications/${id}/reject`, { admin_notes: notes || undefined });
+      
+      // Toast notification provides the attractive popup message on success
       showToast(type === 'shortlist' ? 'Candidate shortlisted! 🎉' : 'Application rejected.', type === 'shortlist' ? 'success' : 'info');
+      
       setConfirmAction(null);
       load();
     } catch (err) {
@@ -56,197 +73,352 @@ function ApplicationDetail() {
   };
 
   const actionLabels = {
-    shortlist: { title: 'Shortlist Candidate', message: `Shortlist ${app?.name} for ${app?.job_title || app?.role}?`, confirmLabel: 'Shortlist Candidate', color: '#16a34a' },
-    reject: { title: 'Reject Application', message: `Reject ${app?.name}'s application? They will be notified.`, confirmLabel: 'Reject Application', color: '#dc2626' },
+    shortlist: { title: 'Shortlist Candidate', message: `Shortlist ${app?.name} for ${app?.job_title || app?.role}?`, confirmLabel: 'Shortlist Candidate', color: '#10b981' },
+    reject: { title: 'Reject Application', message: `Reject ${app?.name}'s application? They will be notified.`, confirmLabel: 'Reject Application', color: '#f43f5e' },
   };
   const modalCopy = confirmAction ? actionLabels[confirmAction.type] : null;
 
   return (
-    <main className="admin-page-body" style={{ fontFamily: 'var(--pf-font)' }}>
-      <TopNavbar title="Application Detail" />
+    <>
+      {/* Premium Animations & Loader Styles */}
+      <style>{`
+        @keyframes fadeSlideUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-entrance {
+          animation: fadeSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          opacity: 0;
+        }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        
+        /* Concentric Circular Loader */
+        .premium-loader {
+          position: relative;
+          width: 80px;
+          height: 80px;
+        }
+        .premium-loader-ring {
+          position: absolute;
+          border-radius: 50%;
+          border: 3px solid transparent;
+        }
+        .premium-loader-ring:nth-child(1) {
+          inset: 0;
+          border-top-color: #4f46e5;
+          animation: spin 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+        }
+        .premium-loader-ring:nth-child(2) {
+          inset: 12px;
+          border-right-color: #8b5cf6;
+          animation: spin 2s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite reverse;
+        }
+        .premium-loader-ring:nth-child(3) {
+          inset: 24px;
+          border-bottom-color: #0ea5e9;
+          animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '10px' }}>
-        <p style={{ fontSize: '13px', color: '#64748b', margin: 0 }}>
-          <Link to="/admin/applications" style={{ color: '#64748b', textDecoration: 'none' }}>Manage Applications</Link> {' > '}
-          <span style={{ color: '#1e293b', fontWeight: 600 }}>{app ? `${app.name} — ${app.job_title || app.role}` : '...'}</span>
-        </p>
-        {app && (
-          <div style={{ display: 'flex', gap: '16px', fontSize: '13px', color: '#64748b' }}>
-            {app.applied_date && <span>📅 Applied: {app.applied_date}</span>}
-            <span>ID: {app.id}</span>
-          </div>
-        )}
-      </div>
+      <main className="min-h-screen bg-[#F8FAFC] font-sans">
+        <TopNavbar title="Application Detail" />
 
-      {error && <div className="pf-alert-error" role="alert"><span aria-hidden="true">⚠</span>{error}</div>}
-      {loading && (
-        <div className="cp-dash-grid" aria-label="Loading application">
-          <div className="pf-card" style={{ padding: 24 }}>
-            <div className="pf-skeleton" style={{ width: 72, height: 72, borderRadius: '50%', margin: '0 auto 12px' }} />
-            <div className="pf-skeleton" style={{ width: '55%', height: 15, margin: '0 auto 8px' }} />
-            <div className="pf-skeleton" style={{ width: '35%', height: 12, margin: '0 auto' }} />
-          </div>
-          <div className="pf-card" style={{ padding: 26 }}>
-            <div className="pf-skeleton" style={{ width: '35%', height: 17, marginBottom: 14 }} />
-            <div className="pf-skeleton" style={{ width: '100%', height: 90, marginBottom: 12 }} />
-            <div className="pf-skeleton" style={{ width: '80%', height: 14 }} />
-          </div>
-        </div>
-      )}
-
-      {!loading && app && (
-        <div className="cp-dash-grid">
-          {/* LEFT: APPLICANT DOSSIER */}
-          <div className="pf-card" style={{ padding: '24px' }}>
-            <h4 style={{ margin: '0 0 16px 0', fontSize: '11px', fontWeight: 700, color: 'var(--pf-text-3)', letterSpacing: '0.08em' }}>APPLICANT DOSSIER</h4>
-            <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-              {app.profile_photo ? (
-                <img
-                  src={app.profile_photo}
-                  alt={app.name}
-                  style={{ width: '72px', height: '72px', borderRadius: '50%', objectFit: 'cover', margin: '0 auto 10px', display: 'block', boxShadow: 'var(--pf-shadow-md)', border: '2px solid var(--pf-card)' }}
-                  onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextSibling.style.display = 'flex'; }}
-                />
-              ) : null}
-              <div style={{ width: '72px', height: '72px', borderRadius: '50%', background: 'linear-gradient(140deg, #2563eb, #0b1526)', margin: '0 auto 10px', display: app.profile_photo ? 'none' : 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '26px', fontWeight: 700, color: '#fff', fontFamily: 'var(--pf-display)', boxShadow: 'var(--pf-shadow-md)' }}>
-                {(app.name || '?').charAt(0)}
-              </div>
-              <h3 className="pf-display" style={{ margin: '0 0 6px 0', fontSize: '17px', fontWeight: 700, color: 'var(--pf-text)' }}>{app.name}</h3>
-              <StatusPill status={app.status} />
-            </div>
-
-            <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: '14px', display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '13px', color: '#334155' }}>
-              {(app.institution || app.college) && <p style={{ margin: 0 }}>🎓 {app.institution || app.college}</p>}
-              {app.email && <p style={{ margin: 0 }}>✉️ {app.email}</p>}
-              {app.phone && <p style={{ margin: 0 }}>📞 {app.phone}</p>}
-              {app.location && <p style={{ margin: 0 }}>📍 {app.location}</p>}
-            </div>
-
-            <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {app.status !== 'Shortlisted' && (
-                <button onClick={() => setConfirmAction({ type: 'shortlist' })} className="pf-btn pf-btn-primary" style={{ width: '100%' }}>
-                  Shortlist Candidate
-                </button>
-              )}
-              {app.status !== 'Rejected' && (
-                <button onClick={() => setConfirmAction({ type: 'reject' })} className="pf-btn pf-btn-ghost" style={{ width: '100%', color: 'var(--pf-red)', borderColor: 'var(--pf-red-ln)' }}>
-                  Reject Application
-                </button>
-              )}
-            </div>
-
-            <div style={{ marginTop: '20px', borderTop: '1px solid #f1f5f9', paddingTop: '16px' }}>
-              <p style={{ margin: '0 0 8px 0', fontSize: '12px', fontWeight: 700, color: '#94a3b8' }}>ADMIN REVIEW NOTES (PRIVATE)</p>
-              <textarea
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                placeholder="Add private notes about this candidate..."
-                rows={4}
-                style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '13px', resize: 'vertical', boxSizing: 'border-box', fontFamily: 'inherit' }}
-              />
-            </div>
-          </div>
-
-          {/* RIGHT: RESUME / COVER LETTER */}
-          <div className="pf-card" style={{ padding: '26px 28px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-              <h4 className="pf-display" style={{ margin: 0, fontSize: '15px', fontWeight: 700, color: 'var(--pf-text)' }}>Resume / CV</h4>
-              
-            </div>
-
-            {/* Resume card — opens the submitted Drive link in a new tab */}
-            {app.resume_url ? (
-              <div
-                style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  gap: '14px', flexWrap: 'wrap', marginBottom: '20px',
-                  border: '1px solid var(--pf-line)', borderRadius: '12px',
-                  padding: '15px 17px', background: 'var(--pf-page)',
-                  boxShadow: 'var(--pf-shadow-xs)',
-                }}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          
+          {/* Breadcrumbs & Header Info */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 animate-entrance">
+            <div className="flex items-center gap-2 text-sm font-medium">
+              <Link 
+                to="/admin/applications" 
+                className="text-slate-500 hover:text-blue-600 transition-colors flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm"
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0 }}>
-                  <div aria-hidden="true" style={{ width: 40, height: 40, borderRadius: '11px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '17px', background: 'var(--pf-red-bg)', border: '1px solid var(--pf-red-ln)' }}>📄</div>
-                  <div style={{ minWidth: 0 }}>
-                    <p style={{ margin: 0, fontSize: '13px', fontWeight: 700, color: 'var(--pf-text)' }}>{app.name}'s Resume</p>
-                    <p style={{ margin: '2px 0 0', fontSize: '11.5px', color: 'var(--pf-text-3)' }}>Opens in a new tab</p>
+                <FiArrowLeft size={14} /> Back to Applications
+              </Link>
+            </div>
+            
+            {app && (
+              <div className="flex flex-wrap items-center gap-4 text-xs font-bold text-slate-500 bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm">
+                <span className="flex items-center gap-1.5 uppercase tracking-wider">
+                  <FiCalendar size={14} className="text-blue-600" /> 
+                  Applied: <span className="text-slate-800">{app.applied_date || 'N/A'}</span>
+                </span>
+                <span className="w-1 h-1 rounded-full bg-slate-300 hidden sm:block"></span>
+                <span className="uppercase tracking-wider">
+                  APP ID: <span className="text-slate-800">#{app.id}</span>
+                </span>
+              </div>
+            )}
+          </div>
+
+          {/* Global Error Banner */}
+          {error && (
+            <div className="bg-rose-50 border border-rose-100 text-rose-700 text-sm px-5 py-4 rounded-xl mb-6 flex items-start gap-3 shadow-sm animate-entrance">
+              <FiAlertCircle className="mt-0.5 flex-shrink-0" size={18} />
+              <p className="font-semibold">{error}</p>
+            </div>
+          )}
+
+          {/* Loading State */}
+          {loading && (
+            <div className="flex flex-col items-center justify-center py-32 animate-entrance">
+              <div className="premium-loader mb-6">
+                <div className="premium-loader-ring"></div>
+                <div className="premium-loader-ring"></div>
+                <div className="premium-loader-ring"></div>
+              </div>
+              <h3 className="text-lg font-extrabold text-slate-800 tracking-tight">Loading Dossier</h3>
+              <p className="text-sm font-medium text-slate-500 mt-1">Retrieving applicant records securely...</p>
+            </div>
+          )}
+
+          {/* Main Content Grid */}
+          {!loading && app && (
+            <div className="grid lg:grid-cols-12 gap-8 items-start">
+              
+              {/* LEFT COLUMN: APPLICANT DOSSIER (Sticky) */}
+              <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-8 animate-entrance delay-100">
+                <div className="bg-white rounded-[2rem] border border-slate-200/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden relative">
+                  {/* Decorative Background for Avatar */}
+                  <div className="h-28 bg-gradient-to-br from-slate-800 via-blue-900 to-slate-800 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+                  </div>
+                  
+                  <div className="px-6 sm:px-8 pb-8 relative text-center">
+                    {/* Avatar */}
+                    <div className="w-24 h-24 mx-auto -mt-12 rounded-full border-4 border-white shadow-md bg-white overflow-hidden relative z-10">
+                      {app.profile_photo ? (
+                        <img
+                          src={app.profile_photo}
+                          alt={app.name}
+                          className="w-full h-full object-cover"
+                          onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextSibling.style.display = 'flex'; }}
+                        />
+                      ) : null}
+                      <div className={`w-full h-full bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center text-3xl font-extrabold text-white ${app.profile_photo ? 'hidden' : 'flex'}`}>
+                        {(app.name || '?').charAt(0)}
+                      </div>
+                    </div>
+
+                    <div className="mt-4 mb-5">
+                      <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">{app.name}</h3>
+                      <p className="text-sm font-semibold text-blue-600 mt-1">{app.job_title || app.role}</p>
+                    </div>
+
+                    <div className="flex justify-center mb-6">
+                      <StatusPill status={app.status} />
+                    </div>
+
+                    {/* Contact Info Details */}
+                    <div className="space-y-3.5 text-left border-t border-slate-100 pt-6">
+                      {(app.institution || app.college) && (
+                        <div className="flex items-start gap-3 group">
+                          <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors flex-shrink-0">
+                            <FiBook size={16} />
+                          </div>
+                          <p className="text-sm font-semibold text-slate-700 leading-snug pt-1.5">{app.institution || app.college}</p>
+                        </div>
+                      )}
+                      {app.email && (
+                        <div className="flex items-center gap-3 group">
+                          <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors flex-shrink-0">
+                            <FiMail size={16} />
+                          </div>
+                          <a href={`mailto:${app.email}`} className="text-sm font-semibold text-slate-700 hover:text-blue-600 truncate pt-0.5">{app.email}</a>
+                        </div>
+                      )}
+                      {app.phone && (
+                        <div className="flex items-center gap-3 group">
+                          <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors flex-shrink-0">
+                            <FiPhone size={16} />
+                          </div>
+                          <p className="text-sm font-semibold text-slate-700 pt-0.5">{app.phone}</p>
+                        </div>
+                      )}
+                      {app.location && (
+                        <div className="flex items-center gap-3 group">
+                          <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors flex-shrink-0">
+                            <FiMapPin size={16} />
+                          </div>
+                          <p className="text-sm font-semibold text-slate-700 pt-0.5">{app.location}</p>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="mt-8 space-y-3">
+                      {app.status !== 'Shortlisted' && (
+                        <button 
+                          onClick={() => setConfirmAction({ type: 'shortlist' })} 
+                          className="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-sm transition-all duration-300 shadow-[0_4px_14px_0_rgb(16,185,129,0.39)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.23)] hover:-translate-y-0.5 flex items-center justify-center gap-2"
+                        >
+                          <FiCheck size={18} /> Shortlist Candidate
+                        </button>
+                      )}
+                      {app.status !== 'Rejected' && (
+                        <button 
+                          onClick={() => setConfirmAction({ type: 'reject' })} 
+                          className="w-full py-3.5 rounded-xl bg-white border-2 border-rose-100 hover:border-rose-200 text-rose-600 hover:bg-rose-50 font-extrabold text-sm transition-all duration-300 flex items-center justify-center gap-2"
+                        >
+                          <FiX size={18} /> Reject Application
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Admin Notes Section */}
+                    <div className="mt-8 pt-6 border-t border-slate-100 text-left">
+                      <label className="flex items-center gap-1.5 text-[11px] font-extrabold text-slate-400 uppercase tracking-widest mb-3">
+                        Private Admin Notes
+                      </label>
+                      <textarea
+                        value={notes}
+                        onChange={(e) => setNotes(e.target.value)}
+                        placeholder="Add internal notes about this candidate..."
+                        rows={4}
+                        className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-medium text-slate-700 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 resize-none shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]"
+                      />
+                    </div>
+
                   </div>
                 </div>
-                <a href={app.resume_url} target="_blank" rel="noreferrer" className="pf-btn pf-btn-primary pf-btn-sm" style={{ textDecoration: 'none' }}>View Resume ↗</a>
               </div>
-            ) : (
-              <div
-                style={{
-                  border: '1.5px dashed var(--pf-line-strong)', borderRadius: '12px',
-                  padding: '20px', background: 'var(--pf-page)', marginBottom: '20px',
-                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '8px',
-                  color: 'var(--pf-text-3)', fontSize: '13px', textAlign: 'center',
-                }}
-              >
-                <span style={{ fontSize: '20px' }} aria-hidden="true">📄</span>
-                No resume link received from the server for this application
-              </div>
-            )}
 
-            <h3 className="pf-display" style={{ margin: '0 0 4px 0', fontSize: '20px', fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--pf-text)' }}>{app.name}</h3>
-            <p style={{ margin: '0 0 16px 0', fontSize: '13px', color: '#64748b' }}>{app.education_summary || app.institution}</p>
+              {/* RIGHT COLUMN: APPLICATION DETAILS */}
+              <div className="lg:col-span-8 space-y-6 animate-entrance delay-200">
+                <div className="bg-white rounded-[2rem] border border-slate-200/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 sm:p-10">
+                  
+                  {/* Header */}
+                  <div className="flex items-center gap-3 mb-8">
+                    <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                      <FiFileText size={20} />
+                    </div>
+                    <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">Application Documents</h2>
+                  </div>
 
-            {app.skills && app.skills.length > 0 && (
-              <div style={{ marginBottom: '18px' }}>
-                <p style={{ margin: '0 0 8px 0', fontSize: '12px', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.5px' }}>SKILLS</p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                  {app.skills.map((skill, i) => (
-                    <span key={i} style={{ padding: '5px 12px', borderRadius: '99px', background: 'var(--pf-primary-soft)', border: '1px solid var(--pf-blue-ln)', fontSize: '12px', fontWeight: 600, color: 'var(--pf-primary-deep)' }}>
-                      {typeof skill === 'string' ? skill : `${skill?.name || 'Skill'}${skill?.level ? ` · ${skill.level}` : ''}`}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {Array.isArray(app.experience) && app.experience.length > 0 && (
-              <div style={{ marginBottom: '18px' }}>
-                <p style={{ margin: '0 0 8px 0', fontSize: '12px', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.5px' }}>EXPERIENCE</p>
-                {app.experience.map((exp, i) => (
-                  <div key={i} style={{ marginBottom: '10px' }}>
-                    {typeof exp === 'string' ? (
-                      <p style={{ margin: 0, fontSize: '13px', color: '#334155' }}>{exp}</p>
+                  {/* Resume Card */}
+                  <div className="mb-10">
+                    <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-3">Attached Resume / CV</h3>
+                    {app.resume_url ? (
+                      <div className="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-gradient-to-r from-slate-50 to-white border border-slate-200 hover:border-blue-200 hover:shadow-md transition-all duration-300">
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 rounded-xl bg-rose-50 text-rose-500 flex items-center justify-center flex-shrink-0">
+                            <FiFileText size={24} />
+                          </div>
+                          <div>
+                            <p className="font-extrabold text-slate-800 text-sm">{app.name}'s Resume Document</p>
+                            <p className="text-xs font-semibold text-slate-500 mt-0.5 flex items-center gap-1">
+                              External Link <FiExternalLink size={10} />
+                            </p>
+                          </div>
+                        </div>
+                        <a 
+                          href={app.resume_url} 
+                          target="_blank" 
+                          rel="noreferrer" 
+                          className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold text-sm hover:text-blue-600 hover:border-blue-400 hover:bg-blue-50 transition-all text-center flex items-center justify-center gap-2"
+                        >
+                          View Document <FiExternalLink size={14} />
+                        </a>
+                      </div>
                     ) : (
-                      <>
-                        <p style={{ margin: 0, fontWeight: 700, color: '#1e293b', fontSize: '13px' }}>{exp?.title || 'Role'}{exp?.company ? ` — ${exp.company}` : ''}</p>
-                        {exp?.duration && <p style={{ margin: 0, fontSize: '12px', color: '#94a3b8' }}>{exp.duration}</p>}
-                      </>
+                      <div className="flex flex-col items-center justify-center py-10 px-4 rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 text-center">
+                        <FiFileText size={32} className="text-slate-300 mb-3" />
+                        <p className="text-sm font-bold text-slate-600">No Resume Attached</p>
+                        <p className="text-xs font-medium text-slate-400 mt-1">This applicant did not provide a resume link.</p>
+                      </div>
                     )}
                   </div>
-                ))}
-              </div>
-            )}
 
-            {app.cover_letter && (
-              <div>
-                <p style={{ margin: '0 0 8px 0', fontSize: '12px', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.5px' }}>
-                  COVER LETTER{app.email ? ` · ${app.email}` : ''}
-                </p>
-                <p style={{ fontSize: '13px', color: '#475569', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>{app.cover_letter}</p>
+                  {/* Academic Profile */}
+                  <div className="mb-10">
+                    <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-3">Academic Background</h3>
+                    <div className="p-5 rounded-2xl bg-slate-50 border border-slate-100">
+                      <p className="font-semibold text-slate-800 text-sm leading-relaxed">
+                        {app.education_summary || app.institution || 'No academic summary provided.'}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Skills Section */}
+                  {app.skills && app.skills.length > 0 && (
+                    <div className="mb-10">
+                      <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-3">Technical Skills</h3>
+                      <div className="flex flex-wrap gap-2.5">
+                        {app.skills.map((skill, i) => (
+                          <span 
+                            key={i} 
+                            className="px-4 py-2 rounded-xl bg-blue-50/50 border border-blue-100 text-blue-700 text-sm font-bold shadow-sm hover:-translate-y-0.5 transition-transform cursor-default"
+                          >
+                            {typeof skill === 'string' ? skill : `${skill?.name || 'Skill'}${skill?.level ? ` · ${skill.level}` : ''}`}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Experience Section */}
+                  {Array.isArray(app.experience) && app.experience.length > 0 && (
+                    <div className="mb-10">
+                      <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-4">Professional Experience</h3>
+                      <div className="space-y-4">
+                        {app.experience.map((exp, i) => (
+                          <div key={i} className="flex items-start gap-4 p-5 rounded-2xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50/50 transition-colors">
+                            <div className="w-10 h-10 rounded-xl bg-slate-100 text-slate-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                              <FiBriefcase size={18} />
+                            </div>
+                            <div>
+                              {typeof exp === 'string' ? (
+                                <p className="text-sm font-semibold text-slate-700 leading-relaxed">{exp}</p>
+                              ) : (
+                                <>
+                                  <h4 className="font-extrabold text-slate-900 text-base">{exp?.title || 'Role'}</h4>
+                                  {exp?.company && <p className="text-sm font-bold text-blue-600 mt-0.5">{exp.company}</p>}
+                                  {exp?.duration && <p className="text-xs font-semibold text-slate-500 mt-1.5 flex items-center gap-1.5"><FiCalendar size={12} /> {exp.duration}</p>}
+                                </>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Cover Letter Section */}
+                  {app.cover_letter && (
+                    <div>
+                      <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-3">Applicant Cover Letter</h3>
+                      <div className="p-6 rounded-2xl bg-[#F8FAFC] border border-slate-200/60 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
+                        <p className="text-sm font-medium text-slate-700 leading-loose whitespace-pre-wrap">
+                          {app.cover_letter}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
-      )}
 
-      {modalCopy && (
-        <ConfirmModal
-          open={!!confirmAction}
-          title={modalCopy.title}
-          message={modalCopy.message}
-          confirmLabel={modalCopy.confirmLabel}
-          confirmColor={modalCopy.color}
-          onConfirm={runAction}
-          onCancel={() => setConfirmAction(null)}
-          loading={actionLoading}
-        />
-      )}
-    </main>
+        {/* Confirmation Modal */}
+        {modalCopy && (
+          <ConfirmModal
+            open={!!confirmAction}
+            title={modalCopy.title}
+            message={modalCopy.message}
+            confirmLabel={modalCopy.confirmLabel}
+            confirmColor={modalCopy.color}
+            onConfirm={runAction}
+            onCancel={() => setConfirmAction(null)}
+            loading={actionLoading}
+          />
+        )}
+      </main>
+    </>
   );
 }
 

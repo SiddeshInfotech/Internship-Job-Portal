@@ -7,6 +7,24 @@ import ConfirmModal from '../../components/ConfirmModal';
 import StatusPill from '../../components/StatusPill';
 import { pick, fmtDate } from '../../utils/fields';
 import { normalizeApplicant } from '../../utils/drive';
+import { 
+  FiSearch, 
+  FiFilter, 
+  FiMail, 
+  FiChevronLeft, 
+  FiChevronRight, 
+  FiAlertCircle, 
+  FiBookOpen,
+  FiCheck,
+  FiX,
+  FiClock,
+  FiSend,
+  FiUsers,
+  FiStar,
+  FiCheckCircle,
+  FiXCircle,
+  FiBriefcase
+} from 'react-icons/fi';
 
 const PER_PAGE = 10;
 
@@ -106,250 +124,412 @@ function JobApplicants() {
   };
 
   const actionLabels = {
-    shortlist: { title: 'Shortlist Candidate', message: `Shortlist ${confirmAction?.name}?`, confirmLabel: 'Shortlist', color: '#16a34a' },
-    reject: { title: 'Reject Application', message: `Reject ${confirmAction?.name}'s application?`, confirmLabel: 'Reject', color: '#dc2626' },
+    shortlist: { title: 'Shortlist Candidate', message: `Shortlist ${confirmAction?.name}?`, confirmLabel: 'Shortlist', color: '#10b981' }, 
+    reject: { title: 'Reject Application', message: `Reject ${confirmAction?.name}'s application?`, confirmLabel: 'Reject', color: '#ef4444' }, 
   };
   const modalCopy = confirmAction ? actionLabels[confirmAction.type] : null;
 
   return (
-    <main style={{ padding: '24px', fontFamily: 'var(--pf-font)' }}>
-      <ClientTopNavbar title={jobTitle ? `${jobTitle} Applicants` : 'Applicants'} />
+    <>
+      <style>{`
+        @keyframes slideUpFade {
+          from { opacity: 0; transform: translateY(15px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes popIn {
+          0% { opacity: 0; transform: scale(0.95); }
+          100% { opacity: 1; transform: scale(1); }
+        }
+        .animate-slide-up {
+          animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          opacity: 0;
+        }
+        .animate-pop-in {
+          animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+      `}</style>
 
-      <nav aria-label="Breadcrumb" style={{ fontSize: '12px', color: 'var(--pf-text-3)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '4px', fontWeight: 600 }}>
-        <Link to="/jobs" style={{ color: 'var(--pf-text-3)', textDecoration: 'none' }}>Jobs</Link>
-        {' › '}
-        <span style={{ color: 'var(--pf-text)', fontWeight: 700 }}>{jobTitle || `Job #${jobId}`}</span>
-      </nav>
-      <div className="cp-page-head" style={{ marginBottom: '18px' }}>
-        <div>
-          <h1>Applicant Management</h1>
-          <p>Reviewing {total} total applications for this position.</p>
-        </div>
-      </div>
+      <div className="min-h-screen bg-slate-50/80 pb-16 font-sans text-slate-900">
+        <ClientTopNavbar title={jobTitle ? `${jobTitle} Applicants` : 'Applicants'} />
 
-      {error && <div className="pf-alert-error" role="alert"><span aria-hidden="true">⚠</span>{error}</div>}
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+          
+          {/* Sleek Breadcrumbs */}
+          <nav aria-label="Breadcrumb" className="inline-flex items-center space-x-2 text-xs font-bold text-slate-500 bg-white border border-slate-200 px-3 py-2 rounded-xl mb-6 shadow-sm animate-slide-up">
+            <Link to="/jobs" className="hover:text-blue-600 transition-colors flex items-center gap-1.5">
+              <FiBriefcase size={14} /> Jobs
+            </Link>
+            <FiChevronRight size={14} className="text-slate-400" />
+            
+          </nav>
 
-      <section className="cp-metrics-row" style={{ marginBottom: '20px' }}>
-        <StatCard label="Total received" value={stats?.total_received} />
-        <StatCard label="New / unseen" value={stats?.new_unseen} color="var(--pf-ember-deep)" />
-        <StatCard label="Shortlisted" value={stats?.shortlisted} color="var(--pf-green)" />
-        <StatCard label="Rejected" value={stats?.rejected} color="var(--pf-red)" />
-      </section>
+          {/* Page Header */}
+          <div className="mb-8 animate-slide-up">
+            <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">Applicant Management</h1>
+            <p className="text-slate-500 mt-1.5 font-medium">Reviewing <span className="font-bold text-slate-700">{total}</span> total applications for this position.</p>
+          </div>
 
-      <div className="ma-action-bar">
-        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', flex: 1 }}>
-          <div className="search-bar-wrapper">
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => { setPage(1); setSearch(e.target.value); }}
-              placeholder="Search applicants..."
-              aria-label="Search applicants"
+          {/* Error Alert */}
+          {error && (
+            <div className="mb-6 bg-rose-50 border border-rose-200 text-rose-700 px-4 py-3 rounded-xl flex items-start gap-3 animate-slide-up">
+              <FiAlertCircle className="flex-shrink-0 mt-0.5" size={18} />
+              <span className="text-sm font-medium">{error}</span>
+            </div>
+          )}
+
+          {/* Dynamic Stats Row */}
+          <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8 animate-slide-up delay-100">
+            <StatCard label="Total received" value={stats?.total_received} icon={FiUsers} colorClass="text-blue-600" bgClass="bg-blue-50" />
+            <StatCard label="New / unseen" value={stats?.new_unseen} icon={FiStar} colorClass="text-amber-600" bgClass="bg-amber-50" />
+            <StatCard label="Shortlisted" value={stats?.shortlisted} icon={FiCheckCircle} colorClass="text-emerald-600" bgClass="bg-emerald-50" />
+            <StatCard label="Rejected" value={stats?.rejected} icon={FiXCircle} colorClass="text-rose-600" bgClass="bg-rose-50" />
+          </section>
+
+          {/* Action Bar (Search, Filter, Message) */}
+          <div className="flex flex-col lg:flex-row gap-4 justify-between items-start lg:items-center mb-6 animate-slide-up delay-200">
+            <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto flex-1">
+              {/* Search */}
+              <div className="relative flex-1 max-w-md group">
+                <FiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
+                <input
+                  type="text"
+                  value={search}
+                  onChange={(e) => { setPage(1); setSearch(e.target.value); }}
+                  placeholder="Search applicants by name or skill..."
+                  className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all font-medium placeholder:text-slate-400 placeholder:font-normal"
+                />
+              </div>
+              {/* Filter */}
+              <div className="relative w-full sm:w-48 group">
+                <FiFilter className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
+                <select
+                  value={statusFilter}
+                  onChange={(e) => { setPage(1); setStatusFilter(e.target.value); }}
+                  className="w-full pl-10 pr-8 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all font-medium appearance-none cursor-pointer"
+                >
+                  <option value="">All Statuses</option>
+                  <option value="Applied">Applied</option>
+                  <option value="In Review">In Review</option>
+                  <option value="Shortlisted">Shortlisted</option>
+                  <option value="Interview">Interview</option>
+                  <option value="Offered">Offered</option>
+                  <option value="Rejected">Rejected</option>
+                </select>
+                <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                  <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </div>
+              </div>
+            </div>
+            
+            <button
+              onClick={() => { setShowMessageModal(true); setMsgResult(''); setMsgError(''); }}
+              disabled={total === 0}
+              className="w-full lg:w-auto flex items-center justify-center gap-2 px-5 py-2.5 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 hover:text-blue-600 hover:border-slate-300 transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed group active:scale-[0.98]"
+            >
+              <FiMail className="group-hover:scale-110 transition-transform" />
+              Message All Applicants
+            </button>
+          </div>
+
+          {/* Applicants List Area */}
+          {loading ? (
+            <div className="space-y-4">
+              {[...Array(3)].map((_, i) => (
+                <div key={i} className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex gap-5 animate-pulse">
+                  <div className="w-12 h-12 bg-slate-200 rounded-xl flex-shrink-0" />
+                  <div className="flex-1 space-y-3 py-1">
+                    <div className="h-4 bg-slate-200 rounded w-1/4" />
+                    <div className="h-3 bg-slate-100 rounded w-1/3" />
+                    <div className="flex gap-2 pt-2">
+                      <div className="h-6 bg-slate-100 rounded-full w-16" />
+                      <div className="h-6 bg-slate-100 rounded-full w-20" />
+                    </div>
+                  </div>
+                  <div className="hidden md:flex flex-col justify-between items-end w-40 border-l border-slate-100 pl-5">
+                    <div className="h-3 bg-slate-100 rounded w-1/2 mb-4" />
+                    <div className="h-8 bg-slate-200 rounded-lg w-full" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <>
+              <div className="space-y-4 animate-slide-up delay-200">
+                {applicants.length === 0 && (
+                  <div className="bg-white rounded-2xl border border-slate-200 border-dashed p-12 text-center flex flex-col items-center justify-center">
+                    <div className="w-16 h-16 bg-slate-50 text-slate-400 rounded-2xl flex items-center justify-center mb-4">
+                      <FiSearch size={32} />
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-900">No applicants found</h3>
+                    <p className="text-slate-500 mt-1 font-medium">{search || statusFilter ? 'Try adjusting your search or filters.' : 'New applications will appear here.'}</p>
+                  </div>
+                )}
+                
+                {applicants.map((a) => (
+                  <div key={a.id} className="group bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:border-blue-100 transition-all duration-300 flex flex-col md:flex-row gap-6">
+                    
+                    {/* Left: Avatar & Info */}
+                    <div className="flex gap-4 flex-1 min-w-0">
+                      {/* Avatar */}
+                      <div className="flex-shrink-0">
+                        {a.profile_photo ? (
+                          <img 
+                            src={a.profile_photo} 
+                            alt={a.name} 
+                            className="w-14 h-14 rounded-xl object-cover shadow-sm ring-1 ring-slate-100" 
+                            onError={(e) => { e.currentTarget.style.display='none'; e.currentTarget.nextSibling.style.display='flex'; }} 
+                          />
+                        ) : null}
+                        <div 
+                          className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-50 to-blue-50 text-blue-600 flex items-center justify-center font-bold text-xl shadow-inner ring-1 ring-inset ring-blue-100/50"
+                          style={{ display: a.profile_photo ? 'none' : 'flex' }}
+                        >
+                          {(a.name || '?').charAt(0).toUpperCase()}
+                        </div>
+                      </div>
+                      
+                      {/* Details */}
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-3 mb-1.5 flex-wrap">
+                          <h3 
+                            className="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors cursor-pointer truncate"
+                            onClick={() => navigate(`/applicants/${a.id}`)}
+                          >
+                            {a.name}
+                          </h3>
+                          {!a.viewed_by_company && !a.is_seen && !a.seen && (
+                            <span className="px-2 py-0.5 rounded-md bg-amber-100 text-amber-700 text-[10px] font-bold uppercase tracking-wider">New</span>
+                          )}
+                          {a.status && (
+                            <div className="scale-90 origin-left"><StatusPill status={a.status} /></div>
+                          )}
+                        </div>
+                        
+                        <p className="text-sm font-medium text-slate-500 flex items-center gap-1.5 mb-3">
+                          <FiBookOpen size={14} className="text-slate-400" />
+                          <span className="truncate">{a.institution || a.college}{a.current_year ? `, ${a.current_year}` : ''}</span>
+                        </p>
+                        
+                        {/* Skills */}
+                        {a.skills && a.skills.length > 0 && (
+                          <div className="flex gap-2 flex-wrap mb-3">
+                            {a.skills.slice(0, 5).map((sk, i) => (
+                              <span key={i} className="px-2.5 py-1 bg-slate-100 text-slate-600 text-xs font-semibold rounded-lg">
+                                {typeof sk === 'string' ? sk : (sk?.skill_name || sk?.name || 'Skill')}
+                              </span>
+                            ))}
+                            {a.skills.length > 5 && (
+                              <span className="px-2.5 py-1 bg-slate-50 text-slate-400 text-xs font-semibold rounded-lg">+{a.skills.length - 5}</span>
+                            )}
+                          </div>
+                        )}
+                        
+                        {/* Summary */}
+                        {a.profile_summary && (
+                          <p className="text-sm text-slate-600 italic line-clamp-2 leading-relaxed bg-slate-50/50 p-3 rounded-xl border border-slate-100">
+                            "{a.profile_summary}"
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Right: Actions & Meta */}
+                    <div className="flex flex-col items-start md:items-end justify-between md:min-w-[180px] border-t md:border-t-0 md:border-l border-slate-100 pt-4 md:pt-0 md:pl-6">
+                      <div className="text-left md:text-right w-full mb-4 md:mb-0">
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center md:justify-end gap-1 mb-1">
+                          <FiClock size={10} /> Applied On
+                        </p>
+                        <p className="text-sm font-bold text-slate-700">{a.applied_date}</p>
+                      </div>
+                      
+                      <div className="w-full space-y-2">
+                        <button 
+                          onClick={() => navigate(`/applicants/${a.id}`)} 
+                          className="w-full bg-blue-50 hover:bg-blue-600 text-blue-700 hover:text-white py-2 px-4 rounded-xl text-sm font-bold transition-all duration-300 active:scale-[0.98]"
+                        >
+                          View Profile
+                        </button>
+                        
+                        <div className="flex gap-2">
+                          {a.status !== 'Shortlisted' && (
+                            <button
+                              onClick={() => setConfirmAction({ appId: a.id, name: a.name, type: 'shortlist' })}
+                              className="flex-1 py-2 rounded-xl text-sm font-bold text-emerald-600 bg-emerald-50 hover:bg-emerald-500 hover:text-white transition-all duration-300 border border-emerald-200/50 hover:border-transparent active:scale-[0.98]"
+                            >
+                              Shortlist
+                            </button>
+                          )}
+                          {a.status !== 'Rejected' && (
+                            <button
+                              onClick={() => setConfirmAction({ appId: a.id, name: a.name, type: 'reject' })}
+                              className="flex-1 py-2 rounded-xl text-sm font-bold text-rose-600 bg-rose-50 hover:bg-rose-500 hover:text-white transition-all duration-300 border border-rose-200/50 hover:border-transparent active:scale-[0.98]"
+                            >
+                              Reject
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                ))}
+              </div>
+
+              {/* Upgraded Pagination Box */}
+              {total > 0 && (
+                <div className="flex flex-col sm:flex-row justify-between items-center mt-6 p-4 bg-white border border-slate-200 rounded-2xl shadow-sm gap-4 animate-slide-up delay-200">
+                  <p className="text-sm font-medium text-slate-500">
+                    Showing <span className="font-bold text-slate-900">{(page - 1) * PER_PAGE + 1}</span> to <span className="font-bold text-slate-900">{Math.min(page * PER_PAGE, total)}</span> of <span className="font-bold text-slate-900">{total}</span> results
+                  </p>
+                  
+                  <div className="flex items-center gap-2">
+                    <button 
+                      disabled={page <= 1} 
+                      onClick={() => setPage((p) => p - 1)} 
+                      className="p-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 disabled:opacity-40 disabled:hover:bg-transparent transition-colors border border-slate-200 disabled:border-transparent"
+                      aria-label="Previous page"
+                    >
+                      <FiChevronLeft size={18} />
+                    </button>
+                    <span className="text-sm font-bold text-slate-700 px-3 min-w-[90px] text-center">
+                      Page {page} / {totalPages}
+                    </span>
+                    <button 
+                      disabled={page >= totalPages} 
+                      onClick={() => setPage((p) => p + 1)} 
+                      className="p-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 disabled:opacity-40 disabled:hover:bg-transparent transition-colors border border-slate-200 disabled:border-transparent"
+                      aria-label="Next page"
+                    >
+                      <FiChevronRight size={18} />
+                    </button>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* Confirm Action Modal */}
+          {modalCopy && (
+            <ConfirmModal
+              open={!!confirmAction}
+              title={modalCopy.title}
+              message={modalCopy.message}
+              confirmLabel={modalCopy.confirmLabel}
+              confirmColor={modalCopy.color}
+              onConfirm={runAction}
+              onCancel={() => setConfirmAction(null)}
+              loading={actionLoading}
             />
-            <span aria-hidden="true">🔍</span>
-          </div>
-          <select
-            value={statusFilter}
-            onChange={(e) => { setPage(1); setStatusFilter(e.target.value); }}
-            className="filter-dropdown-box"
-            aria-label="Filter applicants by status"
-          >
-            <option value="">All Applicants</option>
-            <option value="Applied">Applied</option>
-            <option value="In Review">In Review</option>
-            <option value="Shortlisted">Shortlisted</option>
-            <option value="Interview">Interview</option>
-            <option value="Offered">Offered</option>
-            <option value="Rejected">Rejected</option>
-          </select>
-        </div>
-        <button
-          onClick={() => { setShowMessageModal(true); setMsgResult(''); setMsgError(''); }}
-          disabled={total === 0}
-          className="pf-btn pf-btn-ghost pf-btn-sm"
-        >
-          ✉️ Message All Applicants
-        </button>
-        {/* Export CSV intentionally omitted — still no backend endpoint for this one */}
-      </div>
+          )}
 
-      {loading ? (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }} aria-label="Loading applicants">
-          {[0, 1, 2].map((i) => (
-            <div key={i} className="cp-panel" style={{ display: 'flex', gap: 14 }}>
-              <div className="pf-skeleton" style={{ width: 44, height: 44, borderRadius: 13, flexShrink: 0 }} />
-              <div style={{ flex: 1 }}>
-                <div className="pf-skeleton" style={{ width: '30%', height: 14, marginBottom: 8 }} />
-                <div className="pf-skeleton" style={{ width: '45%', height: 11, marginBottom: 10 }} />
-                <div style={{ display: 'flex', gap: 6 }}>
-                  <div className="pf-skeleton" style={{ width: 56, height: 20, borderRadius: 99 }} />
-                  <div className="pf-skeleton" style={{ width: 56, height: 20, borderRadius: 99 }} />
-                  <div className="pf-skeleton" style={{ width: 56, height: 20, borderRadius: 99 }} />
-                </div>
-              </div>
-              <div className="pf-skeleton" style={{ width: 130, height: 34, borderRadius: 10 }} />
-            </div>
-          ))}
-        </div>
-      ) : (
-      <>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-        {applicants.length === 0 && (
-          <div className="cp-panel cp-empty">
-            <div className="cp-empty-icon" aria-hidden="true">🔎</div>
-            No applicants found{search || statusFilter ? ' for these filters.' : ' yet.'}
-          </div>
-        )}
-        {applicants.map((a) => (
-          <div key={a.id} className="pf-card pf-card-hover" style={{ padding: '18px 20px', display: 'flex', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap' }}>
-            <div style={{ display: 'flex', gap: '14px', flex: 1, minWidth: '280px' }}>
-              {a.profile_photo ? (
-                <img src={a.profile_photo} alt={a.name} style={{ width: 44, height: 44, borderRadius: '13px', objectFit: 'cover', flexShrink: 0 }} onError={(e) => { e.currentTarget.style.display='none'; e.currentTarget.nextSibling.style.display='flex'; }} />
-              ) : null}
-              <div className="cp-list-avatar" style={{ width: 44, height: 44, borderRadius: '13px', fontSize: '15px', display: a.profile_photo ? 'none' : 'flex' }}>
-                {(a.name || '?').charAt(0)}
-              </div>
-              <div style={{ minWidth: 0 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                  <p
-                    className="cp-list-name"
-                    style={{ fontSize: '14.5px', color: 'var(--pf-primary-deep)', cursor: 'pointer' }}
-                    onClick={() => navigate(`/applicants/${a.id}`)}
+          {/* Message All Applicants Modal */}
+          {showMessageModal && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm transition-opacity">
+              <div 
+                className="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden animate-pop-in"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                  <h3 className="text-xl font-extrabold text-slate-900 flex items-center gap-2">
+                    <FiMail className="text-blue-600" /> Message Applicants
+                  </h3>
+                  <button 
+                    onClick={() => !msgSending && setShowMessageModal(false)}
+                    className="text-slate-400 hover:text-slate-700 hover:bg-slate-200/50 p-2 rounded-xl transition-colors"
                   >
-                    {a.name}
-                  </p>
-                  {!a.viewed_by_company && !a.is_seen && !a.seen && <span className="pf-pill pf-pill-amber">New</span>}
-                  {a.status && <StatusPill status={a.status} />}
-                </div>
-                <p className="cp-list-sub" style={{ margin: '3px 0 8px', whiteSpace: 'normal' }}>
-                  {a.institution || a.college}{a.current_year ? `, ${a.current_year}` : ''}
-                </p>
-                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: a.profile_summary ? '8px' : 0 }}>
-                  {(a.skills || []).slice(0, 5).map((sk, i) => (
-                    <span key={i} className="pf-pill pf-pill-grey">{typeof sk === 'string' ? sk : (sk?.skill_name || sk?.name || 'Skill')}</span>
-                  ))}
-                </div>
-                {a.profile_summary && (
-                  <p style={{ margin: 0, fontSize: '12.5px', color: 'var(--pf-text-3)', maxWidth: '480px', lineHeight: 1.5, fontStyle: 'italic' }}>
-                    "{a.profile_summary}"
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '10px', minWidth: '170px' }}>
-              <div>
-                <p className="cp-detail-label">Applied on</p>
-                <p style={{ margin: 0, fontSize: '13px', fontWeight: 600, color: 'var(--pf-text-2)', fontVariantNumeric: 'tabular-nums' }}>{a.applied_date}</p>
-              </div>
-              <button onClick={() => navigate(`/applicants/${a.id}`)} className="pf-btn pf-btn-primary pf-btn-sm">
-                View Profile
-              </button>
-              <div style={{ display: 'flex', gap: '8px' }}>
-                {a.status !== 'Shortlisted' && (
-                  <button
-                    onClick={() => setConfirmAction({ appId: a.id, name: a.name, type: 'shortlist' })}
-                    className="pf-btn pf-btn-ghost pf-btn-sm"
-                    style={{ color: 'var(--pf-green)', borderColor: 'var(--pf-green-ln)' }}
-                  >
-                    Shortlist
+                    <FiX size={20} />
                   </button>
-                )}
-                {a.status !== 'Rejected' && (
-                  <button
-                    onClick={() => setConfirmAction({ appId: a.id, name: a.name, type: 'reject' })}
-                    className="pf-btn pf-btn-ghost pf-btn-sm"
-                    style={{ color: 'var(--pf-red)', borderColor: 'var(--pf-red-ln)' }}
-                  >
-                    Reject
-                  </button>
-                )}
+                </div>
+                
+                <div className="p-6">
+                  <p className="text-sm font-medium text-slate-500 mb-6 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                    Sends a real email to every student who applied to this job (<strong className="text-slate-900">{total} recipient{total === 1 ? '' : 's'}</strong>).
+                  </p>
+
+                  {msgError && (
+                    <div className="mb-4 bg-rose-50 border border-rose-200 text-rose-700 px-4 py-3 rounded-xl flex items-start gap-3">
+                      <FiAlertCircle className="flex-shrink-0 mt-0.5" size={18} />
+                      <span className="text-sm font-medium">{msgError}</span>
+                    </div>
+                  )}
+                  {msgResult && (
+                    <div className="mb-4 bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-xl flex items-start gap-3">
+                      <FiCheck className="flex-shrink-0 mt-0.5" size={18} />
+                      <span className="text-sm font-medium">{msgResult}</span>
+                    </div>
+                  )}
+
+                  <form onSubmit={handleSendMessageAll} className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-bold text-slate-700 mb-1.5" htmlFor="msg-subject">Subject Line</label>
+                      <input
+                        id="msg-subject"
+                        value={msgSubject}
+                        onChange={(e) => setMsgSubject(e.target.value)}
+                        required
+                        placeholder="Update on your application"
+                        className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all font-medium placeholder:text-slate-400 placeholder:font-normal"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-bold text-slate-700 mb-1.5" htmlFor="msg-body">Message Content</label>
+                      <textarea
+                        id="msg-body"
+                        value={msgBody}
+                        onChange={(e) => setMsgBody(e.target.value)}
+                        required
+                        rows={5}
+                        placeholder="Thanks for applying! We'll be in touch soon."
+                        className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all font-medium placeholder:text-slate-400 placeholder:font-normal resize-y min-h-[120px]"
+                      />
+                    </div>
+                    
+                    <div className="flex gap-3 pt-4 border-t border-slate-100 mt-6">
+                      <button 
+                        type="button" 
+                        onClick={() => setShowMessageModal(false)} 
+                        disabled={msgSending} 
+                        className="flex-1 px-4 py-3 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition-all active:scale-[0.98]"
+                      >
+                        {msgResult ? 'Close' : 'Cancel'}
+                      </button>
+                      <button 
+                        type="submit" 
+                        disabled={msgSending} 
+                        className="flex-1 px-4 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all shadow-[0_4px_12px_rgba(79,70,229,0.25)] hover:shadow-[0_6px_16px_rgba(79,70,229,0.35)] active:scale-[0.98] disabled:opacity-70 flex items-center justify-center gap-2"
+                      >
+                        {msgSending ? (
+                          <span className="animate-pulse">Sending...</span>
+                        ) : (
+                          <><FiSend /> Send to All</>
+                        )}
+                      </button>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          )}
+
+        </main>
       </div>
-
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '20px', flexWrap: 'wrap', gap: '10px' }}>
-        <span className="entries-count">
-          Showing {applicants.length === 0 ? 0 : (page - 1) * PER_PAGE + 1}-{(page - 1) * PER_PAGE + applicants.length} of {total} results
-        </span>
-        <div className="ma-pagination">
-          <button disabled={page <= 1} onClick={() => setPage((p) => p - 1)} className="arrow-btn" aria-label="Previous page">‹</button>
-          <span className="entries-count" style={{ padding: '0 6px' }}>Page {page} of {totalPages}</span>
-          <button disabled={page >= totalPages} onClick={() => setPage((p) => p + 1)} className="arrow-btn" aria-label="Next page">›</button>
-        </div>
-      </div>
-      </>
-      )}
-
-      {modalCopy && (
-        <ConfirmModal
-          open={!!confirmAction}
-          title={modalCopy.title}
-          message={modalCopy.message}
-          confirmLabel={modalCopy.confirmLabel}
-          confirmColor={modalCopy.color}
-          onConfirm={runAction}
-          onCancel={() => setConfirmAction(null)}
-          loading={actionLoading}
-        />
-      )}
-
-      {showMessageModal && (
-        <div className="pf-modal-backdrop" onClick={() => !msgSending && setShowMessageModal(false)} role="dialog" aria-modal="true" aria-label="Message all applicants">
-          <div className="pf-modal" style={{ maxWidth: '440px', textAlign: 'left' }} onClick={(e) => e.stopPropagation()}>
-            <h3 style={{ textAlign: 'left' }}>Message All Applicants</h3>
-            <p style={{ textAlign: 'left', marginBottom: '18px' }}>
-              Sends a real email to every student who applied to this job ({total} recipient{total === 1 ? '' : 's'}).
-            </p>
-
-            {msgError && <div className="pf-alert-error" role="alert"><span aria-hidden="true">⚠</span>{msgError}</div>}
-            {msgResult && <div className="pf-alert-success" role="status"><span aria-hidden="true">✓</span>{msgResult}</div>}
-
-            <form onSubmit={handleSendMessageAll}>
-              <label className="pf-label" htmlFor="msg-subject">Subject</label>
-              <input
-                id="msg-subject"
-                className="pf-input"
-                value={msgSubject}
-                onChange={(e) => setMsgSubject(e.target.value)}
-                required
-                placeholder="Update on your application"
-                style={{ marginBottom: '14px' }}
-              />
-              <label className="pf-label" htmlFor="msg-body">Message</label>
-              <textarea
-                id="msg-body"
-                className="pf-textarea"
-                value={msgBody}
-                onChange={(e) => setMsgBody(e.target.value)}
-                required
-                rows={5}
-                placeholder="Thanks for applying! We'll be in touch soon."
-                style={{ marginBottom: '18px', resize: 'vertical' }}
-              />
-              <div className="pf-modal-actions">
-                <button type="button" onClick={() => setShowMessageModal(false)} disabled={msgSending} className="pf-btn pf-btn-ghost">
-                  {msgResult ? 'Close' : 'Cancel'}
-                </button>
-                <button type="submit" disabled={msgSending} className="pf-btn pf-btn-ember">
-                  {msgSending ? 'Sending...' : 'Send to All'}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-    </main>
+    </>
   );
 }
 
-function StatCard({ label, value, color = 'var(--pf-text)' }) {
+// Upgraded StatCard with Dynamic Icons
+function StatCard({ label, value, icon: Icon, colorClass = 'text-slate-900', bgClass = 'bg-slate-50' }) {
   return (
-    <div className="cp-metric-card">
-      <p style={{ margin: '0 0 6px', fontSize: '11px', fontWeight: 700, color: 'var(--pf-text-3)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{label}</p>
-      <h2 style={{ color }}>{value ?? '—'}</h2>
+    <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-shadow duration-300">
+      <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">{label}</p>
+      <div className="flex items-center justify-between">
+        <h2 className={`text-3xl font-extrabold ${colorClass}`}>{value ?? '—'}</h2>
+        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${bgClass} ${colorClass}`}>
+           {Icon && <Icon size={20} />}
+        </div>
+      </div>
     </div>
   );
 }
