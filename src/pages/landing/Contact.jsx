@@ -79,10 +79,10 @@ function Contact() {
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="grid sm:grid-cols-2 gap-5">
                 <FormField label="Your name">
-                  <input value={form.name} onChange={update('name')} required placeholder="enter your name " className={FIELD_CLS} />
+                  <input value={form.name} onChange={update('name')} required placeholder="e.g. Suher Shaikh" className={FIELD_CLS} />
                 </FormField>
                 <FormField label="Your email">
-                  <input type="email" value={form.email} onChange={update('email')} required placeholder="your email ID" className={FIELD_CLS} />
+                  <input type="email" value={form.email} onChange={update('email')} required placeholder="you@example.com" className={FIELD_CLS} />
                 </FormField>
               </div>
               <FormField label="Subject (optional)">

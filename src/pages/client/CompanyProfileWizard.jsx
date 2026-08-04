@@ -229,7 +229,6 @@ function CompanyProfileWizard() {
 
         {step === 3 && (
           <>
-            <h3 className="cp-form-section-title">Company Hiring & Verification</h3>
             <div className="cp-two-col" style={{ marginBottom: '16px' }}>
               <Field label="Hiring Locations">
                 <input className="pf-input" value={form.hiring_locations} onChange={update('hiring_locations')} placeholder="e.g. Mumbai, Pune, Bangalore" />

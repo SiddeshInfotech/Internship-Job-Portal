@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../CompanyLogin.css"; 
 import { Link, useNavigate } from "react-router-dom";
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
 import studentAxios from "../../api/studentAxios";
 import BackToWebsite from "../../components/BackToWebsite";
 import { 
@@ -14,9 +14,6 @@ import {
   FiEyeOff
 } from 'react-icons/fi';
 
-// FIXED FOR VITE: Replaced process.env with import.meta.env
-const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com";
-
 function StudentLogin() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -28,8 +25,6 @@ function StudentLogin() {
   const [googleLoading, setGoogleLoading] = useState(false);
 
   const routeAfterLogin = (student) => {
-    // New Google sign-ups arrive with college/branch left blank — send them
-    // to the profile wizard instead of straight to Browse Jobs.
     if (!student?.college || !student?.branch) {
       navigate('/student/profile-wizard/1');
     } else {
@@ -98,7 +93,7 @@ function StudentLogin() {
           animation: float 6s ease-in-out infinite;
         }
         
-        /* Premium Circular Loader */
+        /* Attractive Custom Circular Loader */
         .premium-loader {
           width: 24px;
           height: 24px;
@@ -163,9 +158,14 @@ function StudentLogin() {
           </div>
 
           <div className="w-full max-w-md relative z-10">
+            
+            {/* 
+              THE BORDERED LOGIN CARD 
+              Everything is now wrapped in this clean, bordered white card
+            */}
             <div className="bg-white rounded-[2rem] p-8 sm:p-10 border border-slate-200 shadow-xl shadow-slate-200/40 animate-entrance delay-100">
               
-              {/* Form Header */}
+              {/* Form Header (Now inside the card) */}
               <div className="text-center mb-8">
                 <div className="lg:hidden flex items-center justify-center gap-2 mb-6">
                    <img src="/images/brand/placify-icon.png" alt="Placify" className="w-8 h-8 object-contain" />
@@ -187,13 +187,13 @@ function StudentLogin() {
                 {/* Email Input */}
                 <div className="space-y-1.5 group">
                   <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider block group-focus-within:text-blue-600 transition-colors">
-                    Enter Email Address
+                  Enter Email Address
                   </label>
                   <div className="relative">
                     <FiMail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
                     <input 
                       type="email" 
-                      placeholder="e.g. abc@gmail.com" 
+                      placeholder="e.g. j.doe@university.edu" 
                       value={email} 
                       onChange={(e) => setEmail(e.target.value)} 
                       required 
@@ -222,15 +222,13 @@ function StudentLogin() {
                       required 
                       className="w-full pl-11 pr-12 py-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[0_2px_10px_rgb(0,0,0,0.01)] hover:border-slate-300"
                     />
-                    
-                    <button
+                    <button 
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      style={{ border: 'none', background: 'transparent', boxShadow: 'none', outline: 'none' }}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 p-0 border-0 bg-transparent shadow-none outline-none focus:outline-none focus:ring-0 text-slate-400 hover:text-blue-600 active:scale-95 transition-all duration-200 cursor-pointer select-none flex items-center justify-center"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none bg-transparent"
                       aria-label={showPassword ? "Hide password" : "Show password"}
                     >
-                      {showPassword ? <FiEyeOff size={19} /> : <FiEye size={19} />}
+                      {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
                     </button>
                   </div>
                 </div>
@@ -274,19 +272,16 @@ function StudentLogin() {
                 <div className="flex-1 h-[1px] bg-slate-200"></div>
               </div>
 
-              {/* Google Login Area - Simplified Wrapper */}
-              <div className="flex justify-center w-full">
-                <div className="relative inline-block w-full max-w-[280px]">
-                  <div className="flex justify-center w-full">
-                    <GoogleLogin
-                      onSuccess={handleGoogleSuccess}
-                      onError={() => setError('Google login failed. Please try again.')}
-                      text="signin_with"
-                      shape="pill"
-                      theme="outline"
-                      size="large"
-                    />
-                  </div>
+              {/* Google Login Area */}
+              <div className="flex flex-col items-center">
+                <div className="relative transition-transform hover:-translate-y-0.5 hover:shadow-lg rounded-full">
+                  <GoogleLogin
+                    onSuccess={handleGoogleSuccess}
+                    onError={() => setError('Google login failed. Please try again.')}
+                    text="signin_with"
+                    shape="pill"
+                    width="280"
+                  />
                   {googleLoading && (
                     <div className="absolute inset-0 bg-white/80 rounded-full flex items-center justify-center backdrop-blur-sm z-10 border border-slate-200">
                        <div className="w-5 h-5 border-2 border-indigo-200 border-t-blue-600 rounded-full animate-spin"></div>
@@ -313,12 +308,4 @@ function StudentLogin() {
   );
 }
 
-// Wrap the export directly instead of wrapping the return body 
-// to prevent re-rendering when typing in the form fields!
-export default function StudentLoginWrapper() {
-  return (
-    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-      <StudentLogin />
-    </GoogleOAuthProvider>
-  );
-}
+export default StudentLogin;

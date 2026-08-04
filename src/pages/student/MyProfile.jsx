@@ -292,9 +292,6 @@ function ReadField({ label, value, full }) {
   );
 }
 
-/* Profile photo with direct-to-Cloudinary upload (unsigned preset).
-   On success the Cloudinary URL is saved to our backend, which then
-   serves it to companies and admin automatically as `profile_photo`. */
 function ProfilePhotoUpload({ profile, onUploaded }) {
   const [uploading, setUploading] = React.useState(false);
   const [error, setError] = React.useState('');

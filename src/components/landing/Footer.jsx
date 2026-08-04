@@ -15,30 +15,18 @@ function Footer() {
   };
 
   return (
-    <footer className="relative bg-[#0B1526] text-slate-300 pt-20 pb-8 overflow-hidden z-10">
-      {/* Subtle Background Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-64 bg-blue-600/5 blur-[120px] -z-10 pointer-events-none" />
+    <footer className="relative bg-[#0B1526] text-slate-300 pt-16 pb-8 overflow-hidden">
+      {/* signature ember line along the top edge */}
+      <div className="absolute top-0 inset-x-0 h-[2.5px]" style={{ background: 'linear-gradient(90deg, #2563eb 0%, #7c8cf8 55%, #f59e0b 100%)' }} />
 
-      {/* Signature ember line along the top edge */}
-      <div 
-        className="absolute top-0 inset-x-0 h-[3px] shadow-[0_0_15px_rgba(245,158,11,0.3)]" 
-        style={{ background: 'linear-gradient(90deg, #2563eb 0%, #7c8cf8 55%, #f59e0b 100%)' }} 
-      />
-
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 relative">
-        
-        {/* Column 1: Brand & Socials */}
-        <div className="lg:col-span-4 flex flex-col pr-4">
-          <div className="flex items-center gap-3 mb-5">
-            <div className="bg-white/5 p-1.5 rounded-lg border border-white/10">
-              <img src="/images/brand/placify-icon.png" alt="Placify" className="w-8 h-8 object-contain" />
-            </div>
-            <span className="font-extrabold text-2xl text-white tracking-tight" style={{ fontFamily: 'Sora, Inter, sans-serif' }}>
-              Placify
-            </span>
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-5 gap-10 relative">
+        <div className="md:col-span-2">
+          <div className="flex items-center gap-2.5 mb-4">
+            <img src="/images/brand/placify-icon.png" alt="Placify" className="w-9 h-9 object-contain" />
+            <span className="font-extrabold text-xl text-white tracking-tight" style={{ fontFamily: 'Sora, Inter, sans-serif' }}>Placify</span>
           </div>
-          <p className="text-sm text-slate-400 mb-8 leading-relaxed max-w-sm">
-            From campus to career — bridging the gap between ambitious students and forward-thinking companies on one intelligent platform.
+          <p className="text-sm text-slate-400 max-w-xs mb-6 leading-relaxed">
+            From campus to career — students and companies on one intelligent placement platform.
           </p>
           <div className="flex gap-3">
             {[
@@ -51,51 +39,57 @@ function Footer() {
                 key={label}
                 href="#"
                 aria-label={label}
-                className="w-10 h-10 rounded-lg bg-slate-800/50 border border-slate-700/50 flex items-center justify-center text-slate-400 hover:bg-[#F59E0B] hover:border-[#F59E0B] hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-sm"
+                className="w-9 h-9 rounded-xl bg-white/[0.07] border border-white/10 flex items-center justify-center hover:bg-[#F59E0B] hover:border-[#F59E0B] hover:-translate-y-0.5 transition-all"
               >
-                <Icon size={18} />
+                <Icon size={15} />
               </a>
             ))}
           </div>
         </div>
 
-        {/* Column 2: Company */}
-        <div className="lg:col-span-2">
-          <FooterCol title="Company" links={[
-            { label: 'About Us', to: '/about' },
-            { label: 'For Students', to: '/for-students' },
-            { label: 'For Companies', to: '/for-companies' },
-            { label: 'Contact', to: '/contact' },
-          ]} />
-        </div>
+        <FooterCol title="Company" links={[
+          { label: 'About Us', to: '/about' },
+          { label: 'For Students', to: '/for-students' },
+          { label: 'For Companies', to: '/for-companies' },
+          { label: 'Contact', to: '/contact' },
+        ]} />
 
-        {/* Column 3: Quick Links */}
-        <div className="lg:col-span-2">
-          <FooterCol title="Quick Links" links={[
-            { label: 'Find Jobs', to: '/find-jobs' },
-            { label: 'Company Login', to: '/company/login' },
-            { label: 'Register', to: '/register' },
-          ]} />
-        </div>
+        <FooterCol title="Quick Links" links={[
+          { label: 'Find Jobs', to: '/find-jobs' },
+          { label: 'Company Login', to: '/company/login' },
+          { label: 'Register', to: '/register' },
+        ]} />
 
-        {/* Column 4: Resources & Newsletter */}
-        <div className="lg:col-span-4 flex flex-col">
+        <div className="md:col-span-1">
           <FooterCol title="Resources" links={[
             { label: 'Privacy Policy', to: '/privacy' },
             { label: 'Terms & Conditions', to: '/terms' },
           ]} />
-          
-         
+          <h4 className="text-white font-semibold mb-3 mt-8 text-sm">Newsletter</h4>
+          <p className="text-sm text-slate-400 mb-3">Placement tips and updates.</p>
+          <form onSubmit={handleSubscribe} className="flex gap-2">
+            <input
+              type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@email.com"
+              aria-label="Email for newsletter"
+              className="flex-1 min-w-0 px-3.5 py-2.5 rounded-xl bg-white/[0.07] border border-white/10 text-white placeholder-slate-500 text-sm outline-none focus:ring-2 focus:ring-[#F59E0B] focus:border-transparent transition-shadow"
+            />
+            <button
+              type="submit"
+              aria-label="Subscribe"
+              className="w-10 h-10 rounded-xl bg-gradient-to-b from-[#f6a41c] to-[#d97706] text-white flex items-center justify-center flex-shrink-0 hover:brightness-110 active:scale-95 transition-all"
+            >
+              <FiArrowRight size={16} />
+            </button>
+          </form>
         </div>
-
       </div>
 
-      {/* Copyright Bottom Bar */}
-      <div className="max-w-7xl mx-auto px-6 mt-16 pt-6 border-t border-slate-800/80 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-medium">
-        <p>© {new Date().getFullYear()} Placify. All rights reserved.</p>
-        <p className="flex items-center gap-1.5 bg-slate-800/30 px-3 py-1.5 rounded-full border border-slate-800/50">
-          Made with <span className="text-[#F59E0B] animate-pulse">✦</span> for campus placements
-        </p>
+      <div className="max-w-7xl mx-auto px-6 mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+        <span>© {new Date().getFullYear()} Placify. All rights reserved.</span>
+        <span className="flex items-center gap-1.5">
+          Made with <span className="text-[#F59E0B]">✦</span> for campus placements
+        </span>
       </div>
     </footer>
   );
@@ -104,15 +98,11 @@ function Footer() {
 function FooterCol({ title, links }) {
   return (
     <div>
-      <h4 className="text-white font-semibold mb-5 text-sm tracking-wide">{title}</h4>
-      <ul className="space-y-3">
+      <h4 className="text-white font-semibold mb-4 text-sm">{title}</h4>
+      <ul className="space-y-2.5">
         {links.map((l) => (
           <li key={l.to}>
-            <Link 
-              to={l.to} 
-              className="group flex items-center text-sm text-slate-400 hover:text-white transition-colors duration-200"
-            >
-              <span className="w-0 h-0.5 bg-[#F59E0B] mr-0 group-hover:w-2 group-hover:mr-2 transition-all duration-300 ease-out" />
+            <Link to={l.to} className="text-sm text-slate-400 hover:text-[#F59E0B] hover:pl-1 transition-all inline-block">
               {l.label}
             </Link>
           </li>

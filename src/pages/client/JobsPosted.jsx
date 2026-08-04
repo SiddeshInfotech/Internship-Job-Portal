@@ -67,7 +67,7 @@ function JobsPosted() {
       const list = asArray(data.jobs, data.results, data);
       setJobs(list);
       setTotal(data.total ?? list.length);
-      // Verify true applicant totals per job (list endpoint may omit counts)
+      
       Promise.all(
         list.map((job) =>
           clientAxios

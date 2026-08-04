@@ -718,11 +718,6 @@
 /* .btn-view relies on the base .action-icon-btn hover (blue) — intentional */
 
 /* Keep the toolbar (and its bell dropdown) above page cards */
-.db-top-navbar, .ma-top-navbar, .mc-top-navbar, .mjp-top-navbar, .ra-top-navbar {
-  position: relative;
-  z-index: 50;
-}
-
 /* Recent Applications table — tighten so columns don't wrap awkwardly
    inside the narrow dashboard grid column */
 .db-recent-applications-card .visily-data-table,

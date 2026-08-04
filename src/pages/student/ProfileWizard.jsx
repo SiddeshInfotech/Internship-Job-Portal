@@ -55,8 +55,6 @@ function ProfileWizard() {
           experience_company: p.experience_company || '',
           experience_duration: p.experience_duration || '',
         });
-        // Multiple experiences: accept an array, or fall back to the legacy
-        // single-experience fields if that's all the backend has.
         if (Array.isArray(p.experiences) && p.experiences.length) {
           setExperiences(p.experiences.map((e) => ({
             job_designation: e.job_designation || e.designation || e.title || '',
@@ -211,11 +209,10 @@ function ProfileWizard() {
           <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-8">
               <div className="flex items-center gap-2 group cursor-pointer">
-                <div className="flex items-center gap-3 mb-10">
-              <img src="/images/brand/placify-icon.png" alt="Placify" className="w-10 h-10 object-contain drop-shadow-lg" />
-             <span className="font-extrabold text-xl text-slate-900 tracking-tight">Placify</span>
-            </div>
-               
+                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center text-white font-extrabold text-xl shadow-lg group-hover:scale-105 transition-transform">
+                  P
+                </div>
+                <span className="font-extrabold text-xl text-slate-900 tracking-tight">Placify</span>
               </div>
               <div className="hidden sm:flex items-center gap-6">
                 <Link to="/student/browse-jobs" className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors">Browse Jobs</Link>

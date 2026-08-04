@@ -69,6 +69,7 @@ function BrowseJobs() {
   return (
     <main className="max-w-7xl mx-auto px-6 py-6">
       <ProfileCompletionBanner percent={profilePct} to="/student/profile-overview" />
+      
       <div className="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col sm:flex-row gap-3 mb-6">
         <div className="relative flex-1">
           <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />

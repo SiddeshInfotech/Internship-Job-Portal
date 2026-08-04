@@ -69,7 +69,6 @@ function ClientDashboard() {
     return () => { cancelled = true; };
   }, []);
 
-  // "Closing Soon" = deadline within 7 days, computed client-side per the doc
   const isClosingSoon = (job) => {
     if (!job.last_date_to_apply) return false;
     const days = (new Date(job.last_date_to_apply) - new Date()) / (1000 * 60 * 60 * 24);

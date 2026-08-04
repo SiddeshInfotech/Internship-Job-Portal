@@ -21,47 +21,17 @@ function StudentTopNav() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  // Initialize state from sessionStorage to prevent UI flashing
-  const [student, setStudent] = useState(() => {
-    try {
-      const stored = sessionStorage.getItem('student_info');
-      return stored ? JSON.parse(stored) : { name: 'Student' };
-    } catch {
-      return { name: 'Student' };
-    }
-  });
+  let student = { name: 'Student' };
+  try {
+    const stored = sessionStorage.getItem('student_info');
+    if (stored) student = JSON.parse(stored);
+  } catch { /* ignore malformed storage */ }
 
   const handleLogout = () => {
     sessionStorage.removeItem('student_token');
     sessionStorage.removeItem('student_info');
     navigate('/student/login');
   };
-
-  // Fetch the latest profile data from backend to keep the photo & name in sync
-  useEffect(() => {
-    const fetchLatestProfile = async () => {
-      try {
-        const res = await studentAxios.get('/student/profile');
-        const p = res.data.profile || res.data;
-        setStudent(p);
-        
-        // Optionally update sessionStorage so it stays fresh on hard reloads
-        sessionStorage.setItem('student_info', JSON.stringify(p));
-      } catch (err) {
-        console.error("Could not fetch latest profile for navbar", err);
-      }
-    };
-
-    fetchLatestProfile();
-
-    // Listen for custom event from Settings page to update instantly without refresh
-    const handleProfileUpdate = () => {
-      fetchLatestProfile();
-    };
-    window.addEventListener('profileUpdated', handleProfileUpdate);
-
-    return () => window.removeEventListener('profileUpdated', handleProfileUpdate);
-  }, []);
 
   // Close mobile menu and dropdowns when route changes
   useEffect(() => {
@@ -95,9 +65,6 @@ function StudentTopNav() {
         ? 'bg-gradient-to-r from-blue-50 to-blue-50 dark:from-indigo-900/40 dark:to-blue-900/40 text-blue-700 dark:text-blue-500 shadow-sm border border-blue-100/50 dark:border-indigo-800/50'
         : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-100'
     }`;
-
-  // Helper to safely get the photo URL regardless of what the backend calls it
-  const photoUrl = student?.profile_photo || student?.profile_photo_url || student?.photo_url;
 
   return (
     <>
@@ -174,16 +141,16 @@ function StudentTopNav() {
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
                   className="group flex items-center gap-3 p-1.5 pr-4 rounded-full hover:bg-slate-100/50 dark:hover:bg-slate-800/50 border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-600/20 active:scale-95"
                 >
-                  <div className="relative w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 via-blue-600 to-pink-500 shadow-sm flex items-center justify-center font-extrabold text-white text-sm group-hover:shadow-md group-hover:ring-4 ring-blue-600/20 dark:ring-blue-500/20 transition-all duration-300 z-10 hover-float overflow-hidden">
-                    {photoUrl ? (
-                      <img src={photoUrl} alt="Profile" className="w-full h-full rounded-full object-cover border-2 border-white dark:border-slate-900" />
+                  <div className="relative w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 via-blue-600 to-pink-500 shadow-sm flex items-center justify-center font-extrabold text-white text-sm group-hover:shadow-md group-hover:ring-4 ring-blue-600/20 dark:ring-blue-500/20 transition-all duration-300 z-10 hover-float">
+                    {student.profile_photo ? (
+                      <img src={student.profile_photo} alt="Profile" className="w-full h-full rounded-full object-cover border-2 border-white dark:border-slate-900" />
                     ) : (
-                      <span className="drop-shadow-md">{(student?.name || 'S').charAt(0).toUpperCase()}</span>
+                      <span className="drop-shadow-md">{(student.name || 'S').charAt(0).toUpperCase()}</span>
                     )}
                   </div>
                   <div className="hidden sm:flex flex-col items-start justify-center">
                     <span className="text-sm font-bold text-slate-700 dark:text-slate-200 max-w-[100px] truncate leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-500 transition-colors">
-                      {student?.name || 'Student'}
+                      {student.name || 'Student'}
                     </span>
                     <span className="text-[10px] font-medium text-slate-400 dark:text-slate-500 tracking-wider uppercase">
                       Student
@@ -197,8 +164,8 @@ function StudentTopNav() {
                   <div className="absolute right-0 top-full mt-3 w-64 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] border border-slate-100/80 dark:border-slate-800 p-2 z-50 animate-pop-in origin-top-right">
                     <div className="px-4 py-3 mb-2 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
                       <p className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">Signed in as</p>
-                      <p className="text-sm font-extrabold text-slate-900 dark:text-white truncate">{student?.name}</p>
-                      <p className="text-xs font-medium text-slate-500 dark:text-slate-400 truncate">{student?.email}</p>
+                      <p className="text-sm font-extrabold text-slate-900 dark:text-white truncate">{student.name}</p>
+                      <p className="text-xs font-medium text-slate-500 dark:text-slate-400 truncate">{student.email}</p>
                     </div>
                     
                     <div className="space-y-1">

@@ -18,6 +18,7 @@ const NotFound = lazy(() => import('./pages/landing/NotFound'));
 
 const CompanyLogin = lazy(() => import('./pages/CompanyLogin'));
 const CompanyRegister = lazy(() => import('./pages/CompanyRegister'));
+const CompanyForgotPassword = lazy(() => import('./pages/CompanyForgotPassword'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
 const ResetPassword = lazy(() => import('./pages/ResetPassword'));
 const VerifyOtp = lazy(() => import('./pages/VerifyOtp'));
@@ -100,7 +101,7 @@ function App() {
             {/* Company Auth Routes — moved off "/" */}
             <Route path="/company/login" element={<CompanyLogin />} />
             <Route path="/register" element={<CompanyRegister />} />
-            <Route path="/forgot" element={<ForgotPassword />} />
+            <Route path="/forgot" element={<CompanyForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/verify-otp" element={<VerifyOtp />} />
 

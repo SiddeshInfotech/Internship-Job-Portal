@@ -1,24 +1,17 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import studentAxios from '../../api/studentAxios';
 import { uploadToCloudinary } from '../../utils/uploadToCloudinary';
+import { useToast } from '../../context/ToastContext';
 import StudentSubTabs from '../../components/student/StudentSubTabs';
+import PasswordStrength from '../../components/PasswordStrength';
 import { 
-  FiCheckCircle, 
-  FiAlertCircle, 
-  FiUser, 
-  FiAward, 
-  FiBriefcase, 
-  FiCamera, 
-  FiSave,
-  FiLock,
-  FiEye,
-  FiEyeOff,
-  FiChevronRight,
-  FiSettings
+  FiCamera, FiAlertCircle, FiCheckCircle, FiUser, 
+  FiAward, FiBriefcase, FiLock, FiBookOpen, FiShield 
 } from 'react-icons/fi';
 
 function StudentSettings() {
+  const { showToast } = useToast();
   const [form, setForm] = useState({});
   const [email, setEmail] = useState('');
   const [photoUrl, setPhotoUrl] = useState('');
@@ -28,7 +21,7 @@ function StudentSettings() {
   const [success, setSuccess] = useState('');
 
   const [photoError, setPhotoError] = useState('');
-  const photoInputRef = useRef(null);
+  const photoInputRef = React.useRef(null);
   const [photoSaving, setPhotoSaving] = useState(false);
 
   const [currentPassword, setCurrentPassword] = useState('');
@@ -67,7 +60,6 @@ function StudentSettings() {
     setPhotoError('');
     setPhotoSaving(true);
     try {
-      // Direct browser → Cloudinary (unsigned preset), then persist the URL
       const cloudinaryUrl = await uploadToCloudinary(file);
       await studentAxios.post('/student/profile/photo', { photo_url: cloudinaryUrl });
       setPhotoUrl(cloudinaryUrl);
@@ -131,6 +123,7 @@ function StudentSettings() {
         current_password: currentPassword, new_password: newPassword, confirm_password: confirmPassword,
       });
       setPwSuccess('Password updated successfully.');
+      showToast('Password updated successfully! 🎉', 'success');
       setCurrentPassword(''); setNewPassword(''); setConfirmPassword('');
     } catch (err) {
       setPwError(err.response?.data?.message || 'Could not update password. Please check your current password.');
@@ -140,250 +133,242 @@ function StudentSettings() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <>
       <StudentSubTabs />
-      
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
-        
-        {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] flex items-center gap-3">
-            <FiSettings className="text-[#F59E0B]" /> Account Settings
-          </h1>
-          <p className="text-slate-500 mt-1.5 text-sm sm:text-base">Manage your profile details, academic records, and account security.</p>
-        </div>
 
+      {/* Global Animation Styles */}
+      <style>{`
+        @keyframes fadeSlideUp {
+          from { opacity: 0; transform: translateY(15px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-entrance {
+          animation: fadeSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          opacity: 0;
+        }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+      `}</style>
+
+      <main className="student-scope max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 bg-[#FAFAFA] min-h-screen">
         {loading ? (
-          <div className="py-28 flex flex-col items-center justify-center space-y-4">
-            <div className="animate-spin rounded-full h-12 w-12 border-4 border-amber-200 border-t-[#F59E0B]"></div>
-            <p className="text-slate-500 font-semibold text-sm">Fetching your preferences...</p>
+          <div className="flex flex-col items-center justify-center py-32 space-y-4">
+            <div className="w-10 h-10 border-4 border-blue-100 border-t-blue-600 rounded-full animate-spin"></div>
+            <p className="text-slate-500 font-medium animate-pulse">Loading settings...</p>
           </div>
         ) : (
-          <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
+          <div className="grid lg:grid-cols-12 gap-8 items-start">
             
-            {/* LEFT COLUMN: Avatar & Links */}
-            <div className="md:col-span-1 space-y-6">
+            {/* LEFT SIDEBAR */}
+            <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-8 animate-entrance">
               
-              {/* Photo Upload Card */}
-              <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 text-center shadow-sm">
-                <div className="relative w-32 h-32 mx-auto mb-6 group">
-                  <div className="w-32 h-32 rounded-full bg-gradient-to-tr from-[#F59E0B] to-amber-200 p-1 shadow-md">
-                    <div className="w-full h-full rounded-full bg-slate-50 flex items-center justify-center overflow-hidden relative text-4xl font-extrabold text-slate-400">
+              {/* Profile Photo Card */}
+              <div className="bg-white rounded-3xl border border-slate-200/70 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden transition-all duration-300">
+                <div className="h-24 bg-gradient-to-r from-blue-600 to-blue-600"></div>
+                <div className="px-6 pb-6 text-center relative -mt-12">
+                  <div className="relative w-28 h-28 mx-auto group">
+                    <div className="w-28 h-28 rounded-full bg-white flex items-center justify-center text-4xl font-bold text-slate-300 overflow-hidden ring-4 ring-white shadow-lg transition-transform duration-300 group-hover:scale-105">
                       {photoSaving ? (
-                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center backdrop-blur-sm z-10">
-                          <div className="animate-spin rounded-full h-8 w-8 border-2 border-white border-t-transparent" />
-                        </div>
+                        <div className="w-8 h-8 border-3 border-blue-100 border-t-blue-600 rounded-full animate-spin"></div>
                       ) : photoUrl ? (
                         <img src={photoUrl} alt="Profile" className="w-full h-full object-cover" />
                       ) : (
-                        (form.name || '?').charAt(0).toUpperCase()
-                      )}
-                      
-                      {!photoSaving && (
-                        <button
-                          type="button"
-                          onClick={() => photoInputRef.current?.click()}
-                          className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center text-white text-xs font-bold gap-1 cursor-pointer backdrop-blur-sm"
-                        >
-                          <FiCamera className="text-2xl mb-1" />
-                          <span>Change Photo</span>
-                        </button>
+                        (form.name || '?').charAt(0)
                       )}
                     </div>
-                  </div>
-                </div>
+                    
+                    {/* Hover Overlay */}
+                    <button
+                      type="button"
+                      onClick={() => photoInputRef.current?.click()}
+                      disabled={photoSaving}
+                      className="absolute inset-0 rounded-full bg-slate-900/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 focus:opacity-100 transition-all duration-300 flex flex-col items-center justify-center text-white gap-1 ring-4 ring-transparent group-hover:ring-white/20 z-10"
+                    >
+                      <FiCamera className="w-6 h-6" />
+                      <span className="text-xs font-bold">{photoUrl ? 'Update' : 'Upload'}</span>
+                    </button>
 
-                <input
-                  ref={photoInputRef}
-                  type="file"
-                  accept="image/jpeg,image/png,image/webp"
-                  onChange={handlePhotoFile}
-                  className="hidden"
-                />
-                
-                <button
-                  type="button"
-                  onClick={() => photoInputRef.current?.click()}
-                  disabled={photoSaving}
-                  className="px-5 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 font-bold text-sm hover:bg-white hover:border-amber-300 hover:text-amber-600 transition-all disabled:opacity-50 w-full flex items-center justify-center gap-2 shadow-sm"
-                >
-                  <FiCamera /> {photoSaving ? 'Uploading…' : photoUrl ? 'Update Avatar' : 'Upload Avatar'}
-                </button>
-                <p className="text-xs text-slate-400 mt-3 font-medium">JPG, PNG or WEBP · Max 5MB</p>
-                {photoError && (
-                  <p className="text-xs text-red-600 font-bold mt-3 flex items-center justify-center gap-1.5 bg-red-50 py-2 rounded-lg">
-                    <FiAlertCircle size={14}/> {photoError}
-                  </p>
-                )}
+                    <input ref={photoInputRef} type="file" accept="image/jpeg,image/png,image/webp" onChange={handlePhotoFile} className="hidden" />
+                  </div>
+                  
+                  <h2 className="mt-4 font-bold text-lg text-slate-900">{form.name || 'Student'}</h2>
+                  <p className="text-[11px] text-slate-400 mt-1 uppercase tracking-wider font-medium">JPG, PNG, WEBP · Max 5MB</p>
+                  
+                  {photoError && (
+                    <div className="mt-3 flex items-center justify-center gap-1.5 text-xs font-semibold text-rose-600 bg-rose-50 p-2 rounded-lg">
+                      <FiAlertCircle className="w-4 h-4" /> {photoError}
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* Quick Links Card */}
-              <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm">
-                <p className="font-extrabold text-[11px] text-slate-400 uppercase tracking-widest mb-4 pl-1">Navigation</p>
-                <div className="space-y-2.5">
-                  <Link to="/student/profile-overview" className="flex items-center justify-between w-full px-4 py-3.5 rounded-xl bg-slate-50/50 hover:bg-amber-50 border border-transparent hover:border-amber-100 text-slate-600 hover:text-amber-700 font-bold text-sm transition-all group">
-                    <span className="flex items-center gap-3"><FiUser className="text-slate-400 group-hover:text-amber-500 text-lg" /> update Profile</span>
-                    <FiChevronRight className="text-slate-300 group-hover:text-amber-500" />
-                  </Link>
-                  <Link to="/student/profile-wizard/3" className="flex items-center justify-between w-full px-4 py-3.5 rounded-xl bg-slate-50/50 hover:bg-amber-50 border border-transparent hover:border-amber-100 text-slate-600 hover:text-amber-700 font-bold text-sm transition-all group">
-                    <span className="flex items-center gap-3"><FiAward className="text-slate-400 group-hover:text-amber-500 text-lg" /> Manage Certificates</span>
-                    <FiChevronRight className="text-slate-300 group-hover:text-amber-500" />
-                  </Link>
-                  <Link to="/student/applications" className="flex items-center justify-between w-full px-4 py-3.5 rounded-xl bg-slate-50/50 hover:bg-amber-50 border border-transparent hover:border-amber-100 text-slate-600 hover:text-amber-700 font-bold text-sm transition-all group">
-                    <span className="flex items-center gap-3"><FiBriefcase className="text-slate-400 group-hover:text-amber-500 text-lg" /> My Applications</span>
-                    <FiChevronRight className="text-slate-300 group-hover:text-amber-500" />
-                  </Link>
+              <div className="bg-white rounded-3xl border border-slate-200/70 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6">
+                <h3 className="font-extrabold text-slate-900 mb-4 flex items-center gap-2">
+                  <FiBriefcase className="text-blue-600" /> Quick Links
+                </h3>
+                <div className="space-y-2">
+                  <QuickLink to="/student/profile-overview" icon={<FiUser />} text="Update your Profile" />
+                  <QuickLink to="/student/profile-wizard/3" icon={<FiAward />} text="Update Certificates & Skills" />
+                  <QuickLink to="/student/applications" icon={<FiBookOpen />} text="My Applications" />
                 </div>
               </div>
             </div>
 
-            {/* RIGHT COLUMN: Forms */}
-            <div className="md:col-span-2 space-y-8">
+            {/* RIGHT MAIN CONTENT */}
+            <div className="lg:col-span-8 space-y-8">
               
               {/* Personal Info Form */}
-              <form id="personal-info" onSubmit={handleSaveProfile} className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
-                <div className="flex items-center gap-3.5 mb-6 border-b border-slate-100 pb-5">
-                  <div className="p-3 rounded-2xl bg-amber-50 text-[#F59E0B]"><FiUser size={20} /></div>
-                  <div>
-                    <h3 className="font-extrabold text-[#0F172A] text-lg">Personal Information</h3>
-                    <p className="text-xs text-slate-500 mt-0.5">Update your basic details and contact information.</p>
+              <form id="personal-info" onSubmit={handleSaveProfile} className="bg-white rounded-3xl border border-slate-200/70 p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] animate-entrance delay-100">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-2.5 bg-blue-50 text-blue-600 rounded-xl">
+                    <FiUser className="w-5 h-5" />
                   </div>
+                  <h3 className="font-extrabold text-xl text-slate-900">Personal Information</h3>
                 </div>
-                
-                <Alert type="error" message={error} />
-                <Alert type="success" message={success} />
-                
+
+                <StatusAlert error={error} success={success} />
+
                 <div className="grid sm:grid-cols-2 gap-5 mb-5">
-                  <Field label="Full Name"><input value={form.name || ''} onChange={update('name')} className={inputCls} placeholder="e.g. John Doe" /></Field>
-                  <Field label="Email Address"><input value={email} disabled className={`${inputCls} bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed opacity-70`} /></Field>
-                  <Field label="Department"><input value={form.department || ''} onChange={update('department')} className={inputCls} placeholder="e.g. Computer Science" /></Field>
-                  <Field label="College / University"><input value={form.college || ''} onChange={update('college')} className={inputCls} placeholder="e.g. MIT" /></Field>
-                  <Field label="Current Year"><input value={form.current_year || ''} onChange={update('current_year')} className={inputCls} placeholder="e.g. 3rd Year" /></Field>
-                  <Field label="Mobile No."><input value={form.mobile_no || ''} onChange={update('mobile_no')} className={inputCls} placeholder="e.g. +91 9876543210" /></Field>
+                  <Field label="Full Name"><input value={form.name} onChange={update('name')} className={inputCls} placeholder="John Doe" /></Field>
+                  <Field label="Email Address"><input value={email} disabled className={`${inputCls} bg-slate-100 text-slate-500 border-slate-200/60 cursor-not-allowed hover:border-slate-200/60`} /></Field>
+                  <Field label="Department"><input value={form.department} onChange={update('department')} className={inputCls} placeholder="Engineering" /></Field>
+                  <Field label="College"><input value={form.college} onChange={update('college')} className={inputCls} placeholder="University Name" /></Field>
+                  <Field label="Current Year"><input value={form.current_year} onChange={update('current_year')} className={inputCls} placeholder="e.g. 3rd Year" /></Field>
+                  <Field label="Mobile No."><input value={form.mobile_no} onChange={update('mobile_no')} className={inputCls} placeholder="+1 234 567 890" /></Field>
                 </div>
                 <Field label="Profile Summary">
-                  <textarea rows={3} value={form.profile_summary || ''} onChange={update('profile_summary')} className={`${inputCls} resize-none`} placeholder="Briefly describe your goals, skills, and aspirations..." />
+                  <textarea rows={4} value={form.profile_summary} onChange={update('profile_summary')} className={`${inputCls} resize-none`} placeholder="Write a brief overview about yourself, your goals, and achievements..." />
                 </Field>
                 
-                <div className="mt-7 flex justify-end pt-5 border-t border-slate-100">
-                  <button type="submit" disabled={saving} className="px-8 py-3 rounded-xl bg-[#0F172A] hover:bg-[#1E293B] text-white font-bold text-sm disabled:opacity-60 transition-all shadow-md flex items-center gap-2">
-                    {saving ? <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div> : <FiSave size={16} />} 
-                    {saving ? 'Saving...' : 'Save Changes'}
-                  </button>
+                <div className="mt-6 flex justify-end">
+                  <SaveButton loading={saving} text="Save Profile Info" />
                 </div>
               </form>
 
               {/* Academic Info Form */}
-              <form id="academic-info" onSubmit={handleSaveAcademic} className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
-                <div className="flex items-center gap-3.5 mb-6 border-b border-slate-100 pb-5">
-                  <div className="p-3 rounded-2xl bg-blue-50 text-blue-500"><FiAward size={20} /></div>
-                  <div>
-                    <h3 className="font-extrabold text-[#0F172A] text-lg">Academic Details</h3>
-                    <p className="text-xs text-slate-500 mt-0.5">Ensure your enrollment and grade details are accurate.</p>
+              <form id="academic-info" onSubmit={handleSaveAcademic} className="bg-white rounded-3xl border border-slate-200/70 p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] animate-entrance delay-200">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-2.5 bg-sky-50 text-sky-600 rounded-xl">
+                    <FiBookOpen className="w-5 h-5" />
                   </div>
+                  <h3 className="font-extrabold text-xl text-slate-900">Academic Information</h3>
                 </div>
 
-                <div className="grid sm:grid-cols-2 gap-5">
-                  <Field label="Enrollment No"><input value={form.enrollment_no || ''} onChange={update('enrollment_no')} className={inputCls} placeholder="e.g. 123456789" /></Field>
-                  <Field label="Course / Degree"><input value={form.course || ''} onChange={update('course')} className={inputCls} placeholder="e.g. B.Tech IT" /></Field>
-                  <Field label="GPA / CGPA"><input value={form.gpa_cgpa || ''} onChange={update('gpa_cgpa')} className={inputCls} placeholder="e.g. 8.5" /></Field>
-                  <Field label="Campus Address"><input value={form.college_address || ''} onChange={update('college_address')} className={inputCls} placeholder="Full address of institution" /></Field>
+                <div className="grid sm:grid-cols-2 gap-5 mb-2">
+                  <Field label="Enrollment No"><input value={form.enrollment_no} onChange={update('enrollment_no')} className={inputCls} placeholder="e.g. ENR2021001" /></Field>
+                  <Field label="Course"><input value={form.course} onChange={update('course')} className={inputCls} placeholder="e.g. B.Tech Computer Science" /></Field>
+                  <Field label="GPA / CGPA"><input value={form.gpa_cgpa} onChange={update('gpa_cgpa')} className={inputCls} placeholder="e.g. 8.5" /></Field>
+                  <Field label="College Address"><input value={form.college_address} onChange={update('college_address')} className={inputCls} placeholder="City, State" /></Field>
                 </div>
-                
-                <div className="mt-7 flex justify-end pt-5 border-t border-slate-100">
-                  <button type="submit" disabled={saving} className="px-8 py-3 rounded-xl bg-[#0F172A] hover:bg-[#1E293B] text-white font-bold text-sm disabled:opacity-60 transition-all shadow-md flex items-center gap-2">
-                    {saving ? <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div> : <FiSave size={16} />} 
-                    {saving ? 'Saving...' : 'Save Academic Info'}
-                  </button>
+
+                <div className="mt-6 flex justify-end">
+                  <SaveButton loading={saving} text="Save Academic Info" />
                 </div>
               </form>
 
-              {/* Password Form */}
-              <form onSubmit={handleChangePassword} className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
-                <div className="flex items-center gap-3.5 mb-6 border-b border-slate-100 pb-5">
-                  <div className="p-3 rounded-2xl bg-red-50 text-red-500"><FiLock size={20} /></div>
-                  <div>
-                    <h3 className="font-extrabold text-[#0F172A] text-lg">Security & Password</h3>
-                    <p className="text-xs text-slate-500 mt-0.5">Protect your account with a strong password.</p>
+              {/* Change Password Form */}
+              <form onSubmit={handleChangePassword} className="bg-white rounded-3xl border border-slate-200/70 p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] animate-entrance delay-300">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-2.5 bg-amber-50 text-amber-600 rounded-xl">
+                    <FiShield className="w-5 h-5" />
                   </div>
+                  <h3 className="font-extrabold text-xl text-slate-900">Change Password</h3>
                 </div>
 
-                <Alert type="error" message={pwError} />
-                <Alert type="success" message={pwSuccess} />
-                
+                <StatusAlert error={pwError} success={pwSuccess} />
+
                 <div className="grid sm:grid-cols-3 gap-5">
-                  <PasswordField label="Current Password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
-                  <PasswordField label="New Password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
-                  <PasswordField label="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                  <Field label="Current Password">
+                    <div className="relative">
+                      <FiLock className="absolute left-4 top-3.5 text-slate-400" />
+                      <input type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} className={`${inputCls} pl-10`} required placeholder="••••••••" />
+                    </div>
+                  </Field>
+                  <Field label="New Password">
+                    <div className="relative">
+                      <FiLock className="absolute left-4 top-3.5 text-slate-400" />
+                      <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className={`${inputCls} pl-10`} required placeholder="••••••••" />
+                      <PasswordStrength password={newPassword} />
+                    </div>
+                  </Field>
+                  <Field label="Confirm Password">
+                    <div className="relative">
+                      <FiLock className="absolute left-4 top-3.5 text-slate-400" />
+                      <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className={`${inputCls} pl-10`} required placeholder="••••••••" />
+                    </div>
+                  </Field>
                 </div>
 
-                <div className="mt-7 flex justify-end pt-5 border-t border-slate-100">
-                  <button type="submit" disabled={pwSaving} className="px-8 py-3 rounded-xl bg-[#F59E0B] hover:bg-amber-600 text-white font-bold text-sm disabled:opacity-60 transition-all shadow-md flex items-center gap-2">
-                    {pwSaving ? <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div> : <FiLock size={15} />} 
-                    {pwSaving ? 'Updating...' : 'Update Password'}
-                  </button>
+                <div className="mt-6 flex justify-end">
+                  <SaveButton loading={pwSaving} text="Update Password" colorClass="bg-amber-500 hover:bg-amber-600 hover:shadow-amber-500/20" />
                 </div>
               </form>
 
             </div>
           </div>
         )}
-      </div>
-    </div>
+      </main>
+    </>
   );
 }
 
-const inputCls = "w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-sm outline-none transition-all focus:bg-white focus:border-[#F59E0B] focus:ring-4 focus:ring-amber-50 text-slate-700 placeholder:text-slate-400";
+/* --- Reusable Premium UI Components --- */
+
+const inputCls = "w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-medium text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 shadow-[0_2px_10px_rgb(0,0,0,0.01)] hover:border-slate-300";
 
 function Field({ label, children }) {
   return (
-    <div>
-      <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2 pl-1">{label}</label>
+    <div className="group flex flex-col">
+      <label className="text-[12px] font-bold text-slate-500 uppercase tracking-wider mb-2 group-focus-within:text-blue-600 transition-colors">
+        {label}
+      </label>
       {children}
     </div>
   );
 }
 
-function PasswordField({ label, value, onChange }) {
-  const [show, setShow] = useState(false);
-  
+function SaveButton({ loading, text, colorClass = "bg-blue-600 hover:bg-blue-700 hover:shadow-blue-600/20" }) {
   return (
-    <div>
-      <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2 pl-1">{label}</label>
-      <div className="relative">
-        <input 
-          type={show ? "text" : "password"}
-          value={value} 
-          onChange={onChange}
-          placeholder="••••••••" 
-          required 
-          className={`${inputCls} pr-12`} 
-        />
-        
-        <button 
-          type="button" 
-          onClick={() => setShow(!show)} 
-          title={show ? "Hide password" : "Show password"}
-          className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-[#F59E0B] hover:bg-amber-50 focus:outline-none transition-colors"
-          tabIndex={-1}
-        >
-          {show ? <FiEyeOff size={16} /> : <FiEye size={16} />}
-        </button>
-      </div>
+    <button 
+      type="submit" 
+      disabled={loading} 
+      className={`px-8 py-3 rounded-xl text-white font-bold text-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg active:scale-95 disabled:opacity-70 disabled:pointer-events-none flex items-center justify-center gap-2 ${colorClass}`}
+    >
+      {loading ? (
+        <>
+          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+          Saving...
+        </>
+      ) : text}
+    </button>
+  );
+}
+
+function StatusAlert({ error, success }) {
+  if (!error && !success) return null;
+  return (
+    <div className={`flex items-center gap-3 px-5 py-4 rounded-xl text-sm font-semibold mb-6 animate-entrance shadow-sm border ${
+      error ? 'bg-rose-50 text-rose-700 border-rose-100' : 'bg-emerald-50 text-emerald-700 border-emerald-100'
+    }`}>
+      {error ? <FiAlertCircle className="w-5 h-5 flex-shrink-0" /> : <FiCheckCircle className="w-5 h-5 flex-shrink-0" />}
+      <span>{error || success}</span>
     </div>
   );
 }
 
-function Alert({ type, message }) {
-  if (!message) return null;
-  const isError = type === 'error';
+function QuickLink({ to, icon, text }) {
   return (
-    <div className={`mb-6 text-sm px-4 py-3.5 rounded-xl border-l-4 flex items-center gap-3 font-semibold shadow-sm
-      ${isError ? 'bg-red-50 border-red-500 text-red-700' : 'bg-emerald-50 border-emerald-500 text-emerald-700'}`}
+    <Link 
+      to={to} 
+      className="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 hover:bg-blue-50 text-slate-600 hover:text-blue-700 font-semibold text-sm transition-all duration-300 group border border-transparent hover:border-blue-100"
     >
-      {isError ? <FiAlertCircle size={18} className="text-red-500 shrink-0" /> : <FiCheckCircle size={18} className="text-emerald-500 shrink-0" />}
-      {message}
-    </div>
+      <div className="text-slate-400 group-hover:text-blue-600 transition-colors">
+        {icon}
+      </div>
+      {text}
+    </Link>
   );
 }
 
