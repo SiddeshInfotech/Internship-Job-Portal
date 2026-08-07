@@ -155,9 +155,9 @@ function ApplyJob() {
                   </div>
 
                   <div className="bg-emerald-50 border border-emerald-100 rounded-2xl px-5 py-3 text-center sm:text-right flex-shrink-0">
-                    <p className="text-[10px] text-emerald-600 uppercase font-extrabold tracking-widest mb-0.5">Compensation</p>
+                    <p className="text-[10px] text-emerald-600 uppercase font-extrabold tracking-widest mb-0.5">salary stipend</p>
                     <p className="font-extrabold text-emerald-700 flex items-center justify-center sm:justify-end gap-1">
-                      <FiDollarSign size={16} /> {job.salary_stipend}
+                     <span style={{fontWeight:800}}>₹</span>{job.salary_stipend}
                     </p>
                   </div>
                 </div>
