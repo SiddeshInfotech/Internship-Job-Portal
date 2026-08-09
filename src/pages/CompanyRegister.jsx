@@ -128,7 +128,19 @@ function CompanyRegister() {
             <div className="form-grid-row">
               <div className="input-group">
                 <label>Company Name <span className="star-req">*</span></label>
-                <input type="text" placeholder="e.g. Acme Tech Solutions" value={form.company_name} onChange={update('company_name')} required />
+             <input
+  type="text"
+  placeholder="e.g. Acme Tech Solutions"
+  value={form.company_name}
+  onChange={(e) => {
+    const value = e.target.value;
+
+    if (/^[A-Za-z0-9 &'().-]*$/.test(value)) {
+      update('company_name')(e);
+    }
+  }}
+  required
+/>
               </div>
               <div className="input-group">
                 <label>Official Email <span className="star-req">*</span></label>
@@ -270,32 +282,78 @@ function CompanyRegister() {
 </div>
               <div className="input-group">
                 <label>Website URL</label>
-                <input type="url" placeholder="https://www.yourcompany.com" value={form.website} onChange={update('website')} />
+              <input
+  type="url"
+  placeholder="https://www.yourcompany.com"
+  value={form.website}
+  onChange={update('website')}
+  pattern="https?://.+"
+  title="Please enter a valid website URL starting with http:// or https://"
+/>
               </div>
             </div>
 
             <div className="input-group full-width-field">
               <label>Company Address <span className="star-req">*</span></label>
-              <input
-                required
-                placeholder="Street, area, landmark"
-                value={form.address}
-                onChange={update('address')}
-              />
+             <input
+  required
+  placeholder="Street, area, landmark"
+  value={form.address}
+  onChange={(e) => {
+    const value = e.target.value;
+
+    if (/^[A-Za-z0-9\s,.'#\/()-]*$/.test(value)) {
+      update('address')(e);
+    }
+  }}
+/>
             </div>
 
             <div className="form-grid-row">
               <div className="input-group">
                 <label>City <span className="star-req">*</span></label>
-                <input required placeholder="e.g. Dhule" value={form.city} onChange={update('city')} />
+              <input
+  required
+  placeholder="e.g. Dhule"
+  value={form.city}
+  onChange={(e) => {
+    const value = e.target.value;
+
+    if (/^[A-Za-z .'-]*$/.test(value)) {
+      update('city')(e);
+    }
+  }}
+/>
               </div>
               <div className="input-group">
                 <label>State <span className="star-req">*</span></label>
-                <input required placeholder="e.g. Maharashtra" value={form.state} onChange={update('state')} />
+                <input
+  required
+  placeholder="e.g. Maharashtra"
+  value={form.state}
+  onChange={(e) => {
+    const value = e.target.value;
+
+    if (/^[A-Za-z .'-]*$/.test(value)) {
+      update('state')(e);
+    }
+  }}
+/>
               </div>
               <div className="input-group">
                 <label>Pin Code</label>
-                <input placeholder="e.g. 424001" value={form.pincode} onChange={update('pincode')} />
+              <input
+  placeholder="e.g. 424001"
+  value={form.pincode}
+  onChange={(e) => {
+    const value = e.target.value;
+
+    if (/^\d{0,6}$/.test(value)) {
+      update('pincode')(e);
+    }
+  }}
+  inputMode="numeric"
+/>
               </div>
             </div>
 

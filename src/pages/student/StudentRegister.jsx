@@ -274,10 +274,18 @@ function StudentRegister() {
                     </label>
                     <div className="relative">
                       <FiUser className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
-                      <input 
-                        value={form.name} onChange={update('name')} placeholder="John Doe" required
-                        className="w-full pl-12 pr-5 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
-                      />
+                      <input
+  value={form.name}
+  onChange={(e) => {
+    const value = e.target.value;
+    if (/^[A-Za-z ]*$/.test(value)) {
+      update('name')(e);
+    }
+  }}
+  placeholder="John Doe"
+  required
+  className="w-full pl-12 pr-5 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
+/>
                     </div>
                   </div>
                   
@@ -352,10 +360,20 @@ function StudentRegister() {
                   </label>
                   <div className="relative">
                     <FiBook className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
-                    <input 
-                      value={form.college} onChange={update('college')} placeholder="Enter your university name" required
-                      className="w-full pl-12 pr-5 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
-                    />
+                   <input
+  value={form.college}
+  onChange={(e) => {
+    const value = e.target.value;
+
+    // Allow letters, numbers, spaces, &, -, . and '
+    if (/^[A-Za-z0-9 &'().-]*$/.test(value)) {
+      update('college')(e);
+    }
+  }}
+  placeholder="Enter your university name"
+  required
+  className="w-full pl-12 pr-5 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
+/>
                   </div>
                 </div>
 
@@ -367,10 +385,20 @@ function StudentRegister() {
                     </label>
                     <div className="relative">
                       <FiAward className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
-                      <input 
-                        value={form.branch} onChange={update('branch')} placeholder="e.g. Computer Science" required
-                        className="w-full pl-12 pr-5 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
-                      />
+                     <input
+  value={form.branch}
+  onChange={(e) => {
+    const value = e.target.value;
+
+    // Allow letters, numbers, spaces, &, -, . and '
+    if (/^[A-Za-z0-9 &'().-]*$/.test(value)) {
+      update('branch')(e);
+    }
+  }}
+  placeholder="e.g. Computer Science"
+  required
+  className="w-full pl-12 pr-5 py-4 rounded-2xl bg-slate-50/50 border-2 border-slate-200/60 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none transition-all duration-300 focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] hover:border-slate-300"
+/>
                     </div>
                   </div>
                   
