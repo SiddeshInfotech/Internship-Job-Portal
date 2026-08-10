@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../CompanyRegister.css'; // Kept for safety, though UI uses modern utility classes
+
 import { Link, useNavigate } from "react-router-dom";
 import studentAxios from "../../api/studentAxios";
 import BackToWebsite from "../../components/BackToWebsite";
