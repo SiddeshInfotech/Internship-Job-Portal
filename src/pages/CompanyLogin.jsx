@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./CompanyLogin.css"; 
+
 import { Link, useNavigate } from "react-router-dom";
 import clientAxios from "../api/clientAxios";
 import BackToWebsite from "../components/BackToWebsite";
