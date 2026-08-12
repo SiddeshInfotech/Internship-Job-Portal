@@ -12,6 +12,7 @@ import {
 import { fmtJobDate } from '../../utils/fields';
 import JobBody from '../../components/JobSections';
 import { fmtMoney } from '../../utils/fields';
+import { getStudentInfo } from '../../utils/authStorage';
 
 // --- Premium Skeleton Components ---
 const JobHeaderSkeleton = () => (
@@ -183,13 +184,22 @@ function JobDetail() {
 
                 {/* Primary CTA */}
                 <div className="w-full lg:w-auto shrink-0">
-                  <button 
-                    onClick={() => navigate(`/student/jobs/${id}/apply`)} 
-                    className="w-full sm:w-auto px-8 py-4 rounded-xl bg-white text-slate-900 hover:bg-slate-50 font-bold whitespace-nowrap shadow-lg hover:shadow-white/20 transition-all active:scale-95 flex items-center justify-center gap-2 group"
-                  >
-                    Apply for this role
-                    <span className="group-hover:translate-x-1 transition-transform">→</span>
-                  </button>
+                  {(getStudentInfo()?.profile_completion ?? 0) < 90 ? (
+                    <button 
+                      onClick={() => navigate('/student/settings')} 
+                      className="w-full sm:w-auto px-8 py-4 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-sm whitespace-nowrap shadow-lg shadow-amber-500/20 transition-all active:scale-95 flex items-center justify-center gap-2"
+                    >
+                      Complete Profile to Apply
+                    </button>
+                  ) : (
+                    <button 
+                      onClick={() => navigate(`/student/jobs/${id}/apply`)} 
+                      className="w-full sm:w-auto px-8 py-4 rounded-xl bg-white text-slate-900 hover:bg-slate-50 font-bold whitespace-nowrap shadow-lg hover:shadow-white/20 transition-all active:scale-95 flex items-center justify-center gap-2 group"
+                    >
+                      Apply for this role
+                      <span className="group-hover:translate-x-1 transition-transform">→</span>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

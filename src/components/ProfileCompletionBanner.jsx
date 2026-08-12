@@ -29,15 +29,35 @@ function ProfileCompletionBanner({ percent, to, label = 'Complete profile now' }
           ⚡
         </div>
         <div style={{ minWidth: 0, flex: 1 }}>
-          <p style={{ margin: 0, fontSize: '14px', fontWeight: 700, color: 'var(--pf-text)' }}>
+          <p style={{ margin: 0, fontSize: '15px', fontWeight: 800, color: 'var(--pf-text)' }}>
             Your profile is {percent}% complete
           </p>
-          <p style={{ margin: '2px 0 8px', fontSize: '12.5px', color: 'var(--pf-text-2)' }}>
-            {percent < 90 
-              ? 'Complete your profile to apply for Jobs (at least 90% completion required).'
-              : 'A complete profile gets noticed far more often — finish the remaining sections.'}
-          </p>
-          <div style={{ height: 5, borderRadius: 99, background: 'var(--pf-line)', overflow: 'hidden', maxWidth: 320 }}>
+
+          {percent < 90 ? (
+            <div style={{
+              margin: '6px 0 8px',
+              padding: '6px 12px',
+              borderRadius: '10px',
+              background: '#fffbeb',
+              border: '1px solid #fde68a',
+              color: '#b45309',
+              fontSize: '12.5px',
+              fontWeight: 800,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              boxShadow: '0 1px 3px rgba(245, 158, 11, 0.15)'
+            }}>
+              <span style={{ fontSize: '14px' }}>⚠️</span>
+              <span>Complete your profile to apply for Jobs (at least 90% completion required).</span>
+            </div>
+          ) : (
+            <p style={{ margin: '2px 0 8px', fontSize: '12.5px', color: 'var(--pf-text-2)', fontWeight: 500 }}>
+              A complete profile gets noticed far more often — finish the remaining sections.
+            </p>
+          )}
+
+          <div style={{ height: 6, borderRadius: 99, background: 'var(--pf-line)', overflow: 'hidden', maxWidth: 340 }}>
             <div
               style={{
                 height: '100%', width: `${percent}%`, borderRadius: 99,

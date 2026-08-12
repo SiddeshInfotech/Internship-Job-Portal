@@ -28,7 +28,7 @@ function CompanyLogo({ company }) {
 // Note: "isLoggedIn" here always means a logged-in STUDENT — applying to a
 // job is a student action, not a company one. A company being logged in is
 // unrelated to whether this button should be gated.
-import { getStudentToken } from '../../utils/authStorage';
+import { getStudentToken, getStudentInfo } from '../../utils/authStorage';
 
 function JobCard({ job }) {
   const navigate = useNavigate();
@@ -99,12 +99,21 @@ function JobCard({ job }) {
         </button>
         <div className="flex-1 relative">
           {isStudentLoggedIn ? (
-            <button
-              onClick={() => navigate(`/student/jobs/${job.id}/apply`)}
-              className="w-full py-2.5 rounded-xl bg-[#0F172A] text-white font-semibold text-sm hover:bg-[#1E293B] active:scale-95 transition-all"
-            >
-              Apply now
-            </button>
+            (getStudentInfo()?.profile_completion ?? 0) < 90 ? (
+              <button
+                onClick={() => navigate('/student/settings')}
+                className="w-full py-2.5 px-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs leading-tight text-center shadow-md shadow-amber-500/20 active:scale-95 transition-all"
+              >
+                Complete Profile to Apply
+              </button>
+            ) : (
+              <button
+                onClick={() => navigate(`/student/jobs/${job.id}/apply`)}
+                className="w-full py-2.5 rounded-xl bg-[#0F172A] text-white font-semibold text-sm hover:bg-[#1E293B] active:scale-95 transition-all"
+              >
+                Apply now
+              </button>
+            )
           ) : (
             <>
               <button disabled className="w-full py-2.5 rounded-xl bg-[#0F172A] text-white font-semibold text-sm blur-[2px] select-none">

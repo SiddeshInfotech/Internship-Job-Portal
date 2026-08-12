@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import studentAxios from '../../api/studentAxios';
 import { uploadToCloudinary } from '../../utils/uploadToCloudinary';
 import StudentSubTabs from '../../components/student/StudentSubTabs';
 import { 
   FiMail, FiPhone, FiMapPin, FiLinkedin, 
   FiUser, FiBookOpen, FiBriefcase, FiAward, 
-  FiExternalLink, FiCamera, FiAlertCircle 
+  FiExternalLink, FiCamera, FiAlertCircle, FiEdit, FiSettings
 } from 'react-icons/fi';
 
 function MyProfile() {
@@ -111,6 +111,13 @@ function MyProfile() {
                       </div>
                     </div>
                   )}
+
+                  <Link
+                    to="/student/settings"
+                    className="w-full mt-6 py-3.5 px-4 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm transition-all duration-300 shadow-md shadow-blue-600/20 hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-2"
+                  >
+                    <FiEdit size={16} /> Update Profile
+                  </Link>
                 </div>
               </div>
             </div>
@@ -272,11 +279,19 @@ function SnapshotRow({ label, value, highlight }) {
 function SectionCard({ title, icon, children }) {
   return (
     <div className="bg-white rounded-3xl border border-slate-200/70 p-7 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden">
-      <div className="flex items-center gap-3 mb-6">
-        <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-100 shadow-sm">
-          {icon}
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-100 shadow-sm">
+            {icon}
+          </div>
+          <h3 className="font-extrabold text-xl text-slate-900">{title}</h3>
         </div>
-        <h3 className="font-extrabold text-xl text-slate-900">{title}</h3>
+        <Link
+          to="/student/settings"
+          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-bold transition-all border border-blue-100 shadow-sm"
+        >
+          <FiEdit size={13} /> Update
+        </Link>
       </div>
       {children}
     </div>
