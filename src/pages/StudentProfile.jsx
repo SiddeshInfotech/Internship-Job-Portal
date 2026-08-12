@@ -193,15 +193,33 @@ function StudentProfile() {
 
               {student.certificates && student.certificates.length > 0 && (
                 <div style={{ marginBottom: '18px' }}>
-                  <p className="ap-sec-label">Certificates</p>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
+                  <p className="ap-sec-label">Certificates & Credentials</p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     {student.certificates.map((c, i) => {
-                      const cn = typeof c === 'string' ? c : (c.name || c.title || 'Certificate');
-                      const cu = typeof c === 'object' ? (c.url || c.link) : null;
+                      const cn = typeof c === 'string' ? c : (c.certificate_name || c.name || c.title || 'Certificate');
+                      const cu = typeof c === 'object' ? (c.file_url || c.url || c.link) : (typeof c === 'string' && c.startsWith('http') ? c : null);
+                      const issuer = typeof c === 'object' ? c.issued_by : null;
                       return (
-                        <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', background: 'var(--pf-page)', border: '1px solid var(--pf-line)', borderRadius: '10px', padding: '9px 13px' }}>
-                          <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--pf-text)' }}>🏅 {cn}</span>
-                          {cu && <a href={cu} target="_blank" rel="noreferrer" style={{ fontSize: '12px', fontWeight: 700, color: 'var(--pf-primary)' }}>View ↗</a>}
+                        <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', background: 'var(--pf-page)', border: '1px solid var(--pf-line)', borderRadius: '10px', padding: '10px 14px' }}>
+                          <div>
+                            <span style={{ fontSize: '13.5px', fontWeight: 700, color: 'var(--pf-text)' }}>🏅 {cn}</span>
+                            {issuer && <p style={{ margin: '2px 0 0', fontSize: '12px', color: 'var(--pf-text-3)' }}>Issued by: {issuer}</p>}
+                          </div>
+                          {cu && (
+                            <a
+                              href={cu}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="pf-btn pf-btn-primary pf-btn-sm"
+                              style={{
+                                fontSize: '12px', fontWeight: 700,
+                                padding: '6px 14px', borderRadius: '8px', textDecoration: 'none',
+                                display: 'inline-flex', alignItems: 'center', gap: '4px', flexShrink: 0
+                              }}
+                            >
+                              View Certificate ↗
+                            </a>
+                          )}
                         </div>
                       );
                     })}

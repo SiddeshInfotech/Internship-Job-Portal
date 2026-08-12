@@ -192,17 +192,35 @@ function ApplicantProfile() {
 
             {app.certificates && app.certificates.length > 0 && (
               <div style={{ marginBottom: '22px' }}>
-                <h4 className="cp-form-section-title" style={{ fontSize: '14px' }}>Certificates</h4>
+                <h4 className="cp-form-section-title" style={{ fontSize: '14px' }}>Certificates & Credentials</h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {app.certificates.map((c, i) => {
-                    const certName = typeof c === 'string' ? c : (c.name || c.title || 'Certificate');
-                    const certUrl = typeof c === 'object' ? (c.url || c.link || c.certificate_url) : null;
+                    const certName = typeof c === 'string' ? c : (c.certificate_name || c.name || c.title || 'Certificate');
+                    const certUrl = typeof c === 'object' ? (c.file_url || c.url || c.link || c.certificate_url) : (typeof c === 'string' && c.startsWith('http') ? c : null);
+                    const issuer = typeof c === 'object' ? c.issued_by : null;
                     return (
                       <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', background: 'var(--pf-page)', border: '1px solid var(--pf-line)', borderRadius: '11px', padding: '10px 14px' }}>
-                        <span style={{ fontSize: '13.5px', fontWeight: 600, color: 'var(--pf-text)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <span aria-hidden="true">🏅</span>{certName}
-                        </span>
-                        {certUrl && <a href={certUrl} target="_blank" rel="noreferrer" className="cp-link-btn" style={{ textDecoration: 'none' }}>View ↗</a>}
+                        <div>
+                          <span style={{ fontSize: '13.5px', fontWeight: 600, color: 'var(--pf-text)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <span aria-hidden="true">🏅</span>{certName}
+                          </span>
+                          {issuer && <p style={{ margin: '2px 0 0 24px', fontSize: '12px', color: 'var(--pf-text-3)' }}>Issued by: {issuer}</p>}
+                        </div>
+                        {certUrl && (
+                          <a
+                            href={certUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="cp-link-btn"
+                            style={{
+                              fontSize: '12px', fontWeight: 700,
+                              padding: '6px 14px', borderRadius: '8px', textDecoration: 'none',
+                              display: 'inline-flex', alignItems: 'center', gap: '4px', flexShrink: 0
+                            }}
+                          >
+                            View Certificate ↗
+                          </a>
+                        )}
                       </div>
                     );
                   })}

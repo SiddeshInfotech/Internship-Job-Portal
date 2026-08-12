@@ -415,6 +415,41 @@ function ApplicationDetail() {
                     </div>
                   )}
 
+                  {/* Certifications Section */}
+                  {Array.isArray(app.certificates) && app.certificates.length > 0 && (
+                    <div className="mb-10">
+                      <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-3">Certifications & Credentials</h3>
+                      <div className="space-y-3">
+                        {app.certificates.map((cert, i) => {
+                          const certName = typeof cert === 'string' ? cert : (cert?.certificate_name || cert?.name || cert?.title || 'Certificate');
+                          const certUrl = typeof cert === 'object' ? (cert?.file_url || cert?.url || cert?.link) : (typeof cert === 'string' && cert.startsWith('http') ? cert : null);
+                          const issuer = typeof cert === 'object' ? cert?.issued_by : null;
+                          return (
+                            <div key={i} className="flex items-center justify-between gap-4 p-4 rounded-2xl border border-slate-200 bg-slate-50/50 hover:bg-slate-50 transition-colors">
+                              <div className="flex items-center gap-3">
+                                <span className="text-xl">🏅</span>
+                                <div>
+                                  <p className="text-sm font-bold text-slate-800">{certName}</p>
+                                  {issuer && <p className="text-xs font-medium text-slate-500 mt-0.5">Issued by: {issuer}</p>}
+                                </div>
+                              </div>
+                              {certUrl && (
+                                <a
+                                  href={certUrl}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-all shadow-sm shrink-0"
+                                >
+                                  <FiExternalLink size={14} /> View Certificate ↗
+                                </a>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
                   {/* Cover Letter Section */}
                   {app.cover_letter && (
                     <div>
