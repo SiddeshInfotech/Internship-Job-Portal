@@ -124,7 +124,7 @@ function ApplicationDetail() {
         }
       `}</style>
 
-      <main className="min-h-screen bg-[#F8FAFC] font-sans">
+      <main className="min-h-screen bg-[#F8FAFC] font-sans pt-20">
         <TopNavbar title="Application Detail" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -381,7 +381,7 @@ function ApplicationDetail() {
                             key={i} 
                             className="px-4 py-2 rounded-xl bg-blue-50/50 border border-blue-100 text-blue-700 text-sm font-bold shadow-sm hover:-translate-y-0.5 transition-transform cursor-default"
                           >
-                            {typeof skill === 'string' ? skill : `${skill?.name || 'Skill'}${skill?.level ? ` · ${skill.level}` : ''}`}
+                            {typeof skill === 'string' ? skill : `${skill?.name || skill?.skill_name || skill?.skill || skill?.title || 'Skill'}${skill?.level ? ` · ${skill.level}` : ''}`}
                           </span>
                         ))}
                       </div>
