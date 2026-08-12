@@ -93,8 +93,24 @@ function PostJob() {
     setTimeout(() => setPopup(prev => ({ ...prev, show: false })), 4000);
   };
 
+  const isSalaryNegative = (val) => {
+    if (!val) return false;
+    const str = String(val).trim();
+    if (/-\s*\d+/.test(str)) return true;
+    const num = parseFloat(str.replace(/[^0-9.-]/g, ''));
+    return !isNaN(num) && num < 0;
+  };
+
   const save = async (submitNow) => {
     setError('');
+
+    if (isSalaryNegative(form.salary_stipend)) {
+      const errMsg = 'Salary / stipend cannot be a negative value.';
+      setError(errMsg);
+      showPopup('error', errMsg);
+      return;
+    }
+
     setSaving(true);
     try {
       if (isEdit) {
@@ -118,7 +134,7 @@ function PostJob() {
     }
   };
 
-  const isValid = form.title && form.description && form.location && form.salary_stipend && form.last_date_to_apply;
+  const isValid = form.title && form.description && form.location && form.salary_stipend && !isSalaryNegative(form.salary_stipend) && form.last_date_to_apply;
 
   return (
     <>

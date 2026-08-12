@@ -46,8 +46,25 @@ function StudentRegister() {
     e.preventDefault();
     setError('');
 
-    if (form.experience_level === 'Experienced' && !String(form.years_of_experience).trim()) {
-      setError('Please enter your years of experience.');
+    const nameTrimmed = form.name.trim();
+    if (!nameTrimmed || nameTrimmed.length < 2) {
+      setError('Full name must be at least 2 characters long.');
+      return;
+    }
+    if (!/^[a-zA-Z\s\.\'-]+$/.test(nameTrimmed)) {
+      setError('Full name can only contain letters, spaces, hyphens, and dots.');
+      return;
+    }
+
+    const emailTrimmed = form.email.trim().toLowerCase();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailTrimmed)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+
+    if (form.password.length < 8) {
+      setError('Password must be at least 8 characters long.');
       return;
     }
     if (form.password !== form.confirmPassword) {
@@ -55,14 +72,47 @@ function StudentRegister() {
       return;
     }
 
+    const collegeTrimmed = form.college.trim();
+    if (!collegeTrimmed || collegeTrimmed.length < 2) {
+      setError('College/Institution name must be at least 2 characters long.');
+      return;
+    }
+
+    const branchTrimmed = form.branch.trim();
+    if (!branchTrimmed || branchTrimmed.length < 2) {
+      setError('Branch name must be at least 2 characters long.');
+      return;
+    }
+
+    if (form.experience_level === 'Experienced') {
+      const expStr = String(form.years_of_experience).trim();
+      if (!expStr) {
+        setError('Please enter your years of experience.');
+        return;
+      }
+      const expNum = parseFloat(expStr);
+      if (isNaN(expNum) || expNum <= 0) {
+        setError('Years of experience must be a positive number greater than 0.');
+        return;
+      }
+      if (expNum > 50) {
+        setError('Years of experience cannot exceed 50.');
+        return;
+      }
+    }
+
     setLoading(true);
     try {
       await studentAxios.post('/student/register', {
-        name: form.name, email: form.email, password: form.password, college: form.college, branch: form.branch,
+        name: nameTrimmed,
+        email: emailTrimmed,
+        password: form.password,
+        college: collegeTrimmed,
+        branch: branchTrimmed,
         experience_level: form.experience_level,
-        years_of_experience: form.experience_level === 'Experienced' ? form.years_of_experience : 0,
+        years_of_experience: form.experience_level === 'Experienced' ? parseFloat(form.years_of_experience) : 0,
       });
-      navigate('/student/verify-otp', { state: { email: form.email } });
+      navigate('/student/verify-otp', { state: { email: emailTrimmed } });
     } catch (err) {
       setError(err.response?.data?.message || 'Could not register. Please check your details and try again.');
     } finally {

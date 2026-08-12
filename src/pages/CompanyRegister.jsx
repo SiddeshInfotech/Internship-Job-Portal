@@ -21,25 +21,82 @@ function CompanyRegister() {
     e.preventDefault();
     setError('');
 
+    const companyNameTrimmed = form.company_name.trim();
+    if (!companyNameTrimmed || companyNameTrimmed.length < 2) {
+      setError('Company name must be at least 2 characters long.');
+      return;
+    }
+
+    const emailTrimmed = form.email.trim().toLowerCase();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailTrimmed)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+
+    if (form.password.length < 8) {
+      setError('Password must be at least 8 characters long.');
+      return;
+    }
     if (form.password !== form.confirmPassword) {
       setError('Passwords do not match.');
       return;
     }
 
+    if (!form.industry) {
+      setError('Please select an industry.');
+      return;
+    }
+
+    if (form.website && form.website.trim()) {
+      const webTrimmed = form.website.trim();
+      const urlRegex = /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
+      if (!urlRegex.test(webTrimmed)) {
+        setError('Please enter a valid website URL (e.g., https://www.yourcompany.com).');
+        return;
+      }
+    }
+
+    const addressTrimmed = form.address.trim();
+    if (!addressTrimmed || addressTrimmed.length < 3) {
+      setError('Please enter a valid address.');
+      return;
+    }
+
+    const cityTrimmed = form.city.trim();
+    if (!cityTrimmed || cityTrimmed.length < 2) {
+      setError('City must be at least 2 characters long.');
+      return;
+    }
+
+    const stateTrimmed = form.state.trim();
+    if (!stateTrimmed || stateTrimmed.length < 2) {
+      setError('State must be at least 2 characters long.');
+      return;
+    }
+
+    if (form.pincode && form.pincode.trim()) {
+      const pinTrimmed = form.pincode.trim();
+      if (!/^\d{4,8}$/.test(pinTrimmed)) {
+        setError('Pincode must contain 4 to 8 digits.');
+        return;
+      }
+    }
+
     setLoading(true);
     try {
       await clientAxios.post('/client/register', {
-        company_name: form.company_name,
-        email: form.email,
+        company_name: companyNameTrimmed,
+        email: emailTrimmed,
         password: form.password,
         industry: form.industry,
-        website: form.website || undefined,
-        address: form.address,
-        city: form.city,
-        state: form.state,
-        pincode: form.pincode || undefined,
+        website: form.website ? form.website.trim() : undefined,
+        address: addressTrimmed,
+        city: cityTrimmed,
+        state: stateTrimmed,
+        pincode: form.pincode ? form.pincode.trim() : undefined,
       });
-      navigate('/verify-otp', { state: { email: form.email } });
+      navigate('/verify-otp', { state: { email: emailTrimmed } });
     } catch (err) {
       setError(err.response?.data?.message || 'Could not register. Please check your details and try again.');
     } finally {
