@@ -44,7 +44,7 @@ function CompanyForgotPassword() {
       setMessage('OTP verified! Please set your new password.');
       setStep(3);
     } catch (err) {
-      setError(err.response?.data?.message || 'Invalid or expired OTP code.');
+      setError(err.response?.data?.message || err.message || 'Invalid or expired OTP code.');
     } finally {
       setLoading(false);
     }
