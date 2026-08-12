@@ -60,7 +60,7 @@ function CompanyProfile() {
   const modalCopy = confirmAction ? actionLabels[confirmAction.type] : null;
 
   return (
-    <main className="admin-page-body" style={{ fontFamily: 'var(--pf-font)' }}>
+    <main className="admin-page-body pt-20" style={{ fontFamily: 'var(--pf-font)' }}>
       <TopNavbar title="Company Profile" />
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
@@ -99,7 +99,15 @@ function CompanyProfile() {
         <>
         <div className="pf-card" style={{ padding: '22px 24px', display: 'flex', gap: '24px', marginBottom: '20px', flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px', minWidth: '260px' }}>
-            <div style={{ width: '64px', height: '64px', borderRadius: '16px', background: 'var(--pf-primary-soft)', border: '1px solid var(--pf-blue-ln)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '24px', color: 'var(--pf-primary-deep)', fontFamily: 'var(--pf-display)' }}>
+            {company.logo || company.profile_photo_url || company.logo_url ? (
+              <img
+                src={company.logo || company.profile_photo_url || company.logo_url}
+                alt={company.name}
+                style={{ width: '64px', height: '64px', borderRadius: '16px', objectFit: 'contain', background: '#f8fafc', border: '1px solid var(--pf-blue-ln)', padding: '4px' }}
+                onError={(e) => { e.currentTarget.style.display = 'none'; if (e.currentTarget.nextSibling) e.currentTarget.nextSibling.style.display = 'flex'; }}
+              />
+            ) : null}
+            <div style={{ width: '64px', height: '64px', borderRadius: '16px', background: 'var(--pf-primary-soft)', border: '1px solid var(--pf-blue-ln)', display: (company.logo || company.profile_photo_url || company.logo_url) ? 'none' : 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '24px', color: 'var(--pf-primary-deep)', fontFamily: 'var(--pf-display)' }}>
               {(company.name || '?').charAt(0)}
             </div>
             <div>
@@ -112,10 +120,10 @@ function CompanyProfile() {
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '20px', flex: 1, minWidth: '320px' }}>
-            <StatBlock label="Total Job Posts" value={company.total_job_posts ?? '—'} />
-            <StatBlock label="Total Applications" value={company.total_applications ?? '—'} />
-            <StatBlock label="Hired Students" value={company.hired_students ?? '—'} />
-            <StatBlock label="Pending Reviews" value={company.pending_reviews ?? '—'} />
+            <StatBlock label="Total Job Posts" value={company.total_job_posts ?? 0} />
+            <StatBlock label="Total Applications" value={company.total_applications ?? 0} />
+            <StatBlock label="Hired Students" value={company.hired_students ?? 0} />
+            <StatBlock label="Pending Reviews" value={company.pending_reviews ?? 0} />
           </div>
         </div>
 
@@ -164,7 +172,9 @@ function CompanyProfile() {
               <div key={job.id || idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0', borderBottom: idx === company.job_posts.length - 1 ? 'none' : '1px solid #f1f5f9' }}>
                 <div>
                   <p style={{ margin: 0, fontWeight: 600, color: 'var(--pf-text)', fontSize: '13.5px' }}>{job.title}</p>
-                  <p style={{ margin: 0, fontSize: '12px', color: 'var(--pf-text-3)' }}>{fmtDate(pick(job, 'posted_date', 'created_at'))} • {pick(job, 'applications', 'applications_count', 'applicants_count') ?? 0} applications</p>
+                  <p style={{ margin: '2px 0 0 0', fontSize: '12px', color: 'var(--pf-text-3)' }}>
+                    {fmtDate(pick(job, 'posted_date', 'created_at'))} • {job.location || 'Remote'} • {pick(job, 'applications', 'applications_count', 'applicants_count') ?? 0} applications
+                  </p>
                 </div>
                 <StatusPill status={job.status} />
               </div>
