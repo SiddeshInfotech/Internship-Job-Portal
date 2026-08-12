@@ -33,7 +33,9 @@ function ProfileCompletionBanner({ percent, to, label = 'Complete profile now' }
             Your profile is {percent}% complete
           </p>
           <p style={{ margin: '2px 0 8px', fontSize: '12.5px', color: 'var(--pf-text-2)' }}>
-            A complete profile gets noticed far more often — finish the remaining sections.
+            {percent < 90 
+              ? 'Complete your profile to apply for Jobs (at least 90% completion required).'
+              : 'A complete profile gets noticed far more often — finish the remaining sections.'}
           </p>
           <div style={{ height: 5, borderRadius: 99, background: 'var(--pf-line)', overflow: 'hidden', maxWidth: 320 }}>
             <div

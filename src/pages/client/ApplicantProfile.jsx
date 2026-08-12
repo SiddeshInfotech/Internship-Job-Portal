@@ -126,9 +126,12 @@ function ApplicantProfile() {
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '22px', borderTop: '1px solid var(--pf-line)', paddingTop: '18px' }}>
-              <MiniStat label="CGPA" value={app.gpa_cgpa ?? '—'} />
-              <MiniStat label="Branch" value={app.department || app.branch || '—'} />
+              <MiniStat label="College" value={app.college || '—'} />
+              <MiniStat label="Course" value={app.course || '—'} />
+              <MiniStat label="Department" value={app.department || app.branch || '—'} />
               <MiniStat label="Current Year" value={app.current_year || '—'} />
+              <MiniStat label="CGPA / GPA" value={app.gpa_cgpa ?? app.gpa ?? '—'} />
+              <MiniStat label="Enrollment No." value={app.enrollment_no || '—'} />
             </div>
 
             {(app.experiences?.length > 0 || app.job_designation) && (

@@ -181,8 +181,7 @@ function BrowseJobs() {
 
                 <div className="mb-8">
                   <div className="inline-flex items-center gap-1.5 text-[13px] font-bold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg">
-                    <span className="font-extrabold">₹</span>
-                    {job.salary_stipend ? fmtMoney(job.salary_stipend).replace('₹','') : 'Unspecified Pay'}
+                    {job.salary_stipend ? fmtMoney(job.salary_stipend) : 'Unspecified Pay'}
                   </div>
                 </div>
 
@@ -195,7 +194,14 @@ function BrowseJobs() {
                     Details
                   </button>
                   <button 
-                    onClick={() => navigate(`/student/jobs/${job.id}/apply`)} 
+                    onClick={() => {
+                      if (profilePct < 90) {
+                        showToast('Complete your profile to apply for Jobs (at least 90% required).', 'warning');
+                        navigate('/student/settings');
+                      } else {
+                        navigate(`/student/jobs/${job.id}/apply`);
+                      }
+                    }} 
                     className="flex-1 py-3 rounded-xl bg-slate-900 hover:bg-blue-600 text-white text-sm font-bold shadow-md hover:shadow-blue-600/25 transition-all duration-300 flex items-center justify-center gap-1.5 group/btn"
                   >
                     Apply 

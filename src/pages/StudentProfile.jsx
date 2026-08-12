@@ -148,9 +148,11 @@ function StudentProfile() {
               <h3 className="pf-display" style={{ margin: '0 0 16px 0', fontSize: '15.5px', fontWeight: 700, color: 'var(--pf-text)' }}>Student Profile</h3>
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '20px', paddingBottom: '18px', borderBottom: '1px solid var(--pf-line)' }}>
-                <DetailStat label="CGPA" value={student.gpa_cgpa ?? '—'} />
+                <DetailStat label="College" value={student.college || '—'} />
                 <DetailStat label="Course" value={student.course || '—'} />
+                <DetailStat label="Department" value={student.department || student.branch || '—'} />
                 <DetailStat label="Current Year" value={student.current_year || '—'} />
+                <DetailStat label="CGPA / GPA" value={student.gpa_cgpa ?? student.gpa ?? '—'} />
                 <DetailStat label="Enrollment" value={student.enrollment_no || '—'} />
                 <DetailStat label="City" value={student.city || '—'} />
                 <DetailStat label="Experience" value={student.experience_level || 'Fresher'} />

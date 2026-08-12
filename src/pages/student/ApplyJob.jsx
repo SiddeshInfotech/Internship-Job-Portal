@@ -157,7 +157,7 @@ function ApplyJob() {
                   <div className="bg-emerald-50 border border-emerald-100 rounded-2xl px-5 py-3 text-center sm:text-right flex-shrink-0">
                     <p className="text-[10px] text-emerald-600 uppercase font-extrabold tracking-widest mb-0.5">Compensation</p>
                     <p className="font-extrabold text-emerald-700 flex items-center justify-center sm:justify-end gap-1">
-                      <FiDollarSign size={16} /> {job.salary_stipend}
+                      {job.salary_stipend ? (job.salary_stipend.includes('₹') ? job.salary_stipend : `₹${job.salary_stipend.replace(/^\$\s?/, '')}`) : '—'}
                     </p>
                   </div>
                 </div>
@@ -169,6 +169,21 @@ function ApplyJob() {
                   <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight mb-2">Complete Your Application</h2>
                   <p className="text-sm font-medium text-slate-500">Review your verified profile info and provide final details for the recruiting team.</p>
                 </div>
+
+                {profile && (profile.profile_completion ?? 0) < 90 && (
+                  <div className="bg-amber-50 border border-amber-200 text-amber-900 text-sm px-5 py-4 rounded-2xl mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm animate-entrance">
+                    <div className="flex items-start sm:items-center gap-3">
+                      <FiAlertCircle className="mt-0.5 sm:mt-0 flex-shrink-0 text-amber-600" size={20} />
+                      <div>
+                        <p className="font-bold text-amber-900">Complete your profile to apply for Jobs</p>
+                        <p className="text-xs text-amber-700 mt-0.5">At least 90% completion is required (your profile is currently {profile.profile_completion ?? 0}% complete).</p>
+                      </div>
+                    </div>
+                    <Link to="/student/settings" className="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl transition-all flex-shrink-0 shadow-sm">
+                      Complete Profile Now
+                    </Link>
+                  </div>
+                )}
 
                 {error && (
                   <div className="bg-rose-50 border border-rose-100 text-rose-700 text-sm px-5 py-4 rounded-2xl mb-8 flex items-start gap-3 shadow-sm animate-entrance">
@@ -277,7 +292,7 @@ function ApplyJob() {
                 <div className="mt-10 pt-6 border-t border-slate-100 flex flex-col sm:flex-row-reverse gap-4">
                   <button 
                     type="submit" 
-                    disabled={submitting || resumes.length === 0} 
+                    disabled={submitting || resumes.length === 0 || (profile && (profile.profile_completion ?? 0) < 90)} 
                     className="flex-1 sm:flex-none sm:w-2/3 py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm transition-all duration-300 shadow-[0_4px_14px_0_rgb(79,70,229,0.39)] hover:shadow-[0_6px_20px_rgba(79,70,229,0.23)] hover:-translate-y-0.5 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2 group/btn"
                   >
                     {submitting ? (

@@ -104,7 +104,7 @@ function JobPostDetail() {
               <span>📅 Posted {fmtDate(pick(job, 'posted_date', 'created_at', 'posted_on'))}</span>
               {job.location && <span>📍 {job.location}</span>}
               {job.job_type && <span>💼 {job.job_type}</span>}
-              {(job.salary_min || job.salary_max) && <span>💰 {job.salary_min ? `$${job.salary_min}` : ''}{job.salary_max ? ` - $${job.salary_max}` : ''}</span>}
+              {(job.salary_min || job.salary_max) && <span>💰 {job.salary_min ? `₹${job.salary_min}` : ''}{job.salary_max ? ` - ₹${job.salary_max}` : ''}</span>}
             </div>
 
             {job.description && (

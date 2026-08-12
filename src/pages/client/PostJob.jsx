@@ -327,7 +327,7 @@ function PostJob() {
                         placeholder="Bengaluru (Remote)" 
                       />
                     </Field>
-                    <Field label="Salary / Stipend" htmlFor="pj-sal" icon={FiDollarSign}>
+                    <Field label="Salary / Stipend" htmlFor="pj-sal" icon={() => <span className="font-extrabold text-base leading-none">₹</span>}>
                       <input 
                         id="pj-sal" 
                         className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 transition-all font-semibold placeholder:text-slate-400 text-slate-900 placeholder:font-medium" 

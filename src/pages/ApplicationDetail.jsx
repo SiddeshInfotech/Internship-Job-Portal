@@ -334,11 +334,40 @@ function ApplicationDetail() {
 
                   {/* Academic Profile */}
                   <div className="mb-10">
-                    <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-3">Academic Background</h3>
-                    <div className="p-5 rounded-2xl bg-slate-50 border border-slate-100">
-                      <p className="font-semibold text-slate-800 text-sm leading-relaxed">
-                        {app.education_summary || app.institution || 'No academic summary provided.'}
-                      </p>
+                    <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-3">Academic Information</h3>
+                    <div className="p-5 rounded-2xl bg-slate-50 border border-slate-100 space-y-4">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                        <div>
+                          <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Institution / College</p>
+                          <p className="font-bold text-slate-800 text-sm mt-0.5">{app.college || '—'}</p>
+                        </div>
+                        <div>
+                          <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Course</p>
+                          <p className="font-bold text-slate-800 text-sm mt-0.5">{app.course || '—'}</p>
+                        </div>
+                        <div>
+                          <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Department / Branch</p>
+                          <p className="font-bold text-slate-800 text-sm mt-0.5">{app.department || app.branch || '—'}</p>
+                        </div>
+                        <div>
+                          <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Current Year</p>
+                          <p className="font-bold text-slate-800 text-sm mt-0.5">{app.current_year || '—'}</p>
+                        </div>
+                        <div>
+                          <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">CGPA / GPA</p>
+                          <p className="font-bold text-slate-800 text-sm mt-0.5">{app.gpa_cgpa ?? app.gpa ?? '—'}</p>
+                        </div>
+                        <div>
+                          <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Enrollment No.</p>
+                          <p className="font-bold text-slate-800 text-sm mt-0.5">{app.enrollment_no || '—'}</p>
+                        </div>
+                      </div>
+                      {app.college_address && (
+                        <div className="pt-3 border-t border-slate-200/60">
+                          <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">College Address</p>
+                          <p className="font-medium text-slate-700 text-xs mt-0.5 leading-relaxed">{app.college_address}</p>
+                        </div>
+                      )}
                     </div>
                   </div>
 
