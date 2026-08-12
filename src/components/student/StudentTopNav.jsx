@@ -23,7 +23,62 @@ function StudentTopNav({ activeTab }) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  const student = getStudentInfo() || { name: 'Student' };
+  const [student, setStudent] = useState(() => getStudentInfo() || { name: 'Student' });
+  const [imgError, setImgError] = useState(false);
+
+  const photoUrl = student?.profile_photo || student?.profile_photo_url || student?.photo_url;
+
+  useEffect(() => {
+    setImgError(false);
+  }, [photoUrl]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchProfile = async () => {
+      try {
+        const res = await studentAxios.get('/student/profile');
+        const p = res.data?.profile || res.data;
+        if (p && isMounted) {
+          const photo = p.profile_photo || p.profile_photo_url || p.photo_url || p.avatar_url || '';
+          const updated = {
+            ...p,
+            profile_photo: photo,
+            profile_photo_url: photo,
+            photo_url: photo,
+          };
+          setStudent((prev) => ({ ...prev, ...updated }));
+
+          const stored = getStudentInfo() || {};
+          const merged = { ...stored, ...updated };
+          if (localStorage.getItem('student_info')) {
+            localStorage.setItem('student_info', JSON.stringify(merged));
+          } else if (sessionStorage.getItem('student_info')) {
+            sessionStorage.setItem('student_info', JSON.stringify(merged));
+          } else {
+            localStorage.setItem('student_info', JSON.stringify(merged));
+          }
+        }
+      } catch (err) {
+        // Fallback silently to existing storage info
+      }
+    };
+
+    fetchProfile();
+
+    const handleProfileUpdated = () => {
+      fetchProfile();
+    };
+
+    window.addEventListener('student-profile-updated', handleProfileUpdated);
+    window.addEventListener('storage', handleProfileUpdated);
+
+    return () => {
+      isMounted = false;
+      window.removeEventListener('student-profile-updated', handleProfileUpdated);
+      window.removeEventListener('storage', handleProfileUpdated);
+    };
+  }, []);
 
   const handleLogout = () => {
     clearStudentAuth();
@@ -138,9 +193,14 @@ function StudentTopNav({ activeTab }) {
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
                   className="group flex items-center gap-3 p-1.5 pr-4 rounded-full hover:bg-slate-100/50 dark:hover:bg-slate-800/50 border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-600/20 active:scale-95"
                 >
-                  <div className="relative w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 via-blue-600 to-pink-500 shadow-sm flex items-center justify-center font-extrabold text-white text-sm group-hover:shadow-md group-hover:ring-4 ring-blue-600/20 dark:ring-blue-500/20 transition-all duration-300 z-10 hover-float">
-                    {student.profile_photo ? (
-                      <img src={student.profile_photo} alt="Profile" className="w-full h-full rounded-full object-cover border-2 border-white dark:border-slate-900" />
+                  <div className="relative w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 via-blue-600 to-pink-500 shadow-sm flex items-center justify-center font-extrabold text-white text-sm group-hover:shadow-md group-hover:ring-4 ring-blue-600/20 dark:ring-blue-500/20 transition-all duration-300 z-10 hover-float overflow-hidden">
+                    {photoUrl && !imgError ? (
+                      <img 
+                        src={photoUrl} 
+                        alt={student.name || 'Profile'} 
+                        className="w-full h-full rounded-full object-cover border-2 border-white dark:border-slate-900" 
+                        onError={() => setImgError(true)}
+                      />
                     ) : (
                       <span className="drop-shadow-md">{(student.name || 'S').charAt(0).toUpperCase()}</span>
                     )}

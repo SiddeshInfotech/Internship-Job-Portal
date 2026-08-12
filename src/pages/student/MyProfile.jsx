@@ -307,6 +307,7 @@ function ProfilePhotoUpload({ profile, onUploaded }) {
       const cloudinaryUrl = await uploadToCloudinary(file);
       await studentAxios.post('/student/profile/photo', { photo_url: cloudinaryUrl });
       onUploaded(cloudinaryUrl);
+      window.dispatchEvent(new Event('student-profile-updated'));
     } catch (err) {
       setError(err.response?.data?.message || err.message || 'Something went wrong uploading your photo.');
     } finally {

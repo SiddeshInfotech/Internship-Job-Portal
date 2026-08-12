@@ -32,8 +32,17 @@ function ClientTopNavbar({ title, searchPlaceholder = 'Search applications...' }
               {isApproved ? 'Verified partner' : client.admin_status || 'Pending approval'}
             </p>
           </div>
-          <div className="avatar-circle" style={{ background: 'linear-gradient(140deg, #f59e0b, #b45309)' }}>
-            {(client.company_name || 'C').charAt(0)}
+          <div className="avatar-circle overflow-hidden" style={{ background: 'linear-gradient(140deg, #f59e0b, #b45309)' }}>
+            {(client.logo_url || client.company_logo || client.logo) ? (
+              <img 
+                src={client.logo_url || client.company_logo || client.logo} 
+                alt={client.company_name || 'Company'} 
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                onError={(e) => { e.currentTarget.style.display = 'none'; }}
+              />
+            ) : (
+              (client.company_name || 'C').charAt(0)
+            )}
           </div>
         </div>
       </div>

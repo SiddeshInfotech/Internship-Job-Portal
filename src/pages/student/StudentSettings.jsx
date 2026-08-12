@@ -63,6 +63,7 @@ function StudentSettings() {
       const cloudinaryUrl = await uploadToCloudinary(file);
       await studentAxios.post('/student/profile/photo', { photo_url: cloudinaryUrl });
       setPhotoUrl(cloudinaryUrl);
+      window.dispatchEvent(new Event('student-profile-updated'));
     } catch (err) {
       setPhotoError(err.response?.data?.message || err.message || 'Photo upload failed. Please try again.');
     } finally {
@@ -81,6 +82,7 @@ function StudentSettings() {
       await studentAxios.put('/student/profile', payload);
       setSuccess(okMsg);
       showToast(okMsg, 'success');
+      window.dispatchEvent(new Event('student-profile-updated'));
     } catch (err) {
       setError(err.response?.data?.message || 'Could not save changes.');
     } finally {
