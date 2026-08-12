@@ -3,25 +3,20 @@ import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import BrandLogo from '../../components/BrandLogo';
 import ErrorBoundary from '../../components/ErrorBoundary';
 
+import { getClientInfo, clearClientAuth } from '../../utils/authStorage';
+
 // Company portal shell. Reuses the premium sidebar/header design language
 // from src/styles/admin.css so admin + company portals feel like one product.
 function ClientLayout() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  let client = { company_name: 'Company' };
-  try {
-    const stored = sessionStorage.getItem('client_info');
-    if (stored) client = JSON.parse(stored);
-  } catch {
-    // ignore malformed storage
-  }
+  const client = getClientInfo() || { company_name: 'Company' };
 
   const isActive = (path) => location.pathname === path || location.pathname.startsWith(path + '/');
 
   const handleLogout = () => {
-    sessionStorage.removeItem('client_token');
-    sessionStorage.removeItem('client_info');
+    clearClientAuth();
     navigate('/company/login');
   };
 

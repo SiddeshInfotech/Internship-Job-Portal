@@ -5,6 +5,7 @@ import { asArray } from '../../api/asArray';
 import ClientTopNavbar from '../../components/ClientTopNavbar';
 import StatusPill from '../../components/StatusPill';
 import ProfileCompletionBanner from '../../components/ProfileCompletionBanner';
+import { getClientInfo } from '../../utils/authStorage';
 import { 
   FiBriefcase, 
   FiUsers, 
@@ -24,7 +25,7 @@ function ClientDashboard() {
   const [activeJobs, setActiveJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [profilePct, setProfilePct] = useState(100); // assume complete until known
+  const [profilePct, setProfilePct] = useState(100);
 
   useEffect(() => {
     let cancelled = false;
@@ -39,24 +40,15 @@ function ClientDashboard() {
         ]);
         if (cancelled) return;
         setStats(statsRes.data.stats || statsRes.data);
-        setApplications(asArray(recentRes.data.applications, recentRes.data));
-        setActiveJobs(asArray(activeRes.data.jobs, activeRes.data));
+        setApplications(asArray(recentRes.data.applications || recentRes.data));
+        setActiveJobs(asArray(activeRes.data.jobs || activeRes.data));
 
-        // Profile completeness for the reminder banner
+        // Fetch profile completion percentage for banner
         try {
-          const profRes = await clientAxios.get('/client/profile');
-          const p = profRes.data.profile || profRes.data;
-          if (typeof p.profile_completion === 'number') {
-            if (!cancelled) setProfilePct(p.profile_completion);
-          } else {
-            const fields = ['company_name', 'industry', 'contact', 'address', 'company_size', 'year_established',
-              'city', 'pincode', 'state', 'hr_name', 'hr_contact_email', 'about_company', 'company_summary',
-              'hiring_locations', 'preferred_job_types', 'company_registration_number', 'terms_accepted'];
-            const done = fields.filter((f) => {
-              const v = p[f];
-              return Array.isArray(v) ? v.length > 0 : v !== undefined && v !== null && String(v).trim() !== '';
-            }).length;
-            if (!cancelled) setProfilePct(Math.round((done / fields.length) * 100));
+          const profileRes = await clientAxios.get('/client/profile');
+          const p = profileRes.data.profile || profileRes.data;
+          if (p && typeof p.completion_percentage === 'number') {
+            if (!cancelled) setProfilePct(p.completion_percentage);
           }
         } catch { /* banner simply won't show */ }
       } catch (err) {
@@ -75,11 +67,8 @@ function ClientDashboard() {
     return days >= 0 && days <= 7;
   };
 
-  let clientName = 'Company';
-  try {
-    const stored = sessionStorage.getItem('client_info');
-    if (stored) clientName = JSON.parse(stored).company_name || 'Company';
-  } catch { /* ignore */ }
+  const clientInfo = getClientInfo();
+  const clientName = clientInfo?.company_name || 'Company';
 
   return (
     <>

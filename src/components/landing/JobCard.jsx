@@ -28,9 +28,11 @@ function CompanyLogo({ company }) {
 // Note: "isLoggedIn" here always means a logged-in STUDENT — applying to a
 // job is a student action, not a company one. A company being logged in is
 // unrelated to whether this button should be gated.
+import { getStudentToken } from '../../utils/authStorage';
+
 function JobCard({ job }) {
   const navigate = useNavigate();
-  const isStudentLoggedIn = !!sessionStorage.getItem('student_token');
+  const isStudentLoggedIn = !!getStudentToken();
 
   const company = job.company_name || job.company;
   const jobType = job.job_type || job.type;

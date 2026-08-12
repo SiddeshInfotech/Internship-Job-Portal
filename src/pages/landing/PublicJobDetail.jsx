@@ -7,10 +7,12 @@ import { fmtJobDate } from '../../utils/fields';
 import JobBody from '../../components/JobSections';
 import { fmtMoney } from '../../utils/fields';
 
+import { getStudentToken } from '../../utils/authStorage';
+
 function PublicJobDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const isStudentLoggedIn = !!sessionStorage.getItem('student_token');
+  const isStudentLoggedIn = !!getStudentToken();
 
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);

@@ -4,18 +4,14 @@ import clientAxios from '../api/clientAxios';
 import NotificationBell from './NotificationBell';
 import ThemeToggle from './ThemeToggle';
 
+import { getClientInfo } from '../utils/authStorage';
+
 // Shared header for the company portal. Styled by the same premium header
 // classes as the admin portal (src/styles/admin.css) so both back-office
 // portals share one design language.
 function ClientTopNavbar({ title, searchPlaceholder = 'Search applications...' }) {
   const navigate = useNavigate();
-  let client = { company_name: 'Company' };
-  try {
-    const stored = sessionStorage.getItem('client_info');
-    if (stored) client = JSON.parse(stored);
-  } catch {
-    // ignore malformed storage
-  }
+  const client = getClientInfo() || { company_name: 'Company' };
 
   const isApproved = client.admin_status === 'Approved';
 

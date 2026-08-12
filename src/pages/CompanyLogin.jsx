@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./CompanyLogin.css"; 
 import { Link, useNavigate } from "react-router-dom";
 import clientAxios from "../api/clientAxios";
 import BackToWebsite from "../components/BackToWebsite";
+import { getClientToken, setClientAuth } from "../utils/authStorage";
 import { 
   FiEye, 
   FiEyeOff, 
@@ -27,17 +28,23 @@ function CompanyLogin() {
   // State for password visibility
   const [showPassword, setShowPassword] = useState(false);
 
-  // EXACT same logic, perfectly preserved
+  // Auto-login if client is already logged in
+  useEffect(() => {
+    const token = getClientToken();
+    if (token) {
+      navigate('/dashboard');
+    }
+  }, []);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
     try {
-      const response = await clientAxios.post('/client/login', { email, password });
+      const response = await clientAxios.post('/client/login', { email, password, remember_me: remember });
       const { token, client } = response.data;
 
-      sessionStorage.setItem('client_token', token);
-      sessionStorage.setItem('client_info', JSON.stringify(client));
+      setClientAuth(token, client, remember);
 
       navigate('/dashboard');
     } catch (err) {

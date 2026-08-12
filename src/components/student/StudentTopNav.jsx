@@ -14,22 +14,19 @@ import {
   FiChevronDown
 } from 'react-icons/fi';
 
-function StudentTopNav() {
+import { getStudentInfo, clearStudentAuth } from '../../utils/authStorage';
+
+function StudentTopNav({ activeTab }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  let student = { name: 'Student' };
-  try {
-    const stored = sessionStorage.getItem('student_info');
-    if (stored) student = JSON.parse(stored);
-  } catch { /* ignore malformed storage */ }
+  const student = getStudentInfo() || { name: 'Student' };
 
   const handleLogout = () => {
-    sessionStorage.removeItem('student_token');
-    sessionStorage.removeItem('student_info');
+    clearStudentAuth();
     navigate('/student/login');
   };
 

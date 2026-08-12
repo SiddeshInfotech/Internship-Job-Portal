@@ -7,11 +7,13 @@ import { asArray } from '../../api/asArray';
 import JobCard from '../../components/landing/JobCard';
 import { fmtMoney } from '../../utils/fields';
 
+import { getStudentToken } from '../../utils/authStorage';
+
 const PER_PAGE = 9;
 
 function FindJobs() {
   const navigate = useNavigate();
-  const isStudentLoggedIn = !!sessionStorage.getItem('student_token');
+  const isStudentLoggedIn = !!getStudentToken();
 
   const [search, setSearch] = useState('');
   const [jobType, setJobType] = useState('');

@@ -1,8 +1,9 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import { getClientToken } from '../utils/authStorage';
 
 function ProtectedClientRoute({ children }) {
-  const token = sessionStorage.getItem('client_token');
+  const token = getClientToken();
   if (!token) {
     return <Navigate to="/company/login" replace />;
   }

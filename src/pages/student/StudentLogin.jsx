@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../CompanyLogin.css"; 
 import { Link, useNavigate } from "react-router-dom";
 import { GoogleLogin } from '@react-oauth/google';
 import studentAxios from "../../api/studentAxios";
 import BackToWebsite from "../../components/BackToWebsite";
+import { getStudentToken, setStudentAuth, getStudentInfo } from "../../utils/authStorage";
 import { 
   FiMail, 
   FiLock, 
@@ -32,13 +33,21 @@ function StudentLogin() {
     }
   };
 
+  // Auto-login if user already has an active session
+  useEffect(() => {
+    const token = getStudentToken();
+    if (token) {
+      const student = getStudentInfo();
+      routeAfterLogin(student);
+    }
+  }, []);
+
   const handleGoogleSuccess = async (credentialResponse) => {
     setError('');
     setGoogleLoading(true);
     try {
       const res = await studentAxios.post('/student/google-login', { id_token: credentialResponse.credential });
-      sessionStorage.setItem('student_token', res.data.token);
-      sessionStorage.setItem('student_info', JSON.stringify(res.data.student));
+      setStudentAuth(res.data.token, res.data.student, true);
       routeAfterLogin(res.data.student);
     } catch (err) {
       setError(err.response?.data?.message || 'Google login failed. Please try again.');
@@ -52,11 +61,10 @@ function StudentLogin() {
     setError('');
     setLoading(true);
     try {
-      const response = await studentAxios.post('/student/login', { email, password });
+      const response = await studentAxios.post('/student/login', { email, password, remember_me: remember });
       const { token, student } = response.data;
 
-      sessionStorage.setItem('student_token', token);
-      sessionStorage.setItem('student_info', JSON.stringify(student));
+      setStudentAuth(token, student, remember);
 
       routeAfterLogin(student);
     } catch (err) {
@@ -245,7 +253,7 @@ function StudentLogin() {
                     />
                   </div>
                   <label htmlFor="remember" className="text-sm font-semibold text-slate-600 cursor-pointer select-none">
-                    Remember me
+                    Remember my session for 30 days
                   </label>
                 </div>
 
