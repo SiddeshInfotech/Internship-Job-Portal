@@ -54,7 +54,9 @@ function StudentProfileOverview() {
   const complete = (sec) => doneCount(sec) === sec.length;
   const totalFields = SECTION_1.length + SECTION_2.length + 2;
   const totalDone = doneCount(section1) + doneCount(section2) + doneCount(section3);
-  const pct = Math.round((totalDone / totalFields) * 100);
+  const pct = typeof profile?.profile_completion === 'number'
+    ? profile.profile_completion
+    : Math.round((totalDone / totalFields) * 100);
 
   return (
     <div className="student-scope min-h-screen bg-[#F8FAFC]">

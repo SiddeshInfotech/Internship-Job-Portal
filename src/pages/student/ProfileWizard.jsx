@@ -16,6 +16,37 @@ import {
   FiAlertCircle
 } from 'react-icons/fi';
 
+const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+function formatMonthYear(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return '';
+  return `${MONTH_NAMES[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function calculateExperienceStats(startDateStr, endDateStr, isCurrent) {
+  if (!startDateStr) {
+    return { duration: '', years: 0, total_hours: 0 };
+  }
+  const start = new Date(startDateStr);
+  const end = isCurrent ? new Date() : (endDateStr ? new Date(endDateStr) : new Date());
+
+  if (isNaN(start.getTime()) || isNaN(end.getTime()) || end < start) {
+    return { duration: '', years: 0, total_hours: 0 };
+  }
+
+  const startFormatted = formatMonthYear(startDateStr);
+  const endFormatted = isCurrent ? 'Present' : formatMonthYear(endDateStr);
+  const durationStr = `${startFormatted} – ${endFormatted}`;
+
+  const totalMonths = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth()) + 1;
+  const years = Math.max(0.1, Math.round((totalMonths / 12) * 10) / 10);
+  const total_hours = Math.round(totalMonths * 160);
+
+  return { duration: durationStr, years, total_hours };
+}
+
 function ProfileWizard() {
   const { step: stepParam } = useParams();
   const step = Number(stepParam) || 1;
@@ -33,6 +64,24 @@ function ProfileWizard() {
   const [skillLevel, setSkillLevel] = useState('');
   const [experiences, setExperiences] = useState([]);
   const updateExp = (i, key, val) => setExperiences((prev) => prev.map((e, idx) => (idx === i ? { ...e, [key]: val } : e)));
+
+  const handleExpDateChange = (i, field, val) => {
+    setExperiences((prev) => prev.map((e, idx) => {
+      if (idx !== i) return e;
+      const updatedExp = { ...e, [field]: val };
+      const startDate = field === 'start_date' ? val : e.start_date;
+      const endDate = field === 'end_date' ? val : e.end_date;
+      const isCurrent = field === 'is_current' ? val : e.is_current;
+      const stats = calculateExperienceStats(startDate, endDate, isCurrent);
+      return {
+        ...updatedExp,
+        duration: stats.duration || e.duration || '',
+        years: stats.years || e.years || 0,
+        total_hours: stats.total_hours || 0,
+      };
+    }));
+  };
+
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
@@ -61,6 +110,10 @@ function ProfileWizard() {
             company: e.company || e.experience_company || '',
             duration: e.duration || e.experience_duration || '',
             years: e.years || e.years_of_experience || '',
+            start_date: e.start_date || '',
+            end_date: e.end_date || '',
+            is_current: !!e.is_current,
+            total_hours: e.total_hours || (e.years ? Math.round(e.years * 2000) : 0),
           })));
         } else if (p.job_designation || p.experience_company) {
           setExperiences([{ job_designation: p.job_designation || '', company: p.experience_company || '', duration: p.experience_duration || '', years: p.years_of_experience || '' }]);
@@ -85,7 +138,8 @@ function ProfileWizard() {
 
   const fieldsForStep = () => {
     if (step === 1) return ['name', 'department', 'college', 'current_year', 'mobile_no', 'city', 'pincode', 'state', 'linkedin_url', 'profile_summary'];
-    return ['enrollment_no', 'college_address', 'course', 'gpa', 'experience_level', 'years_of_experience', 'job_designation', 'experience_company', 'experience_duration'];
+    if (step === 2) return ['enrollment_no', 'college_address', 'course', 'gpa', 'experience_level', 'years_of_experience', 'job_designation', 'experience_company', 'experience_duration'];
+    return [];
   };
 
   const handleSaveNext = async (isFinal) => {
@@ -401,13 +455,32 @@ function ProfileWizard() {
                                   <Field label="Company">
                                     <input value={exp.company} onChange={(e) => updateExp(i, 'company', e.target.value)} className={inputCls} placeholder="e.g. Infosys" />
                                   </Field>
-                                  <Field label="Duration">
-                                    <input value={exp.duration} onChange={(e) => updateExp(i, 'duration', e.target.value)} className={inputCls} placeholder="e.g. Jun 2024 – Dec 2024" />
+                                  <Field label="Start Date">
+                                    <input type="date" value={exp.start_date || ''} onChange={(e) => handleExpDateChange(i, 'start_date', e.target.value)} className={inputCls} />
                                   </Field>
-                                  <Field label="Total Years">
-                                    <input type="number" min="0" step="0.5" value={exp.years} onChange={(e) => updateExp(i, 'years', e.target.value)} className={inputCls} placeholder="e.g. 1.5" />
+                                  <Field label="End Date">
+                                    <input type="date" disabled={exp.is_current} value={exp.is_current ? '' : (exp.end_date || '')} onChange={(e) => handleExpDateChange(i, 'end_date', e.target.value)} className={`${inputCls} ${exp.is_current ? 'opacity-50 cursor-not-allowed' : ''}`} />
+                                    <label className="flex items-center gap-2 mt-2 cursor-pointer text-xs font-semibold text-slate-600">
+                                      <input type="checkbox" checked={!!exp.is_current} onChange={(e) => handleExpDateChange(i, 'is_current', e.target.checked)} className="rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+                                      Currently Working Here
+                                    </label>
                                   </Field>
                                 </div>
+
+                                {(exp.duration || exp.years > 0) && (
+                                  <div className="mt-4 pl-2 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-xs font-bold text-slate-600 bg-slate-50/70 p-3 rounded-xl">
+                                    <div>
+                                      <span className="text-slate-400 uppercase tracking-wider text-[10px] block">Calculated Duration</span>
+                                      <span className="text-slate-800">{exp.duration || 'N/A'}</span>
+                                    </div>
+                                    <div className="text-right">
+                                      <span className="text-slate-400 uppercase tracking-wider text-[10px] block">Total Experience</span>
+                                      <span className="text-blue-600 font-extrabold">
+                                        {exp.total_hours ? `${exp.total_hours.toLocaleString()} Hours (${exp.years} Yrs)` : `${exp.years || 0} Years`}
+                                      </span>
+                                    </div>
+                                  </div>
+                                )}
                               </div>
                             ))}
                           </div>
