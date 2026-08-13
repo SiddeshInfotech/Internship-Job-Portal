@@ -389,23 +389,35 @@ function ApplicationDetail() {
                   )}
 
                   {/* Experience Section */}
-                  {Array.isArray(app.experience) && app.experience.length > 0 && (
+                  {((Array.isArray(app.experiences) && app.experiences.length > 0) || app.job_designation || app.experience_company || app.experience_level === 'Experienced') && (
                     <div className="mb-10">
-                      <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-4">Professional Experience</h3>
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-widest">Professional Experience</h3>
+                        {app.experience_level && (
+                          <span className="text-[11px] font-bold px-2.5 py-1 rounded-md bg-blue-50 text-blue-700 border border-blue-100">
+                            {app.experience_level}{app.years_of_experience ? ` · ${app.years_of_experience} yr` : ''}
+                          </span>
+                        )}
+                      </div>
                       <div className="space-y-4">
-                        {app.experience.map((exp, i) => (
+                        {(app.experiences?.length > 0
+                          ? app.experiences
+                          : (app.job_designation || app.experience_company
+                              ? [{ job_designation: app.job_designation, company: app.experience_company, duration: app.experience_duration, years: app.years_of_experience }]
+                              : [])
+                        ).map((exp, i) => (
                           <div key={i} className="flex items-start gap-4 p-5 rounded-2xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50/50 transition-colors">
-                            <div className="w-10 h-10 rounded-xl bg-slate-100 text-slate-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0 mt-0.5">
                               <FiBriefcase size={18} />
                             </div>
-                            <div>
+                            <div className="flex-1">
                               {typeof exp === 'string' ? (
                                 <p className="text-sm font-semibold text-slate-700 leading-relaxed">{exp}</p>
                               ) : (
                                 <>
-                                  <h4 className="font-extrabold text-slate-900 text-base">{exp?.title || 'Role'}</h4>
+                                  <h4 className="font-extrabold text-slate-900 text-base">{exp?.job_designation || exp?.designation || exp?.title || 'Role'}</h4>
                                   {exp?.company && <p className="text-sm font-bold text-blue-600 mt-0.5">{exp.company}</p>}
-                                  {exp?.duration && <p className="text-xs font-semibold text-slate-500 mt-1.5 flex items-center gap-1.5"><FiCalendar size={12} /> {exp.duration}</p>}
+                                  {exp?.duration && <p className="text-xs font-semibold text-slate-500 mt-1.5 flex items-center gap-1.5"><FiCalendar size={12} /> {exp.duration}{exp.years ? ` (${exp.years} Yrs)` : ''}</p>}
                                 </>
                               )}
                             </div>

@@ -177,13 +177,25 @@ function StudentProfile() {
                 </div>
               )}
 
-              {(student.experiences?.length > 0 || student.job_designation) && (
+              {(student.experiences?.length > 0 || student.job_designation || student.experience_company || student.experience_level === 'Experienced') && (
                 <div style={{ marginBottom: '18px' }}>
-                  <p className="ap-sec-label">Work Experience</p>
+                  <p className="ap-sec-label">
+                    Work Experience
+                    {student.experience_level && (
+                      <span style={{ marginLeft: 8, fontSize: '11px', fontWeight: 700, padding: '2px 8px', borderRadius: 99, background: 'var(--pf-primary-soft)', color: 'var(--pf-primary-deep)', verticalAlign: 'middle' }}>
+                        {student.experience_level}{student.years_of_experience ? ` · ${student.years_of_experience} yr` : ''}
+                      </span>
+                    )}
+                  </p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    {(student.experiences?.length > 0 ? student.experiences : [{ job_designation: student.job_designation, company: student.experience_company, duration: student.experience_duration }]).map((exp, i) => (
+                    {(student.experiences?.length > 0
+                      ? student.experiences
+                      : (student.job_designation || student.experience_company
+                          ? [{ job_designation: student.job_designation, company: student.experience_company, duration: student.experience_duration, years: student.years_of_experience }]
+                          : [])
+                    ).map((exp, i) => (
                       <div key={i} style={{ padding: '11px 14px', background: 'var(--pf-page)', border: '1px solid var(--pf-line)', borderRadius: '11px' }}>
-                        <p style={{ margin: 0, fontSize: '13.5px', fontWeight: 700, color: 'var(--pf-text)' }}>{exp.job_designation || 'Role'}{exp.company ? ` · ${exp.company}` : ''}</p>
+                        <p style={{ margin: 0, fontSize: '13.5px', fontWeight: 700, color: 'var(--pf-text)' }}>{exp.job_designation || exp.designation || exp.title || 'Role'}{exp.company ? ` · ${exp.company}` : ''}</p>
                         {exp.duration && <p style={{ margin: '2px 0 0', fontSize: '12px', color: 'var(--pf-text-3)' }}>{exp.duration}{exp.years ? ` · ${exp.years} yr` : ''}</p>}
                       </div>
                     ))}

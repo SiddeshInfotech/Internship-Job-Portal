@@ -134,7 +134,7 @@ function ApplicantProfile() {
               <MiniStat label="Enrollment No." value={app.enrollment_no || '—'} />
             </div>
 
-            {(app.experiences?.length > 0 || app.job_designation) && (
+            {(app.experiences?.length > 0 || app.job_designation || app.experience_company || app.experience_level === 'Experienced') && (
               <div style={{ marginBottom: '22px' }}>
                 <h4 className="cp-form-section-title" style={{ fontSize: '14px' }}>
                   Work Experience
@@ -147,11 +147,13 @@ function ApplicantProfile() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {(app.experiences?.length > 0
                     ? app.experiences
-                    : [{ job_designation: app.job_designation, company: app.experience_company, duration: app.experience_duration }]
+                    : (app.job_designation || app.experience_company
+                        ? [{ job_designation: app.job_designation, company: app.experience_company, duration: app.experience_duration, years: app.years_of_experience }]
+                        : [])
                   ).map((exp, i) => (
                     <div key={i} style={{ padding: '11px 14px', background: 'var(--pf-page)', border: '1px solid var(--pf-line)', borderRadius: '11px' }}>
                       <p style={{ margin: 0, fontSize: '13.5px', fontWeight: 700, color: 'var(--pf-text)' }}>
-                        {exp.job_designation || 'Role'}{exp.company ? ` · ${exp.company}` : ''}
+                        {exp.job_designation || exp.designation || exp.title || 'Role'}{exp.company ? ` · ${exp.company}` : ''}
                       </p>
                       {exp.duration && <p style={{ margin: '2px 0 0', fontSize: '12px', color: 'var(--pf-text-3)' }}>{exp.duration}{exp.years ? ` · ${exp.years} yr` : ''}</p>}
                     </div>
